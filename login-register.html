@@ -1,0 +1,846 @@
+<!doctype html>
+<html class="no-js" lang="zxx">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Login Register || DIJIT PROGRAM</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Place dijit-logo.png in the root directory -->
+    <link rel="icon" href="assets/images/dijit-logo.png" type="image/png">
+    <!-- All css files are included here. -->
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/iconfont.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/helper.css">
+    <link rel="stylesheet" href="assets/css/plugins/plugins.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/dijit-auth.css">
+    <!-- Modernizr JS -->
+    <script src="assets/js/vendor/modernizr-3.10.0.min.js"></script>
+</head>
+
+<body class="template-color-1">
+
+    <div id="main-wrapper">
+
+
+
+
+
+
+
+
+        <!--Header section start-->
+        <header class="black-logo-version header-sticky sticky-white d-none d-lg-block">
+            <div class="main-header">
+                <div class="container-fluid pl-50 pl-lg-15 pl-md-15 pr-0">
+                    <div class="row align-items-center g-0">
+
+                        <!--Logo start-->
+                        <div class="col-xl-2 col-lg-2 col-12">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/images/dijit-logo.png" alt=""></a>
+                            </div>
+                        </div>
+                        <!--Logo end-->
+
+                        <!--Menu start-->
+                        <div class="col-xl-7 col-lg-7 col-12">
+                            <nav class="main-menu">
+                                <ul>
+                                    <li><a href="index.html">Home <small class="icon-arrow"></small></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="index.html">Home V1</a></li>
+                                            <li><a href="index-2.html">Home V2</a></li>
+                                            <li><a href="index-3.html">Home V3</a></li>
+                                            <li><a href="index-4.html">Home V4</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="job-listing.html"><span class="label-status hot">hot</span>Jobs <small
+                                                class="icon-arrow"></small></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="job-listing.html">Jobs Listing</a></li>
+                                            <li><a href="job-with-map.html">Jobs With Map</a></li>
+                                            <li><a href="job-details.html">Job Detail <small
+                                                        class="icon-arrow"></small></a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="job-details.html">Job Detail V1</a></li>
+                                                    <li><a href="job-details-two.html">Job Detail V2</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="#"><span class="label-status new">new</span>
+                                            Products <small class="icon-arrow"></small></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="#">DIJIT Talent Cloud</a></li>
+                                            <li><a href="#">RIKSO ATS</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="login-register.html#">Employers <small class="icon-arrow"></small></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="employer-listing.html">Employers Listing</a></li>
+                                            <li><a href="employer-details.html">Employer Details <small
+                                                        class="icon-arrow"></small></a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="employer-details.html">Employer Detail V1</a></li>
+                                                    <li><a href="employer-details-two.html">Employer Detail V2</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="blog.html">Blog <small class="icon-arrow"></small></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="blog-details.html">Single Post</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="login-register.html#">Pages <small class="icon-arrow"></small></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="about.html">About us</a></li>
+                                            <li><a href="contact.html">Contact Us</a></li>
+                                            <li><a href="faq.html">FAQS</a></li>
+                                            <li><a href="pricing.html">Pricing & Plan</a></li>
+                                            <li><a href="login-register.html">Login & Register</a></li>
+                                            <li><a href="dashboard.html">Dashboard</a></li>
+                                            <li><a href="404.html">404 Error</a></li>
+                                            <li><a href="shop.html">Shop <small class="icon-arrow"></small></a>
+                                                <ul class="sub-menu">
+                                                    <li><a href="shop.html">Shop</a></li>
+                                                    <li><a href="product-details.html">Product Details</a></li>
+                                                    <li><a href="cart.html">Cart</a></li>
+                                                    <li><a href="checkout.html">Checkout</a></li>
+                                                    <li><a href="wishlist.html">Wishlist</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                        <!--Menu end-->
+
+                        <!-- Cart & Search Area Start -->
+                        <div class="col-xl-3 col-lg-3 col-12">
+                            <div class="header-btn-action d-flex justify-content-end">
+                                <div class="btn-action-wrap d-flex">
+                                    <div class="jp-author item">
+                                        <a href="login-register.html">
+                                            <i class="lnr lnr-user"></i>
+                                            <span>Login</span>
+                                        </a>
+                                    </div>
+                                    <div class="jp-author-action item">
+                                        <a href="login-register.html#quick-view-modal-container" data-toggle="modal">
+                                            <span>Employer</span> <span class="fw-400">Post a job</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cart & Search Area End -->
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <!--Header section end-->
+
+        <!--Header Mobile section start-->
+        <header class="header-mobile bg_color--2 d-block d-lg-none">
+            <div class="header-bottom menu-right">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="header-mobile-navigation d-block d-lg-none">
+                                <div class="row align-items-center">
+                                    <div class="col-3 col-md-3">
+                                        <div class="mobile-navigation text-right">
+                                            <div class="header-icon-wrapper">
+                                                <ul class="icon-list justify-content-start">
+                                                    <li class="popup-mobile-click">
+                                                        <a href="javascript:void(0)"><i class="lnr lnr-menu"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <div class="header-logo text-center">
+                                            <a href="index.html">
+                                                <img src="assets/images/dijit-logo.png" class="img-fluid" alt="">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        <div class="mobile-navigation text-right">
+                                            <div class="header-icon-wrapper">
+                                                <ul class="icon-list justify-content-end">
+                                                    <li>
+                                                        <div class="header-cart-icon">
+                                                            <a href="login-register.html#"
+                                                                class="header-search-toggle"><i
+                                                                    class="lnr lnr-magnifier"></i></a>
+                                                        </div>
+                                                        <div class="header-search-form">
+                                                            <form action="login-register.html#">
+                                                                <input type="text" placeholder="Type and hit enter">
+                                                                <button><i class="lnr lnr-magnifier"></i></button>
+                                                            </form>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        <!--Header Mobile section end-->
+
+        <!-- Start Popup Menu -->
+        <div class="popup-mobile-manu popup-mobile-visiable">
+            <div class="inner">
+                <div class="mobileheader">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="assets/images/dijit-logo.png" alt="Multipurpose">
+                        </a>
+                    </div>
+                    <a class="mobile-close" href="login-register.html#"></a>
+                </div>
+                <div class="menu-content">
+                    <ul class="menulist object-custom-menu">
+                        <li class="has-mega-menu"><a href="login-register.html#"><span>Home</span></a>
+                            <!-- Start Dropdown Menu -->
+                            <ul class="object-submenu">
+                                <li><a href="index.html"><span>Home V1</span></a></li>
+                                <li><a href="index-2.html"><span>Home V2</span></a></li>
+                                <li><a href="index-3.html"><span>Home V3</span></a></li>
+                                <li><a href="index-4.html"><span>Home V4</span></a></li>
+                            </ul>
+                            <!-- End Dropdown Menu -->
+                        </li>
+
+                        <li class="has-mega-menu"><a href="login-register.html#"><span>Jobs</span></a>
+                            <!-- Start Dropdown Menu -->
+                            <ul class="object-submenu">
+                                <li><a href="job-listing.html"><span>Jobs Listing</span></a></li>
+                                <li><a href="job-with-map.html"><span>Jobs With Map</span></a></li>
+                                <li><a href="job-details.html"><span>Job Detail V1</span></a></li>
+                                <li><a href="job-details-two.html"><span>Job Detail V2</span></a></li>
+                            </ul>
+                            <!-- End Dropdown Menu -->
+                        </li>
+
+                        <li class="has-mega-menu"><a href="#"><span>Products</span></a>
+                            <!-- Start Dropdown Menu -->
+                            <ul class="object-submenu">
+                                <li><a href="#"><span>DIJIT Talent Cloud</span></a></li>
+                                <li><a href="#"><span>RIKSO ATS</span></a></li>
+                            </ul>
+                            <!-- End Dropdown Menu -->
+                        </li>
+
+                        <li class="has-mega-menu"><a href="login-register.html#"><span>Employers</span></a>
+                            <!-- Start Dropdown Menu -->
+                            <ul class="object-submenu">
+                                <li><a href="employer-listing.html"><span>Employers Listing</span></a></li>
+                                <li><a href="employer-details.html"><span>Employer Detail V1</span></a></li>
+                                <li><a href="employer-details-two.html"><span>Employer Detail V2</span></a></li>
+                            </ul>
+                            <!-- End Dropdown Menu -->
+                        </li>
+
+                        <li class="has-mega-menu"><a href="login-register.html#"><span>Blog</span></a>
+                            <!-- Start Dropdown Menu -->
+                            <ul class="object-submenu">
+                                <li><a href="blog.html"><span>Blog</span></a></li>
+                                <li><a href="blog-details.html"><span>Blog Details</span></a></li>
+                            </ul>
+                            <!-- End Dropdown Menu -->
+                        </li>
+
+                        <li class="has-mega-menu"><a href="login-register.html#"><span>Pages</span></a>
+                            <!-- Start Dropdown Menu -->
+                            <ul class="object-submenu">
+                                <li><a href="about.html"><span>About Us</span></a></li>
+                                <li><a href="contact.html"><span>Contact Us</span></a></li>
+                                <li><a href="faq.html"><span>FAQS</span></a></li>
+                                <li><a href="pricing.html"><span>Pricing & Plan</span></a></li>
+                                <li><a href="login-register.html"><span>Login / Register</span></a></li>
+                                <li><a href="dashboard.html"><span>Dashboard</span></a></li>
+                                <li><a href="shop.html"><span>Shop</span></a></li>
+                                <li><a href="product-details.html"><span>Product Details</span></a></li>
+                                <li><a href="cart.html"><span>Cart</span></a></li>
+                                <li><a href="checkout.html"><span>Checkout</span></a></li>
+                                <li><a href="wishlist.html"><span>Wishlist</span></a></li>
+                                <li><a href="404.html"><span>404 Error</span></a></li>
+                            </ul>
+                            <!-- End Dropdown Menu -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- End Popup Menu -->
+
+        <!-- Bottom Navbar Mobile Start -->
+        <div class="bottom-navbar-mobile section d-block d-lg-none">
+            <nav>
+                <ul class="list-actions">
+                    <li>
+                        <a class="toggle-btn active" href="index.html">
+                            <span><i class="lnr lnr-home"></i></span>
+                            <span class="text">Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="toggle-btn toggle-btn-js" data-target="#job-list-mobile-id"
+                            href="login-register.html#">
+                            <span><i class="lnr lnr-list"></i></span>
+                            <span class="text">Jobs list</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="login-register.html">
+                            <span><i class="lnr lnr-heart"></i></span>
+                            <span class="text">Save</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="toggle-btn-two toggle-btn-js" data-target="#notifications-mobile-id"
+                            href="login-register.html#">
+                            <span><i class="lnr lnr-alarm"></i></span>
+                            <span class="text">Notifications</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="login-register.html">
+                            <span><i class="lnr lnr-user"></i></span>
+                            <span class="text">Account</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Bottom Navbar Mobile End -->
+
+        <!-- Bottom Navbar Mobile Popup Start -->
+        <div class="mobile-popup">
+            <div class="job-list-mobile" id="job-list-mobile-id">
+                <div class="heading">
+                    <div class="title">
+                        <i class="lnr lnr-list"></i>
+                        <h3>All Jobs list</h3>
+                    </div>
+                    <a class="view-all" href="login-register.html#">See all jobs</a>
+                </div>
+                <div class="content-popup-scroll">
+                    <ul class="list-item">
+                        <li><a href="job-listing.html"><i class="lnr lnr-printer"></i>Accounting </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-film-play"></i>Broadcasting </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-phone"></i>Customer Service </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-bullhorn"></i>Digital Marketing </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-chart-bars"></i>Finance & Accounting </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-smartphone"></i>Game Mobile </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-picture"></i>Graphics & Design </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-home"></i>Graphics & Design </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-database"></i>Medical Doctor </a></li>
+                        <li><a href="job-listing.html"><i class="lnr lnr-dinner"></i>Restaurant </a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="notifications-mobile" id="notifications-mobile-id">
+                <div class="heading">
+                    <div class="title">
+                        <i class="lnr lnr-list"></i>
+                        <h3>All Notifications</h3>
+                    </div>
+                    <a class="view-all" href="login-register.html#">See all jobs</a>
+                </div>
+                <div class="content-popup-scroll">
+                    <ul class="list-item">
+                        <li><a href="login-register.html"><i class="lnr lnr-book"></i><span><b
+                                        class="highlight">Register now</b> to reach dream jobs easier.</span> </a></li>
+                        <li><a href="job-with-map.html"><i class="lnr lnr-book"></i><span><b class="highlight">Job
+                                        suggestion</b> you might be interested based on your profile.</span> </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Bottom Navbar Mobile Popup End -->
+
+        <!-- Breadcrumb / Hero Section Start -->
+        <div class="auth-hero-section section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-breadcrumb-content">
+                            <ul class="page-breadcrumb d-flex justify-content-center gap-2 mb-10 p-0">
+                                <li><a href="index.html" class="fw-600">Home</a></li>
+                                <li class="text-muted">Authentication</li>
+                            </ul>
+                            <h1>Welcome to <span class="text-primary-indigo">DIJIT PROGRAM</span></h1>
+                            <p>Your portal to world-class opportunities and elite talent matching.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Breadcrumb / Hero Section Start -->
+
+        <!-- Login Register Section Start -->
+        <div class="login-register-section auth-main-wrapper section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-11 col-lg-12">
+                        <div class="glass-auth-card">
+                            <div class="row align-items-center">
+
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="login-register-form-area p-0 border-0">
+                                        <div class="modern-pill-tabs">
+                                            <ul class="nav nav-pills border-0" id="authTab" role="tablist">
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">Login</button>
+                                                </li>
+                                                <li class="nav-item" role="presentation">
+                                                    <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false">Register</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <div class="tab-content" id="authTabContent">
+                                            <!-- Login Tab -->
+                                            <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                                                <div class="login-register-form">
+                                                    <p class="mb-30 text-muted">Login to your <span class="fw-700 text-primary-indigo">DIJIT PROGRAM</span> account.</p>
+                                                    <form action="login-register.html#" method="post">
+                                                        <div class="modern-input-wrapper">
+                                                            <label>Username or Email</label>
+                                                            <input type="text" placeholder="Enter your credentials" name="name">
+                                                        </div>
+                                                        <div class="modern-input-wrapper">
+                                                            <div class="d-flex justify-content-between">
+                                                                <label>Password</label>
+                                                                <a href="#" class="small fw-600 text-primary-indigo">Forgot?</a>
+                                                            </div>
+                                                            <input type="password" placeholder="••••••••" name="password">
+                                                        </div>
+                                                        <div class="d-flex justify-content-between align-items-center mb-25">
+                                                            <div class="checkbox-input m-0">
+                                                                <input type="checkbox" name="login-form-remember" id="login-form-remember">
+                                                                <label for="login-form-remember" class="ms-2 small text-muted mb-0">Keep me logged in</label>
+                                                            </div>
+                                                        </div>
+                                                        <button class="modern-btn-primary">Sign In to Dashboard <i class="fas fa-arrow-right"></i></button>
+                                                    </form>
+                                                    
+                                                    <div class="social-login-section">
+                                                        <p class="divider-text">Or continue with</p>
+                                                        <div class="social-btn-group">
+                                                            <a href="#" class="social-btn"><i class="fab fa-google"></i></a>
+                                                            <a href="#" class="social-btn"><i class="fab fa-apple"></i></a>
+                                                            <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Register Tab -->
+                                            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                                <div class="login-register-form">
+                                                    <p class="mb-30 text-muted">Create your <span class="fw-700 text-primary-indigo">DIJIT PROGRAM</span> account.</p>
+                                                    <form action="login-register.html#" method="post">
+                                                        <div class="row row-10">
+                                                            <div class="col-12">
+                                                                <div class="modern-input-wrapper">
+                                                                    <label>Full Name</label>
+                                                                    <input type="text" placeholder="John Doe" name="name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="modern-input-wrapper">
+                                                                    <label>Email Address</label>
+                                                                    <input type="email" placeholder="john@example.com" name="emain">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="modern-input-wrapper">
+                                                                    <label>Password</label>
+                                                                    <input type="password" placeholder="••••••••" name="password">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="modern-input-wrapper">
+                                                                    <label>Confirm</label>
+                                                                    <input type="password" placeholder="••••••••" name="conPassword">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <label class="fw-600 mb-10 small text-uppercase text-muted">Select Your Role</label>
+                                                                <div class="role-selection-group">
+                                                                    <div class="role-radio-card">
+                                                                        <input type="radio" name="login-form-candidate" id="login-form-candidate" checked>
+                                                                        <label for="login-form-candidate">
+                                                                            <i class="fas fa-user-graduate"></i>
+                                                                            <span>Candidate</span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="role-radio-card">
+                                                                        <input type="radio" name="login-form-candidate" id="login-form-employer">
+                                                                        <label for="login-form-employer">
+                                                                            <i class="fas fa-building"></i>
+                                                                            <span>Employer</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="register-account mb-25 border-0 p-0">
+                                                                    <input id="register-terms-conditions" type="checkbox" checked required>
+                                                                    <label for="register-terms-conditions" class="ms-2 small text-muted">I agree to the <a href="#" class="text-primary-indigo fw-600">Terms & Conditions</a></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <button class="modern-btn-primary">Create Free Account <i class="fas fa-rocket"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-12">
+                                    <div class="auth-trust-side">
+                                        <h2>Why Join <span class="text-primary-indigo">DIJIT PROGRAM?</span></h2>
+                                        <p class="desc">Access verified opportunities, manage applications, connect with employers, and grow your career through DIJIT PROGRAM.</p>
+                                        
+                                        <div class="benefit-list">
+                                            <div class="benefit-item">
+                                                <i class="fas fa-check"></i>
+                                                <span>Discover verified jobs and internships</span>
+                                            </div>
+                                            <div class="benefit-item">
+                                                <i class="fas fa-check"></i>
+                                                <span>Apply faster with a saved profile</span>
+                                            </div>
+                                            <div class="benefit-item">
+                                                <i class="fas fa-check"></i>
+                                                <span>Track applications in one place</span>
+                                            </div>
+                                            <div class="benefit-item">
+                                                <i class="fas fa-check"></i>
+                                                <span>Connect with trusted employers</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="stats-grid">
+                                            <div class="stat-box">
+                                                <h3>10K+</h3>
+                                                <p>Candidates</p>
+                                            </div>
+                                            <div class="stat-box">
+                                                <h3>500+</h3>
+                                                <p>Employers</p>
+                                            </div>
+                                            <div class="stat-box">
+                                                <h3>1K+</h3>
+                                                <p>Jobs</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="cta-highlight-banner">
+                                            <i class="fas fa-gift"></i>
+                                            <p>Create your free account and start your career journey today.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login Register Section End -->
+        <!-- Login Register Section End -->
+
+        <!--Footer section start-->
+        <footer class="footer-section section st-border">
+
+            <!-- Footer Top Section Start -->
+            <div
+                class="footer-top-section section pt-115 pt-lg-95 pt-md-75 pt-sm-55 pt-xs-45 pb-90 pb-lg-70 pb-md-40 pb-sm-20 pb-xs-15">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-xl-4 col-lg-3 col-md-6">
+                            <!-- Footer Widget Start -->
+                            <div class="footer-widget mb-30">
+                                <h6 class="title">Contact Info</h6>
+                                <div class="address">
+                                    <i class="lnr lnr-map-marker"></i>
+                                    <span>8375 E. Heather Drive Tonawanda, Manchester 14150, United Kingdom</span>
+                                </div>
+                                <div class="email">
+                                    <i class="lnr lnr-envelope"></i>
+                                    <span>jopota@recruitment.com</span>
+                                </div>
+                                <div class="phone theme-color">(+1) 000 987-1234</div>
+                                <div class="footer-widget-image d-flex mt-35">
+                                    <a class="mr-5" href="login-register.html#"><img
+                                            src="assets/images/app-store/app-store-2.png" alt=""></a>
+                                    <a href="login-register.html#"><img src="assets/images/app-store/app-chplay-2.png"
+                                            alt=""></a>
+                                </div>
+                            </div>
+                            <!-- Footer Widget End -->
+                        </div>
+
+                        <div class="col-xl-2 col-lg-2 col-md-6">
+                            <!-- Footer Widget Start -->
+                            <div class="footer-widget mb-30">
+                                <h6 class="title">Useful Links</h6>
+                                <div class="footer-widget-link">
+                                    <ul>
+                                        <li><a href="login-register.html#">Press Corner</a></li>
+                                        <li><a href="login-register.html#">Policy Privacy</a></li>
+                                        <li><a href="login-register.html#">Terms And Conditions</a></li>
+                                        <li><a href="login-register.html#">Partner</a></li>
+                                        <li><a href="login-register.html#">Help Center</a></li>
+                                        <li><a href="login-register.html#">Contact Us</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Footer Widget End -->
+                        </div>
+
+                        <div class="col-xl-2 col-lg-3 col-md-6">
+                            <!-- Footer Widget Start -->
+                            <div class="footer-widget mb-30">
+                                <h6 class="title">Featured Jobs</h6>
+                                <div class="footer-widget-link">
+                                    <ul>
+                                        <li><a href="login-register.html#">Teachers</a></li>
+                                        <li><a href="login-register.html#">Accounting</a></li>
+                                        <li><a href="login-register.html#">Customer Service</a></li>
+                                        <li><a href="login-register.html#">Digital Marketing</a></li>
+                                        <li><a href="login-register.html#">Web & Software Dev</a></li>
+                                        <li><a href="login-register.html#">Science & Analitycs</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Footer Widget End -->
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-6">
+                            <!-- Footer Widget Start -->
+                            <div class="footer-widget mb-30">
+                                <h6 class="title">Newsletter</h6>
+                                <div class="newsletter">
+                                    <p>Join our email subscription now to get updates on <strong>new jobs</strong> and
+                                        <strong>notifications</strong>.
+                                    </p>
+                                    <div class="newsletter-form">
+                                        <form id="mc-form" class="mc-form">
+                                            <input type="email" placeholder="Enter Your email..." required=""
+                                                name="EMAIL">
+                                            <button class="ht-btn small-btn" type="submit"
+                                                value="submit">Subscribe</button>
+                                        </form>
+                                    </div>
+                                    <!-- mailchimp-alerts Start -->
+                                    <div class="mailchimp-alerts">
+                                        <div class="mailchimp-submitting"></div>
+                                        <!-- mailchimp-submitting end -->
+                                        <div class="mailchimp-success"></div>
+                                        <!-- mailchimp-success end -->
+                                        <div class="mailchimp-error"></div>
+                                        <!-- mailchimp-error end -->
+                                    </div>
+                                    <!-- mailchimp-alerts end -->
+                                </div>
+                            </div>
+                            <!-- Footer Widget End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer Top Section End -->
+
+            <!--Footer bottom start-->
+            <div class="footer-bottom section fb-60">
+                <div class="container">
+                    <div class="row g-0 st-border pt-35 pb-35 align-items-center justify-content-between">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="copyright">
+                                <p>&copy; 2026 <a href="index.html">DIJIT PROGRAM</a>. All rights reserved.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="footer-social">
+                                <a href="login-register.html#"><i class="fab fa-facebook-f"></i></a>
+                                <a href="login-register.html#"><i class="fab fa-instagram"></i></a>
+                                <a href="login-register.html#"><i class="fab fa-google"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Footer bottom end-->
+
+        </footer>
+        <!--Footer section end-->
+
+        <!-- Modal Area Start -->
+        <div class="modal fade quick-view-modal-container" id="quick-view-modal-container" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row align-items-center">
+                            <div class="col-lg-6">
+                                <div class="login-register-form-area">
+                                    <div class="modern-pill-tabs">
+                                        <ul class="nav nav-pills border-0 mb-30" id="modalAuthTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="modal-login-tab" data-bs-toggle="tab" data-bs-target="#modalLogin" type="button" role="tab">Login</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="modal-register-tab" data-bs-toggle="tab" data-bs-target="#modalRegister" type="button" role="tab">Register</button>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content" id="modalAuthTabContent">
+                                        <!-- Modal Login -->
+                                        <div class="tab-pane fade show active" id="modalLogin" role="tabpanel">
+                                            <div class="login-register-form">
+                                                <p class="mb-25 text-muted">Sign in to your <span class="fw-700 text-primary-indigo">DIJIT PROGRAM</span> account.</p>
+                                                <form action="login-register.html#" method="post">
+                                                    <div class="modern-input-wrapper">
+                                                        <label>Username or Email</label>
+                                                        <input type="text" placeholder="Credentials" name="name">
+                                                    </div>
+                                                    <div class="modern-input-wrapper">
+                                                        <label>Password</label>
+                                                        <input type="password" placeholder="••••••••" name="password">
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center mb-25">
+                                                        <div class="checkbox-input m-0">
+                                                            <input type="checkbox" name="login-form-remember" id="modal-login-form-remember">
+                                                            <label for="modal-login-form-remember" class="ms-2 small text-muted">Remember me</label>
+                                                        </div>
+                                                    </div>
+                                                    <button class="modern-btn-primary">Sign In <i class="fas fa-sign-in-alt"></i></button>
+                                                </form>
+                                                <div class="social-login-section">
+                                                    <p class="divider-text">Or login with</p>
+                                                    <div class="social-btn-group">
+                                                        <a href="#" class="social-btn"><i class="fab fa-google"></i></a>
+                                                        <a href="#" class="social-btn"><i class="fab fa-apple"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal Register -->
+                                        <div class="tab-pane fade" id="modalRegister" role="tabpanel">
+                                            <div class="login-register-form">
+                                                <p class="mb-25 text-muted">Join the <span class="fw-700 text-primary-indigo">DIJIT PROGRAM</span> community.</p>
+                                                <form action="login-register.html#" method="post">
+                                                    <div class="modern-input-wrapper">
+                                                        <input type="text" placeholder="Full Name" name="name">
+                                                    </div>
+                                                    <div class="modern-input-wrapper">
+                                                        <input type="email" placeholder="Email Address" name="emain">
+                                                    </div>
+                                                    <div class="row row-10">
+                                                        <div class="col-sm-6">
+                                                            <div class="modern-input-wrapper">
+                                                                <input type="password" placeholder="Password" name="password">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <div class="modern-input-wrapper">
+                                                                <input type="password" placeholder="Confirm" name="conPassword">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="role-selection-group mb-20">
+                                                        <div class="role-radio-card">
+                                                            <input type="radio" name="login-form-candidate" id="modal-form-candidate" checked>
+                                                            <label for="modal-form-candidate">
+                                                                <span>Candidate</span>
+                                                            </label>
+                                                        </div>
+                                                        <div class="role-radio-card">
+                                                            <input type="radio" name="login-form-candidate" id="modal-form-employer">
+                                                            <label for="modal-form-employer">
+                                                                <span>Employer</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <button class="modern-btn-primary">Create Account <i class="fas fa-user-plus"></i></button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 d-none d-lg-block">
+                                <div class="auth-trust-side ps-4 border-start">
+                                    <h3 class="mb-20 fw-800">Why <span class="text-primary-indigo">DIJIT?</span></h3>
+                                    <ul class="benefit-list list-unstyled">
+                                        <li class="benefit-item mb-15"><i class="fas fa-check-circle"></i> <span>Elite Talent Network</span></li>
+                                        <li class="benefit-item mb-15"><i class="fas fa-check-circle"></i> <span>Direct Employer Access</span></li>
+                                        <li class="benefit-item mb-15"><i class="fas fa-check-circle"></i> <span>Personalized Job Alerts</span></li>
+                                        <li class="benefit-item mb-15"><i class="fas fa-check-circle"></i> <span>Career Growth Tools</span></li>
+                                    </ul>
+                                    <div class="cta-highlight-banner p-3">
+                                        <p class="small m-0 fw-700">Get started in less than 2 minutes and unlock premium features.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Area End -->
+        <!-- Modal Area End -->
+
+
+        <!-- Placed js at the end of the document so the pages load faster -->
+
+
+    </div>
+
+    <!-- Placed js at the end of the document so the pages load faster -->
+
+    <!-- All jquery file included here -->
+    <script src="assets/js/vendor/jquery-3.5.0.min.js"></script>
+    <script src="assets/js/vendor/jquery-migrate-3.1.0.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/plugins/plugins.js"></script>
+
+
+    <script src="assets/js/main.js"></script>
+
+
+
+</body>
+
+
+
+</html>
