@@ -1,0 +1,420 @@
+/* ==========================================================================
+   DIJIT Talent Cloud Authentication - Premium SaaS Styles
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --tc-primary: #5552ff;
+    --tc-primary-hover: #4338ca;
+    --tc-bg-gradient-start: #f8fafc;
+    --tc-bg-gradient-end: #e2e8f0;
+    --tc-glass-bg: rgba(255, 255, 255, 0.75);
+    --tc-glass-border: rgba(255, 255, 255, 0.5);
+    --tc-text-main: #0f172a;
+    --tc-text-muted: #64748b;
+    --tc-input-bg: rgba(255, 255, 255, 0.9);
+    --tc-input-border: #cbd5e1;
+    --tc-input-focus: #5552ff;
+    --tc-error: #ef4444;
+    --tc-success: #22c55e;
+    --tc-font: 'Inter', sans-serif;
+    --tc-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.tc-auth-body {
+    font-family: var(--tc-font);
+    background: linear-gradient(135deg, var(--tc-bg-gradient-start) 0%, var(--tc-bg-gradient-end) 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--tc-text-main);
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Blobs for Glassmorphism Effect */
+.tc-bg-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.6;
+}
+.tc-blob-1 {
+    width: 400px;
+    height: 400px;
+    background: #5552ff;
+    top: -100px;
+    left: -100px;
+}
+.tc-blob-2 {
+    width: 300px;
+    height: 300px;
+    background: #ec4899;
+    bottom: -50px;
+    right: -50px;
+}
+
+/* Auth Container */
+.tc-auth-wrapper {
+    width: 100%;
+    max-width: 520px;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+.tc-auth-card {
+    background: var(--tc-glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--tc-glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: var(--tc-shadow);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tc-auth-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.2);
+}
+
+/* Header & Logo */
+.tc-auth-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.tc-logo {
+    height: 40px;
+    margin-bottom: 20px;
+}
+
+.tc-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--tc-text-main);
+}
+
+.tc-subtitle {
+    font-size: 15px;
+    color: var(--tc-text-muted);
+}
+
+/* Forms */
+.tc-form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.tc-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--tc-text-main);
+}
+
+.tc-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--tc-input-bg);
+    border: 1px solid var(--tc-input-border);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: var(--tc-font);
+    color: var(--tc-text-main);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.tc-input:focus {
+    border-color: var(--tc-input-focus);
+    box-shadow: 0 0 0 4px rgba(85, 82, 255, 0.15);
+}
+
+.tc-input.has-error {
+    border-color: var(--tc-error);
+}
+
+.tc-error-msg {
+    display: none;
+    color: var(--tc-error);
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+.has-error .tc-error-msg {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+/* Input Icons */
+.tc-input-icon-wrap {
+    position: relative;
+}
+.tc-input-icon-wrap i {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--tc-text-muted);
+    cursor: pointer;
+}
+
+/* Buttons */
+.tc-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--tc-primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: var(--tc-font);
+    position: relative;
+    overflow: hidden;
+}
+
+.tc-btn:hover {
+    background: var(--tc-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(85, 82, 255, 0.2);
+}
+
+.tc-btn:active {
+    transform: translateY(0);
+}
+
+.tc-btn-outline {
+    background: transparent;
+    border: 1px solid var(--tc-input-border);
+    color: var(--tc-text-main);
+}
+
+.tc-btn-outline:hover {
+    border-color: var(--tc-primary);
+    color: var(--tc-primary);
+    background: rgba(85, 82, 255, 0.05);
+    box-shadow: none;
+}
+
+/* Links & Utilities */
+.tc-link {
+    color: var(--tc-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    cursor: pointer;
+}
+
+.tc-link:hover {
+    color: var(--tc-primary-hover);
+    text-decoration: underline;
+}
+
+.tc-flex-between {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tc-text-center {
+    text-align: center;
+}
+
+.tc-mt-4 { margin-top: 24px; }
+.tc-mb-4 { margin-bottom: 24px; }
+
+/* User Type Selection Cards */
+.tc-type-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.tc-type-card {
+    background: var(--tc-glass-bg);
+    border: 2px solid transparent;
+    border-radius: 16px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.tc-type-card:hover {
+    border-color: rgba(85, 82, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.tc-type-card.active {
+    border-color: var(--tc-primary);
+    background: rgba(85, 82, 255, 0.05);
+}
+
+.tc-type-card i {
+    font-size: 32px;
+    color: var(--tc-primary);
+    margin-bottom: 12px;
+}
+
+.tc-type-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--tc-text-main);
+}
+
+/* OTP segmented inputs */
+.tc-otp-container {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.tc-otp-input {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 700;
+    border: 1px solid var(--tc-input-border);
+    border-radius: 12px;
+    background: var(--tc-input-bg);
+    color: var(--tc-text-main);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.tc-otp-input:focus {
+    border-color: var(--tc-primary);
+    box-shadow: 0 0 0 4px rgba(85, 82, 255, 0.15);
+}
+
+/* Password Strength Meter */
+.tc-pwd-strength {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    height: 4px;
+}
+.tc-pwd-bar {
+    flex: 1;
+    background: #e2e8f0;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+.tc-pwd-strength.weak .tc-pwd-bar:nth-child(1) { background: var(--tc-error); }
+.tc-pwd-strength.fair .tc-pwd-bar:nth-child(1),
+.tc-pwd-strength.fair .tc-pwd-bar:nth-child(2) { background: #f59e0b; }
+.tc-pwd-strength.good .tc-pwd-bar:nth-child(1),
+.tc-pwd-strength.good .tc-pwd-bar:nth-child(2),
+.tc-pwd-strength.good .tc-pwd-bar:nth-child(3) { background: var(--tc-success); }
+.tc-pwd-strength.strong .tc-pwd-bar { background: var(--tc-success); }
+
+/* Progress Meter */
+.tc-progress-container {
+    margin-bottom: 30px;
+}
+.tc-progress-bar {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+.tc-progress-fill {
+    height: 100%;
+    background: var(--tc-primary);
+    width: 0%;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tc-progress-text {
+    font-size: 13px;
+    color: var(--tc-text-muted);
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Views Management */
+.tc-view {
+    display: none;
+    animation: fadeIn 0.4s ease;
+}
+
+.tc-view.active {
+    display: block;
+}
+
+/* Checkbox */
+.tc-checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.tc-checkbox-group input[type="checkbox"] {
+    margin-top: 4px;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--tc-primary);
+}
+.tc-checkbox-group label {
+    font-size: 14px;
+    color: var(--tc-text-muted);
+    line-height: 1.5;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.tc-loader {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .tc-auth-wrapper {
+        padding: 16px;
+    }
+    .tc-auth-card {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+    .tc-type-cards {
+        grid-template-columns: 1fr;
+    }
+}

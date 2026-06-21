@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Create your DIJIT Talent Cloud account — enterprise HR-Tech recruitment platform.">
+  <title>Sign Up - DIJIT Talent Cloud</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    .auth-layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+    }
+
+    .auth-brand {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: var(--space-12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .auth-brand::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(99,102,241,0.12) 0%, transparent 50%, rgba(6,182,212,0.08) 100%);
+      pointer-events: none;
+    }
+
+    .auth-brand-content { position: relative; z-index: 1; }
+
+    .auth-form-side {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .feature-list {
+      margin-top: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .auth-layout { grid-template-columns: 1fr; }
+      .auth-brand  { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#signup-form" class="skip-link">Skip to sign up form</a>
+
+  <div class="auth-layout">
+
+    <!-- Brand Side -->
+    <div class="auth-brand animate-fade-in" aria-hidden="true">
+      <div class="auth-brand-content">
+        <a href="../DijitTalentCloud.html" class="logo" style="font-size: 1.75rem; margin-bottom: var(--space-8);">
+          <i class="ph ph-cloud-nodes"></i>
+          <span>DIJIT Talent Cloud</span>
+        </a>
+        <h2 style="font-size: clamp(1.5rem, 3vw, 2.25rem); margin-bottom: var(--space-4);">Hire smarter.<br>Grow faster.</h2>
+        <p style="color: var(--color-text-secondary); max-width: 400px; line-height: 1.7;">
+          Join thousands of companies and consultancies using DIJIT to streamline recruitment, manage talent pipelines, and make data-driven hiring decisions.
+        </p>
+
+        <div class="feature-list">
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-lightning" aria-hidden="true"></i></div>
+            <div>
+              <p style="font-weight: 600; margin-bottom: 2px;">AI-Powered Matching</p>
+              <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Smart algorithms connect candidates to the right roles.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-chart-line-up" aria-hidden="true"></i></div>
+            <div>
+              <p style="font-weight: 600; margin-bottom: 2px;">Real-Time Analytics</p>
+              <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Track hiring metrics and pipeline health live.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><i class="ph ph-shield-check" aria-hidden="true"></i></div>
+            <div>
+              <p style="font-weight: 600; margin-bottom: 2px;">Enterprise Security</p>
+              <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">SOC 2 compliant with end-to-end encryption.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Side -->
+    <div class="auth-form-side">
+      <div class="auth-card animate-slide-up">
+
+        <div style="text-align: center; margin-bottom: var(--space-6);">
+          <a href="../DijitTalentCloud.html" class="logo" style="justify-content: center; font-size: 1.75rem; margin-bottom: var(--space-3); display: none;" aria-label="DIJIT Home">
+            <i class="ph ph-cloud-nodes"></i><span>DIJIT</span>
+          </a>
+          <h1 style="font-size: var(--text-2xl); margin-bottom: var(--space-1);">Create an Account</h1>
+          <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Start your free trial — no credit card required.</p>
+        </div>
+
+        <form id="signup-form" novalidate aria-label="Sign up form">
+
+          <fieldset style="border: none; padding: 0; margin-bottom: var(--space-4);">
+            <legend class="form-label" style="margin-bottom: var(--space-2);">I am a</legend>
+            <div style="display: flex; gap: var(--space-4);">
+              <label class="flex items-center gap-2" style="cursor: pointer; font-size: var(--text-sm);">
+                <input type="radio" name="accountType" value="company" checked style="accent-color: var(--color-primary); width: 1rem; height: 1rem;"> Company
+              </label>
+              <label class="flex items-center gap-2" style="cursor: pointer; font-size: var(--text-sm);">
+                <input type="radio" name="accountType" value="consultancy" style="accent-color: var(--color-primary); width: 1rem; height: 1rem;"> Consultancy
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="form-group">
+            <label class="form-label" for="fullName">Full Name</label>
+            <input type="text" id="fullName" class="form-input" placeholder="Enter your full name" required autocomplete="name">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address</label>
+            <input type="email" id="email" class="form-input" placeholder="name@company.com" required autocomplete="email">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="password">Password</label>
+            <div class="input-wrapper">
+              <input type="password" id="password" class="form-input" placeholder="Min. 8 characters" required autocomplete="new-password">
+              <button type="button" class="input-icon password-toggle" data-input="password" aria-label="Show password">
+                <i class="ph ph-eye" aria-hidden="true"></i>
+              </button>
+            </div>
+            <p class="field-hint">Must contain 8+ chars, 1 uppercase, 1 lowercase, 1 number.</p>
+          </div>
+
+          <button type="submit" id="signup-btn" class="btn btn-primary btn-lg" style="width: 100%; margin-top: var(--space-2);">
+            Create Account <i class="ph ph-arrow-right" aria-hidden="true"></i>
+          </button>
+        </form>
+
+        <div style="text-align: center; margin-top: var(--space-6); font-size: var(--text-sm);">
+          <span style="color: var(--color-text-secondary);">Already have an account?</span>
+          <a href="login.html" style="color: var(--color-primary); text-decoration: none; font-weight: 600; margin-left: 4px;">Log In</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/validation.js"></script>
+  <script>
+    const form = document.getElementById('signup-form');
+    Validation.attachLiveValidation(form);
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email    = document.getElementById('email');
+      const password = document.getElementById('password');
+      const fullName = document.getElementById('fullName');
+      let isValid = true;
+
+      [fullName, email, password].forEach(i => Validation.clearError(i));
+
+      if (!Validation.isNotEmpty(fullName.value)) {
+        Validation.showError(fullName, 'Full name is required.');
+        isValid = false;
+      }
+      if (!Validation.isEmail(email.value)) {
+        Validation.showError(email, 'Please enter a valid email address.');
+        isValid = false;
+      }
+      if (!Validation.isPasswordStrong(password.value)) {
+        Validation.showError(password, 'Password must meet the requirements above.');
+        isValid = false;
+      }
+
+      if (isValid) {
+        const btn = document.getElementById('signup-btn');
+        btn.classList.add('is-loading');
+        btn.setAttribute('aria-busy', 'true');
+        setTimeout(() => { window.location.href = 'otp-verification.html'; }, 800);
+      }
+    });
+
+    /* Show mobile logo */
+    if (window.innerWidth <= 900) {
+      document.querySelector('.auth-card .logo').style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

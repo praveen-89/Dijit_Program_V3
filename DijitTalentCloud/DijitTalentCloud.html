@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DIJIT Talent Cloud - The Smart Hiring Platform for Modern Businesses">
+  <title>DIJIT Talent Cloud - The Smart Hiring Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    /* ── Landing Page Specific Styles ─────────────────────── */
+    .hero-section {
+      padding: 3rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    
+    .hero-bg {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: var(--space-6);
+      background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-padding {
+      padding: 3rem 0;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: var(--space-4);
+      text-align: center;
+      background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--color-text-secondary);
+      font-size: var(--text-lg);
+      max-width: 700px;
+      margin: 0 auto var(--space-12);
+    }
+
+    /* Grid Layouts */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-8); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-8); }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-8); }
+
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    /* Cards */
+    .feature-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      transition: all var(--transition-normal);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .feature-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2);
+    }
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--color-primary);
+      margin: 0 auto var(--space-4) auto;
+      background: rgba(99, 102, 241, 0.1);
+      width: 60px; height: 60px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: var(--radius-lg);
+    }
+
+    /* Steps */
+    .step-card {
+      text-align: center;
+      position: relative;
+    }
+    .step-number {
+      width: 50px; height: 50px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: bold; color: white;
+      margin: 0 auto var(--space-4);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+    }
+
+    /* Pricing */
+    .pricing-card {
+      background: rgba(17, 24, 39, 0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      display: flex; flex-direction: column;
+      transition: all var(--transition-normal);
+    }
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--color-primary);
+    }
+    .pricing-card.popular {
+      border-color: var(--color-primary);
+      background: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, rgba(17, 24, 39, 0.6) 100%);
+      position: relative;
+    }
+    .pricing-card.popular::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--color-primary);
+      color: white; font-size: var(--text-xs); font-weight: bold;
+      padding: 4px 12px; border-radius: 20px;
+    }
+
+    .list-check li {
+      display: flex; align-items: flex-start; gap: var(--space-2);
+      margin-bottom: var(--space-2);
+      color: var(--color-text-secondary);
+    }
+    .list-check i {
+      color: var(--color-primary);
+      margin-top: 4px;
+    }
+
+    /* Stats */
+    .stat-item {
+      text-align: center;
+      padding: var(--space-6);
+      border-right: 1px solid var(--glass-border);
+    }
+    .stat-item:last-child { border-right: none; }
+    @media (max-width: 768px) {
+      .stat-item { border-right: none; border-bottom: 1px solid var(--glass-border); }
+      .stat-item:last-child { border-bottom: none; }
+    }
+
+    .badge-industry {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      padding: var(--space-3) var(--space-6);
+      border-radius: 30px;
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      transition: all 0.3s ease;
+      white-space: nowrap;
+      font-size: var(--text-sm);
+    }
+    .badge-industry:hover {
+      background: rgba(99, 102, 241, 0.1);
+      border-color: var(--color-primary);
+      color: white;
+    }
+
+    .hero-image-card {
+      border-radius: 1.25rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 20px 60px -15px rgba(99, 102, 241, 0.3), 0 0 40px rgba(99, 102, 241, 0.1);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .hero-image-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 25px 70px -10px rgba(99, 102, 241, 0.45), 0 0 50px rgba(99, 102, 241, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="app-header" role="banner">
+    <div class="container flex justify-between items-center" style="height: 100%;">
+      <a href="#" class="logo" aria-label="DIJIT Talent Cloud Home">
+        <i class="ph ph-cloud-nodes" aria-hidden="true" style="color: var(--color-primary); font-size: 2rem;"></i>
+        <span style="font-weight: bold; font-size: 1.25rem;">DIJIT Talent Cloud</span>
+      </a>
+
+      <nav class="nav-links flex gap-6 items-center" id="main-nav" aria-label="Main navigation">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#offerings" class="nav-link">Offerings</a>
+        <a href="#packages" class="nav-link">Packages</a>
+        <a href="pages/login.html" class="btn btn-ghost" style="margin-left: var(--space-4);">Log In</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-bg"></div>
+      <div class="container animate-slide-up" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+        <!-- Left: Content -->
+        <div style="text-align: left;">
+          <span class="badge badge-primary" style="margin-bottom: 1.5rem; display: inline-block;">The Smart Hiring Platform for Modern Businesses</span>
+          <h1 style="font-size: clamp(3rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 1.5rem; background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Hire Smarter.<br>Faster. Better.</h1>
+          <p style="font-size: var(--text-xl); color: var(--color-text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+            DIJIT Talent Cloud is an AI-powered recruitment and talent discovery platform designed to simplify hiring for businesses of all sizes. From job posting to talent search, candidate shortlisting to workforce solutions — we help organizations find the right talent at the right time.
+          </p>
+          <p style="font-size: var(--text-md); color: var(--color-text-muted); margin-bottom: 2rem;">
+            Whether you're hiring for entry-level, mid-level, leadership, or niche positions, get access to verified, job-ready talent across industries.
+          </p>
+          <div class="flex items-center gap-4 flex-wrap">
+            <a href="#start" class="btn btn-primary btn-lg">Start Hiring</a>
+            <a href="#post" class="btn btn-secondary btn-lg">Post a Job</a>
+            <a href="#search" class="btn btn-ghost btn-lg" style="border: 1px solid var(--glass-border);">Search Talent</a>
+          </div>
+        </div>
+        <!-- Right: Image Card -->
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <div class="hero-image-card">
+            <img src="assets/hero-image.jpg" alt="DIJIT Talent Cloud - Smart Hiring" style="display: block; width: 100%; height: auto;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section-padding" style="background: rgba(255,255,255,0.01);">
+      <div class="container">
+        <div class="grid-2" style="align-items: center;">
+          <div>
+            <h2 class="section-title">About DIJIT Talent Cloud</h2>
+            <p style="color: var(--color-text-secondary); font-size: var(--text-lg); margin-bottom: var(--space-6); line-height: 1.6;">
+              DIJIT Talent Cloud is a complete hiring ecosystem built for companies, consultancies, startups, and enterprise recruiters. It combines smart recruitment technology with DIJIT’s industry expertise to create a platform where hiring becomes faster, more efficient, and result-driven.
+            </p>
+            <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-4);">We help businesses:</h3>
+            <ul class="list-check" style="font-size: var(--text-lg); display: inline-block; text-align: left;">
+              <li><i class="ph-fill ph-check-circle"></i> Access quality talent</li>
+              <li><i class="ph-fill ph-check-circle"></i> Reduce hiring turnaround time</li>
+              <li><i class="ph-fill ph-check-circle"></i> Improve candidate quality</li>
+              <li><i class="ph-fill ph-check-circle"></i> Scale recruitment efforts</li>
+              <li><i class="ph-fill ph-check-circle"></i> Hire across multiple industries</li>
+            </ul>
+          </div>
+          <div style="position: relative;">
+            <div style="position: absolute; inset: 0; background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%); z-index: -1;"></div>
+            <div class="feature-card" style="background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px);">
+              <div class="flex items-center gap-4" style="margin-bottom: var(--space-6); border-bottom: 1px solid var(--glass-border); padding-bottom: var(--space-4);">
+                <i class="ph-fill ph-rocket-launch" style="font-size: 2rem; color: var(--color-secondary);"></i>
+                <div>
+                  <h4 style="font-size: var(--text-lg); font-weight: 600;">Fast-track Hiring</h4>
+                  <p style="color: var(--color-text-muted); font-size: var(--text-sm);">Reduce manual effort with AI</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4" style="margin-bottom: var(--space-6); border-bottom: 1px solid var(--glass-border); padding-bottom: var(--space-4);">
+                <i class="ph-fill ph-users-three" style="font-size: 2rem; color: var(--color-primary);"></i>
+                <div>
+                  <h4 style="font-size: var(--text-lg); font-weight: 600;">Verified Talent</h4>
+                  <p style="color: var(--color-text-muted); font-size: var(--text-sm);">Pre-screened & validated candidates</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4">
+                <i class="ph-fill ph-chart-line-up" style="font-size: 2rem; color: var(--color-success);"></i>
+                <div>
+                  <h4 style="font-size: var(--text-lg); font-weight: 600;">Scale Instantly</h4>
+                  <p style="color: var(--color-text-muted); font-size: var(--text-sm);">Built for companies of all sizes</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We Offer -->
+    <section id="offerings" class="section-padding container">
+      <h2 class="section-title">What We Offer</h2>
+      <p class="section-subtitle">A comprehensive suite of tools and services designed to streamline every aspect of your recruitment process.</p>
+      
+      <div class="grid-3" style="margin-bottom: var(--space-12);">
+        <!-- Offer 1 -->
+        <div class="feature-card">
+          <div class="feature-icon"><i class="ph ph-briefcase"></i></div>
+          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">1. Job Posting Platform</h3>
+          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Post jobs and connect with active job seekers instantly.</p>
+          <ul class="list-check" style="font-size: var(--text-sm); margin-bottom: var(--space-4);">
+            <li><i class="ph-bold ph-check"></i> Quick job creation & Multi-role support</li>
+            <li><i class="ph-bold ph-check"></i> Industry-based targeting</li>
+            <li><i class="ph-bold ph-check"></i> Smart candidate recommendations</li>
+            <li><i class="ph-bold ph-check"></i> Premium visibility & Urgent tags</li>
+          </ul>
+          <p style="font-size: var(--text-xs); color: var(--color-primary); font-weight: 600;">Best for: Companies | Startups | Consultancies</p>
+        </div>
+
+        <!-- Offer 2 -->
+        <div class="feature-card">
+          <div class="feature-icon"><i class="ph ph-database"></i></div>
+          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">2. Resume Database</h3>
+          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Search through a large talent pool and find candidates based on your requirements.</p>
+          <ul class="list-check" style="font-size: var(--text-sm);">
+            <li><i class="ph-bold ph-check"></i> Advanced search filters (Skill, Exp, Loc)</li>
+            <li><i class="ph-bold ph-check"></i> Salary & Industry filters</li>
+            <li><i class="ph-bold ph-check"></i> Candidate contact unlocks</li>
+            <li><i class="ph-bold ph-check"></i> Verified candidate profiles</li>
+          </ul>
+        </div>
+
+        <!-- Offer 3 -->
+        <div class="feature-card" style="border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.02);">
+          <div class="feature-icon"><i class="ph ph-brain"></i></div>
+          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">3. AI Candidate Matching</h3>
+          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Our smart matching engine helps recruiters identify the most relevant candidates.</p>
+          <ul class="list-check" style="font-size: var(--text-sm); margin-bottom: var(--space-4);">
+            <li><i class="ph-bold ph-check"></i> Matches skills & experience relevance</li>
+            <li><i class="ph-bold ph-check"></i> Location & Salary fit analysis</li>
+            <li><i class="ph-bold ph-check"></i> Industry relevance mapping</li>
+          </ul>
+          <div style="background: rgba(16, 185, 129, 0.1); color: var(--color-success); padding: 8px; border-radius: 8px; font-size: var(--text-xs); font-weight: 600;">
+            Benefits: Faster shortlisting. Better hiring accuracy. Less manual effort.
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Offer 4 -->
+        <div class="feature-card">
+          <div class="feature-icon"><i class="ph ph-users-three"></i></div>
+          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">4. Talent Acquisition Support</h3>
+          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Need hiring support beyond the platform? DIJIT provides comprehensive recruitment services.</p>
+          <div class="flex flex-wrap gap-2" style="margin-bottom: var(--space-4);">
+            <span class="badge badge-secondary">Permanent Hiring</span>
+            <span class="badge badge-secondary">Leadership</span>
+            <span class="badge badge-secondary">Bulk Hiring</span>
+            <span class="badge badge-secondary">Contract Staffing</span>
+            <span class="badge badge-secondary">RPO Solutions</span>
+            <span class="badge badge-secondary">Niche Hiring</span>
+          </div>
+          <p style="font-size: var(--text-sm); color: var(--color-text-muted);">Gives clients both technology and service support.</p>
+        </div>
+
+        <!-- Offer 5 -->
+        <div class="feature-card">
+          <div class="feature-icon"><i class="ph ph-graduation-cap"></i></div>
+          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">5. Campus Hiring Solutions</h3>
+          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Hire fresh talent directly from colleges and universities.</p>
+          <ul class="list-check" style="font-size: var(--text-sm); margin-bottom: var(--space-4);">
+            <li><i class="ph-bold ph-check"></i> Campus & Virtual hiring drives</li>
+            <li><i class="ph-bold ph-check"></i> Fresher campaigns & Internships</li>
+            <li><i class="ph-bold ph-check"></i> Skill-based assessments</li>
+          </ul>
+          <p style="font-size: var(--text-xs); color: var(--color-primary); font-weight: 600;">Perfect for building early-career talent pipelines.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Industries & Why Choose Us Section -->
+    <section class="section-padding" style="background: linear-gradient(180deg, transparent 0%, rgba(99,102,241,0.05) 100%);">
+      <div class="container">
+        <h2 class="section-title">Industries We Serve</h2>
+        <div style="display: grid; grid-template-columns: repeat(5, auto); gap: var(--space-4) var(--space-6); justify-content: center; margin-bottom: 4rem; align-items: center;">
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-desktop"></i> Information Technology</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-cpu"></i> Semiconductor</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-bank"></i> BFSI</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-heartbeat"></i> Healthcare & Pharma</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-car"></i> Automotive</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-factory"></i> Manufacturing</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-shopping-cart"></i> E-commerce</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-storefront"></i> Retail</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-truck"></i> Logistics</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-wrench"></i> Product Engineering</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-rocket"></i> Startups</span>
+          <span class="badge-industry" style="width: 100%;"><i class="ph ph-cloud"></i> SaaS Companies</span>
+        </div>
+
+        <h2 class="section-title">Why Choose DIJIT Talent Cloud?</h2>
+        <div class="grid-3" style="margin-top: var(--space-12);">
+          <div class="text-center">
+            <i class="ph ph-lightning" style="font-size: 3rem; color: var(--color-warning); margin-bottom: var(--space-4);"></i>
+            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Faster Hiring</h4>
+            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Reduce hiring timelines with AI-driven search and matching.</p>
+          </div>
+          <div class="text-center">
+            <i class="ph ph-shield-check" style="font-size: 3rem; color: var(--color-success); margin-bottom: var(--space-4);"></i>
+            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Verified Talent Pool</h4>
+            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Access candidates who are screened and validated.</p>
+          </div>
+          <div class="text-center">
+            <i class="ph ph-globe" style="font-size: 3rem; color: var(--color-primary); margin-bottom: var(--space-4);"></i>
+            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Multi-Industry Expertise</h4>
+            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Specialized hiring support across diverse domains.</p>
+          </div>
+          <div class="text-center">
+            <i class="ph ph-headset" style="font-size: 3rem; color: var(--color-secondary); margin-bottom: var(--space-4);"></i>
+            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Dedicated Support</h4>
+            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Backed by DIJIT’s experienced talent acquisition team.</p>
+          </div>
+          <div class="text-center">
+            <i class="ph ph-puzzle-piece" style="font-size: 3rem; color: #a855f7; margin-bottom: var(--space-4);"></i>
+            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Flexible Plans</h4>
+            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Packages designed for startups, SMEs, consultancies, and enterprises.</p>
+          </div>
+          <div class="text-center">
+            <i class="ph ph-network" style="font-size: 3rem; color: #ec4899; margin-bottom: var(--space-4);"></i>
+            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Strong Talent Network</h4>
+            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Thousands of active job seekers and professionals at your fingertips.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section-padding container">
+      <h2 class="section-title">How It Works</h2>
+      <p class="section-subtitle">Your journey to finding the perfect candidate is just 5 steps away.</p>
+      
+      <div class="grid-4" style="grid-template-columns: repeat(5, 1fr); gap: var(--space-4); margin-top: var(--space-12);">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Create Account</h4>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Register as a Company or Consultancy.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Choose Package</h4>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Select based on resume access & job credits.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Post or Search</h4>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Use advanced filters to find right talent.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">4</div>
+          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Shortlist & Connect</h4>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Unlock profiles and reach candidates directly.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">5</div>
+          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Hire Successfully</h4>
+          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Close positions faster with quality talent.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Packages Section -->
+    <section id="packages" class="section-padding" style="background: rgba(255,255,255,0.01);">
+      <div class="container">
+        <h2 class="section-title">Talent Cloud Packages</h2>
+        <p class="section-subtitle">Flexible plans tailored to your hiring needs.</p>
+        
+        <div class="grid-4" style="margin-top: var(--space-12);">
+          <!-- Starter -->
+          <div class="pricing-card">
+            <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-2);">Starter</h3>
+            <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-6); min-height: 40px;">For startups and small businesses</p>
+            <ul class="list-check" style="flex-grow: 1; margin-bottom: var(--space-8);">
+              <li><i class="ph-bold ph-check"></i> Resume database access</li>
+              <li><i class="ph-bold ph-check"></i> Job posting credits</li>
+              <li><i class="ph-bold ph-check"></i> Candidate unlocks</li>
+              <li><i class="ph-bold ph-check"></i> Basic AI recommendations</li>
+            </ul>
+            <button class="btn btn-secondary w-full" style="width: 100%;">Select Starter</button>
+          </div>
+          
+          <!-- Professional -->
+          <div class="pricing-card popular">
+            <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-2); color: var(--color-primary);">Professional</h3>
+            <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-6); min-height: 40px;">For growing companies</p>
+            <ul class="list-check" style="flex-grow: 1; margin-bottom: var(--space-8);">
+              <li><i class="ph-bold ph-check"></i> Higher candidate unlocks</li>
+              <li><i class="ph-bold ph-check"></i> Premium job postings</li>
+              <li><i class="ph-bold ph-check"></i> Better visibility</li>
+              <li><i class="ph-bold ph-check"></i> AI smart matching</li>
+            </ul>
+            <button class="btn btn-primary w-full" style="width: 100%;">Select Professional</button>
+          </div>
+
+          <!-- Premium -->
+          <div class="pricing-card">
+            <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-2);">Premium</h3>
+            <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-6); min-height: 40px;">For consultancies and hiring teams</p>
+            <ul class="list-check" style="flex-grow: 1; margin-bottom: var(--space-8);">
+              <li><i class="ph-bold ph-check"></i> Bulk hiring support</li>
+              <li><i class="ph-bold ph-check"></i> Unlimited searches</li>
+              <li><i class="ph-bold ph-check"></i> Team access</li>
+              <li><i class="ph-bold ph-check"></i> Candidate management tools</li>
+            </ul>
+            <button class="btn btn-secondary w-full" style="width: 100%;">Select Premium</button>
+          </div>
+
+          <!-- Enterprise -->
+          <div class="pricing-card">
+            <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-2);">Enterprise</h3>
+            <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-6); min-height: 40px;">Custom solutions for large organizations</p>
+            <ul class="list-check" style="flex-grow: 1; margin-bottom: var(--space-8);">
+              <li><i class="ph-bold ph-check"></i> Dedicated account manager</li>
+              <li><i class="ph-bold ph-check"></i> Custom hiring campaigns</li>
+              <li><i class="ph-bold ph-check"></i> Leadership hiring support</li>
+              <li><i class="ph-bold ph-check"></i> Campus hiring access</li>
+            </ul>
+            <button class="btn btn-secondary w-full" style="width: 100%;">Contact Us</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Who Can Use & Success Metrics -->
+    <section class="section-padding container">
+      <div class="grid-2" style="margin-bottom: var(--space-20); align-items: center;">
+        <div>
+          <h2 class="section-title">Who Can Use DIJIT Talent Cloud?</h2>
+          <div class="grid" style="gap: var(--space-6); margin-top: var(--space-8); display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div class="flex gap-4 flex-col items-center">
+              <i class="ph-fill ph-buildings" style="font-size: 2rem; color: var(--color-primary);"></i>
+              <div>
+                <h4 style="font-size: var(--text-lg); margin-bottom: 4px;">Companies</h4>
+                <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Hire full-time employees, freshers, and leadership talent.</p>
+              </div>
+            </div>
+            <div class="flex gap-4 flex-col items-center">
+              <i class="ph-fill ph-rocket" style="font-size: 2rem; color: var(--color-secondary);"></i>
+              <div>
+                <h4 style="font-size: var(--text-lg); margin-bottom: 4px;">Startups</h4>
+                <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Build your founding and scaling teams quickly.</p>
+              </div>
+            </div>
+            <div class="flex gap-4 flex-col items-center">
+              <i class="ph-fill ph-users-three" style="font-size: 2rem; color: var(--color-success);"></i>
+              <div>
+                <h4 style="font-size: var(--text-lg); margin-bottom: 4px;">Consultancies</h4>
+                <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Access talent faster and manage multiple hiring requirements.</p>
+              </div>
+            </div>
+            <div class="flex gap-4 flex-col items-center">
+              <i class="ph-fill ph-globe-hemisphere-west" style="font-size: 2rem; color: var(--color-warning);"></i>
+              <div>
+                <h4 style="font-size: var(--text-lg); margin-bottom: 4px;">Enterprises</h4>
+                <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Run large-scale hiring campaigns efficiently.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="feature-card" style="background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(17,24,39,0.8)); text-align: center;">
+          <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-8); color: var(--color-text-primary);">Success Metrics</h3>
+          <div class="grid-2" style="gap: var(--space-6);">
+            <div>
+              <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-primary);">5000+</div>
+              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Live Jobs</div>
+            </div>
+            <div>
+              <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-secondary);">1M+</div>
+              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Active Candidates</div>
+            </div>
+            <div>
+              <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-success);">1500+</div>
+              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Companies</div>
+            </div>
+            <div>
+              <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-warning);">40+</div>
+              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Enterprise Clients</div>
+            </div>
+            <div>
+              <div style="font-size: 2.5rem; font-weight: bold; color: #a855f7;">1M+</div>
+              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Workforce Deployments</div>
+            </div>
+            <div>
+              <div style="font-size: 2.5rem; font-weight: bold; color: #ec4899;">150+</div>
+              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Cities Presence</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section-padding" style="background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%); text-align: center;">
+      <div class="container">
+        <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: var(--space-6); background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Build Your Team with DIJIT Talent Cloud</h2>
+        <p style="font-size: var(--text-xl); color: var(--color-text-secondary); max-width: 700px; margin: 0 auto var(--space-10);">
+          Find the right talent, reduce hiring challenges, and grow faster with DIJIT.
+        </p>
+        <div class="flex justify-center gap-4 flex-wrap" style="margin-bottom: var(--space-12);">
+          <a href="#get-started" class="btn btn-primary btn-lg">Get Started</a>
+          <a href="#demo" class="btn btn-secondary btn-lg">Book a Demo</a>
+          <a href="#sales" class="btn btn-ghost btn-lg" style="border: 1px solid var(--glass-border);">Contact Sales</a>
+        </div>
+        <div class="flex justify-center gap-8 flex-wrap" style="color: var(--color-text-muted);">
+          <div class="flex items-center gap-2">
+            <i class="ph ph-envelope-simple" style="font-size: 1.5rem;"></i>
+            <a href="mailto:support@dijitprogram.com" style="color: inherit; text-decoration: none;">support@dijitprogram.com</a>
+          </div>
+          <div class="flex items-center gap-2">
+            <i class="ph ph-phone" style="font-size: 1.5rem;"></i>
+            <a href="tel:+919676693875" style="color: inherit; text-decoration: none;">+91 9676693875</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer" role="contentinfo" style="padding: var(--space-12) 0 var(--space-4);">
+    <div class="container grid grid-cols-4" style="text-align: left; align-items: start; margin-bottom: var(--space-8);">
+      <div style="grid-column: span 1;">
+        <a href="#" class="logo flex items-center gap-2" style="font-size: 1.25rem; margin-bottom: var(--space-4); text-decoration: none; color: white;" aria-label="DIJIT Talent Cloud">
+          <i class="ph ph-cloud-nodes" aria-hidden="true" style="color: var(--color-primary);"></i>
+          <span style="font-weight: bold;">DIJIT Talent Cloud</span>
+        </a>
+        <p style="color: var(--color-text-muted); font-size: var(--text-sm);">The intelligent platform for modern recruitment teams.</p>
+      </div>
+      <div>
+        <h4 style="font-weight: 600; margin-bottom: var(--space-4);">Platform</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-2); padding: 0;">
+          <li><a href="#" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">Job Posting</a></li>
+          <li><a href="#" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">Resume Database</a></li>
+          <li><a href="#" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">AI Matching</a></li>
+          <li><a href="#" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-weight: 600; margin-bottom: var(--space-4);">Solutions</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-2); padding: 0;">
+          <li><a href="#" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">For Companies</a></li>
+          <li><a href="#" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">For Startups</a></li>
+          <li><a href="#" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">For Consultancies</a></li>
+          <li><a href="#" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">Campus Hiring</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 style="font-weight: 600; margin-bottom: var(--space-4);">Contact</h4>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-2); padding: 0;">
+          <li><a href="mailto:support@dijitprogram.com" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">support@dijitprogram.com</a></li>
+          <li><a href="tel:+919676693875" class="footer-link" style="color: var(--color-text-secondary); text-decoration: none;">+91 9676693875</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: var(--space-6); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-4);">
+      <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin: 0;">&copy; 2026 DIJIT Talent Cloud. All rights reserved.</p>
+      <div class="flex gap-4" style="font-size: 1.5rem; color: var(--color-text-muted);">
+        <i class="ph ph-twitter-logo" style="cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--color-text-muted)'"></i>
+        <i class="ph ph-linkedin-logo" style="cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--color-text-muted)'"></i>
+        <i class="ph ph-facebook-logo" style="cursor: pointer; transition: color 0.3s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--color-text-muted)'"></i>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

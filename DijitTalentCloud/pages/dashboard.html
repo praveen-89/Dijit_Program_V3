@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="DIJIT Talent Cloud Dashboard — manage your recruitment pipeline.">
+  <title>Dashboard - DIJIT Talent Cloud</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Sidebar ────────────────────────────────────── */
+    .sidebar {
+      background: rgba(17, 24, 39, 0.95);
+      backdrop-filter: var(--glass-blur);
+      border-right: 1px solid var(--glass-border);
+      padding: var(--space-6) var(--space-4);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+      margin-top: var(--space-8);
+      flex: 1;
+    }
+
+    .sidebar-section {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: var(--space-4) var(--space-4) var(--space-2);
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      border-radius: var(--radius-md);
+      transition: all var(--transition-fast);
+      font-weight: 500;
+      font-size: var(--text-sm);
+      position: relative;
+    }
+
+    .sidebar-link:hover {
+      background: var(--glass-bg-hover);
+      color: var(--color-text-primary);
+    }
+
+    .sidebar-link.active {
+      background: var(--color-primary);
+      color: white;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+    }
+
+    .sidebar-link .notification-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      margin-left: auto;
+    }
+
+    /* ── Main Content ────────────────────────────────── */
+    .main-content {
+      padding: var(--space-8);
+      overflow-y: auto;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-8);
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    /* ── Activity Feed ───────────────────────────────── */
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+      padding: var(--space-3) 0;
+    }
+
+    .activity-item + .activity-item {
+      border-top: 1px solid var(--glass-border);
+    }
+
+    /* ── Mobile sidebar overlay ──────────────────────── */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 89;
+    }
+    .sidebar-overlay.is-open { display: block; }
+
+    .mobile-header {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(11,15,25,0.9);
+      backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--glass-border);
+      padding: var(--space-3) var(--space-4);
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-layout { grid-template-columns: 1fr; }
+      .mobile-header { display: flex; }
+      .sidebar {
+        position: fixed;
+        top: 0; left: -300px;
+        width: 260px;
+        z-index: 90;
+        transition: left var(--transition-normal);
+      }
+      .sidebar.is-open { left: 0; }
+      .main-content { padding: var(--space-4); }
+    }
+
+    @media (max-width: 640px) {
+      .top-bar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to dashboard content</a>
+
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
+
+  <!-- Mobile Header (visible < 1024px) -->
+  <div class="mobile-header">
+    <a href="../DijitTalentCloud.html" class="logo" style="font-size: 1.25rem;" aria-label="DIJIT Home">
+      <i class="ph ph-cloud-nodes" aria-hidden="true"></i><span>DIJIT</span>
+    </a>
+    <button class="btn btn-secondary btn-icon" id="sidebar-toggle" aria-label="Open sidebar">
+      <i class="ph ph-list" aria-hidden="true"></i>
+    </button>
+  </div>
+
+  <div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="Dashboard navigation">
+      <a href="../DijitTalentCloud.html" class="logo" style="margin-bottom: var(--space-2);" aria-label="DIJIT Home">
+        <i class="ph ph-cloud-nodes" aria-hidden="true"></i><span>DIJIT</span>
+      </a>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section">Main</div>
+        <a href="#" class="sidebar-link active" aria-current="page"><i class="ph ph-squares-four" style="font-size: 1.25rem;" aria-hidden="true"></i> Dashboard</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-users" style="font-size: 1.25rem;" aria-hidden="true"></i> Candidates <span class="notification-dot" aria-label="New notifications"></span></a>
+        <a href="#" class="sidebar-link"><i class="ph ph-buildings" style="font-size: 1.25rem;" aria-hidden="true"></i> Clients</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-briefcase" style="font-size: 1.25rem;" aria-hidden="true"></i> Jobs</a>
+
+        <div class="sidebar-section">Insights</div>
+        <a href="#" class="sidebar-link"><i class="ph ph-chart-line-up" style="font-size: 1.25rem;" aria-hidden="true"></i> Analytics</a>
+        <a href="#" class="sidebar-link"><i class="ph ph-file-text" style="font-size: 1.25rem;" aria-hidden="true"></i> Reports</a>
+
+        <div class="sidebar-section">Account</div>
+        <a href="#" class="sidebar-link"><i class="ph ph-gear" style="font-size: 1.25rem;" aria-hidden="true"></i> Settings</a>
+      </nav>
+
+      <div style="margin-top: auto; padding-top: var(--space-4); border-top: 1px solid var(--glass-border);">
+        <div class="flex items-center gap-4" style="padding: var(--space-3) var(--space-4);">
+          <div class="avatar avatar-sm" style="font-size: var(--text-xs);">JD</div>
+          <div>
+            <p style="font-weight: 600; font-size: var(--text-sm); line-height: 1.2;">John Doe</p>
+            <p style="font-size: var(--text-xs); color: var(--color-text-muted);">Admin</p>
+          </div>
+        </div>
+        <a href="login.html" class="sidebar-link" style="color: var(--color-error); margin-top: var(--space-2);">
+          <i class="ph ph-sign-out" style="font-size: 1.25rem;" aria-hidden="true"></i> Log Out
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content">
+
+      <div class="top-bar animate-fade-in">
+        <div>
+          <h1 style="font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 4px;">Overview</h1>
+          <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Welcome back, John! Here's your hiring snapshot.</p>
+        </div>
+        <div class="flex gap-4">
+          <button class="btn btn-secondary btn-icon" aria-label="Notifications">
+            <i class="ph ph-bell" style="font-size: 1.25rem;" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-primary"><i class="ph ph-plus" aria-hidden="true"></i> Post Job</button>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-4 animate-slide-up stagger-1" style="margin-bottom: var(--space-8);">
+        <div class="card card-sm stat-card hover-lift">
+          <div class="stat-icon"><i class="ph ph-users" style="font-size: 1.5rem;" aria-hidden="true"></i></div>
+          <div>
+            <div class="stat-value">2,845</div>
+            <div class="stat-label">Total Candidates</div>
+          </div>
+        </div>
+        <div class="card card-sm stat-card hover-lift">
+          <div class="stat-icon" style="color: var(--color-secondary); background: rgba(6,182,212,0.1);">
+            <i class="ph ph-briefcase" style="font-size: 1.5rem;" aria-hidden="true"></i>
+          </div>
+          <div>
+            <div class="stat-value">124</div>
+            <div class="stat-label">Active Jobs</div>
+          </div>
+        </div>
+        <div class="card card-sm stat-card hover-lift">
+          <div class="stat-icon" style="color: var(--color-success); background: rgba(16,185,129,0.1);">
+            <i class="ph ph-check-circle" style="font-size: 1.5rem;" aria-hidden="true"></i>
+          </div>
+          <div>
+            <div class="stat-value">84</div>
+            <div class="stat-label">Placements</div>
+          </div>
+        </div>
+        <div class="card card-sm stat-card hover-lift">
+          <div class="stat-icon" style="color: var(--color-warning); background: rgba(245,158,11,0.1);">
+            <i class="ph ph-clock" style="font-size: 1.5rem;" aria-hidden="true"></i>
+          </div>
+          <div>
+            <div class="stat-value">12d</div>
+            <div class="stat-label">Avg. Time-to-Hire</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Widget Row -->
+      <div class="grid grid-cols-2 animate-slide-up stagger-2" style="margin-bottom: var(--space-8);">
+
+        <!-- Activity Feed -->
+        <div class="card">
+          <div class="flex justify-between items-center" style="margin-bottom: var(--space-4);">
+            <h2 class="card-title" style="margin: 0;">Recent Activity</h2>
+            <button class="btn btn-ghost btn-sm">View All</button>
+          </div>
+
+          <div class="activity-item">
+            <div class="avatar avatar-sm" style="background: var(--color-primary);">SJ</div>
+            <div>
+              <p style="font-weight: 500; font-size: var(--text-sm);">Sarah Jenkins applied for <strong>Frontend Engineer</strong></p>
+              <p style="color: var(--color-text-muted); font-size: var(--text-xs);">2 hours ago</p>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="avatar avatar-sm" style="background: var(--color-secondary); color: #000;">TC</div>
+            <div>
+              <p style="font-weight: 500; font-size: var(--text-sm);">Tech Corp posted <strong>Data Scientist</strong></p>
+              <p style="color: var(--color-text-muted); font-size: var(--text-xs);">5 hours ago</p>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="avatar avatar-sm" style="background: var(--color-success);">ML</div>
+            <div>
+              <p style="font-weight: 500; font-size: var(--text-sm);">Mike Lawson <strong>accepted</strong> the offer from Acme</p>
+              <p style="color: var(--color-text-muted); font-size: var(--text-xs);">1 day ago</p>
+            </div>
+          </div>
+          <div class="activity-item">
+            <div class="avatar avatar-sm" style="background: var(--color-accent);">AK</div>
+            <div>
+              <p style="font-weight: 500; font-size: var(--text-sm);">Anna Kim scheduled interview — <strong>DevOps Lead</strong></p>
+              <p style="color: var(--color-text-muted); font-size: var(--text-xs);">2 days ago</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile & Pipeline -->
+        <div class="card">
+          <h2 class="card-title">Hiring Pipeline</h2>
+
+          <div style="display: flex; flex-direction: column; gap: var(--space-4);">
+            <div>
+              <div class="flex justify-between items-center" style="margin-bottom: 6px;">
+                <span style="font-size: var(--text-sm);">Applied</span>
+                <span class="badge badge-primary">320</span>
+              </div>
+              <div class="progress-container"><div class="progress-bar" style="width: 100%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between items-center" style="margin-bottom: 6px;">
+                <span style="font-size: var(--text-sm);">Screening</span>
+                <span class="badge badge-warning">148</span>
+              </div>
+              <div class="progress-container"><div class="progress-bar" style="width: 46%; background: linear-gradient(90deg, #F59E0B, #F97316);"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between items-center" style="margin-bottom: 6px;">
+                <span style="font-size: var(--text-sm);">Interview</span>
+                <span class="badge badge-primary">62</span>
+              </div>
+              <div class="progress-container"><div class="progress-bar" style="width: 19%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between items-center" style="margin-bottom: 6px;">
+                <span style="font-size: var(--text-sm);">Offered</span>
+                <span class="badge badge-success">24</span>
+              </div>
+              <div class="progress-container"><div class="progress-bar" style="width: 8%; background: linear-gradient(90deg, #10B981, #06B6D4);"></div></div>
+            </div>
+          </div>
+
+          <hr class="divider">
+
+          <div class="alert alert-warning" style="margin-bottom: 0;" role="status">
+            <i class="ph ph-warning" aria-hidden="true"></i> 3 interviews need scheduling this week.
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Row -->
+      <div class="grid grid-cols-3 animate-slide-up stagger-3">
+        <div class="card card-sm profile-card hover-lift">
+          <div class="avatar">AJ</div>
+          <h3 style="font-size: var(--text-base);">Alex Johnson</h3>
+          <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Frontend Engineer</p>
+          <span class="badge badge-success" style="margin-top: var(--space-2);">Hired</span>
+        </div>
+        <div class="card card-sm profile-card hover-lift">
+          <div class="avatar" style="background: linear-gradient(135deg, #F59E0B, #F97316);">PR</div>
+          <h3 style="font-size: var(--text-base);">Priya Rao</h3>
+          <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Data Scientist</p>
+          <span class="badge badge-warning" style="margin-top: var(--space-2);">Interview</span>
+        </div>
+        <div class="card card-sm profile-card hover-lift">
+          <div class="avatar" style="background: linear-gradient(135deg, #06B6D4, #10B981);">CL</div>
+          <h3 style="font-size: var(--text-base);">Chris Lee</h3>
+          <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">DevOps Lead</p>
+          <span class="badge badge-primary" style="margin-top: var(--space-2);">Screening</span>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/dashboard.js"></script>
+  <script src="../js/animations.js"></script>
+  <script>
+    // Sidebar toggle for mobile
+    const sidebarToggle  = document.getElementById('sidebar-toggle');
+    const sidebar        = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+    const openSidebar  = () => { sidebar.classList.add('is-open'); sidebarOverlay.classList.add('is-open'); document.body.style.overflow = 'hidden'; };
+    const closeSidebar = () => { sidebar.classList.remove('is-open'); sidebarOverlay.classList.remove('is-open'); document.body.style.overflow = ''; };
+
+    sidebarToggle?.addEventListener('click', openSidebar);
+    sidebarOverlay?.addEventListener('click', closeSidebar);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+  </script>
+</body>
+</html>

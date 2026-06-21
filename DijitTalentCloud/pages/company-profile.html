@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Complete your company profile on DIJIT Talent Cloud.">
+  <title>Company Profile - DIJIT Talent Cloud</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    .profile-layout { padding-top: var(--space-8); padding-bottom: var(--space-16); }
+    .profile-grid { display: grid; gap: var(--space-8); grid-template-columns: 280px 1fr; }
+
+    .stepper { display: flex; flex-direction: column; gap: 0; }
+    .step { display: flex; align-items: flex-start; gap: var(--space-3); padding: var(--space-4); position: relative; }
+    .step + .step::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: calc(var(--space-4) + 16px);
+      width: 2px;
+      height: var(--space-4);
+      background: var(--glass-border);
+      transform: translateY(-100%);
+    }
+    .step-number {
+      width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: var(--text-sm); flex-shrink: 0; transition: all var(--transition-normal);
+    }
+    .step.active .step-number  { background: var(--color-primary); color: white; box-shadow: 0 0 0 4px rgba(99,102,241,0.2); }
+    .step.done .step-number    { background: var(--color-success); color: white; }
+    .step.pending .step-number { background: transparent; border: 1.5px solid var(--color-text-muted); color: var(--color-text-muted); }
+    .step-label { font-weight: 500; font-size: var(--text-sm); }
+    .step-desc  { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: 2px; }
+
+    @media (max-width: 768px) {
+      .profile-grid { grid-template-columns: 1fr; }
+      .stepper { flex-direction: row; overflow-x: auto; gap: var(--space-2); }
+      .step + .step::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#company-form" class="skip-link">Skip to profile form</a>
+
+  <header class="app-header" role="banner">
+    <div class="container">
+      <a href="../DijitTalentCloud.html" class="logo" aria-label="DIJIT Home">
+        <i class="ph ph-cloud-nodes" aria-hidden="true"></i>
+        <span>DIJIT Talent Cloud</span>
+      </a>
+      <span class="badge badge-primary">Setup</span>
+    </div>
+  </header>
+
+  <main class="container profile-layout" id="main-content">
+    <div class="profile-grid animate-fade-in">
+
+      <!-- Sidebar: Stepper -->
+      <aside class="animate-slide-up stagger-1">
+        <h1 style="font-size: var(--text-2xl); margin-bottom: var(--space-2);">Complete Profile</h1>
+        <p style="color: var(--color-text-secondary); font-size: var(--text-sm); margin-bottom: var(--space-6);">Set up your company to start finding top talent.</p>
+
+        <div class="card card-sm">
+          <nav class="stepper" aria-label="Profile setup steps">
+            <div class="step active" aria-current="step">
+              <div class="step-number">1</div>
+              <div><div class="step-label">Company Details</div><div class="step-desc">Basic information</div></div>
+            </div>
+            <div class="step pending">
+              <div class="step-number">2</div>
+              <div><div class="step-label">Preferences</div><div class="step-desc">Hiring preferences</div></div>
+            </div>
+            <div class="step pending">
+              <div class="step-number">3</div>
+              <div><div class="step-label">Team</div><div class="step-desc">Invite members</div></div>
+            </div>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Form -->
+      <div class="card animate-slide-up stagger-2">
+        <h2 class="card-title">Company Details</h2>
+        <form id="company-form" aria-label="Company profile form">
+          <div class="form-group">
+            <label class="form-label" for="companyName">Company Name</label>
+            <input type="text" id="companyName" class="form-input" placeholder="e.g. Acme Corp" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="industry">Industry</label>
+            <select id="industry" class="form-input" required>
+              <option value="" disabled selected>Select an industry...</option>
+              <option value="tech">Technology</option>
+              <option value="finance">Finance & Banking</option>
+              <option value="healthcare">Healthcare</option>
+              <option value="retail">Retail & E-commerce</option>
+              <option value="manufacturing">Manufacturing</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2">
+            <div class="form-group">
+              <label class="form-label" for="size">Company Size</label>
+              <select id="size" class="form-input" required>
+                <option value="" disabled selected>Select...</option>
+                <option value="1-10">1-10</option>
+                <option value="11-50">11-50</option>
+                <option value="51-200">51-200</option>
+                <option value="201-500">201-500</option>
+                <option value="500+">500+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="location">Headquarters</label>
+              <input type="text" id="location" class="form-input" placeholder="City, Country" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="website">Website URL <span style="color: var(--color-text-muted);">(optional)</span></label>
+            <input type="url" id="website" class="form-input" placeholder="https://www.example.com" autocomplete="url">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="description">Company Description <span style="color: var(--color-text-muted);">(optional)</span></label>
+            <textarea id="description" class="form-input" placeholder="Tell candidates about your company..." rows="3"></textarea>
+          </div>
+
+          <hr class="divider">
+
+          <div class="flex justify-between items-center" style="flex-wrap: wrap; gap: var(--space-4);">
+            <a href="dashboard.html" class="btn btn-ghost">Skip for now</a>
+            <button type="submit" id="save-btn" class="btn btn-primary">
+              Save & Continue <i class="ph ph-arrow-right" aria-hidden="true"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/validation.js"></script>
+  <script>
+    const form = document.getElementById('company-form');
+    Validation.attachLiveValidation(form);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('save-btn');
+      btn.classList.add('is-loading');
+      btn.setAttribute('aria-busy', 'true');
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+    });
+  </script>
+</body>
+</html>

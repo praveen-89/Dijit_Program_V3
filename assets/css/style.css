@@ -19232,9 +19232,9 @@ body{
 }
 
 .job-section .single-job:hover {
-    transform: translateY(-5px) !important;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.1) !important;
-    border-color: #6366f1 !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 12px 25px rgba(99, 102, 241, 0.12), 0 4px 10px rgba(0, 0, 0, 0.04) !important;
+    border-color: rgba(99, 102, 241, 0.4) !important;
 }
 
 .job-section .single-job .info-top {
@@ -19254,7 +19254,7 @@ body{
 }
 
 .job-section .single-job:hover .job-image {
-    transform: scale(1.08) rotate(-2deg) !important;
+    transform: scale(1.04) !important;
 }
 
 .job-section .single-job .job-image img {
@@ -19282,7 +19282,7 @@ body{
 }
 
 .job-section .single-job:hover .job-info-inner {
-    transform: translateX(4px) !important;
+    /* Removed translateX to keep text stable and professional */
 }
 
 .job-section .single-job .job-info-top {
@@ -19310,7 +19310,7 @@ body{
 }
 
 .job-section .single-job:hover .saveJob .save-job {
-    transform: scale(1.2) !important;
+    transform: scale(1.1) !important;
     color: #ef4444 !important;
 }
 
@@ -19354,7 +19354,6 @@ body{
 
 .job-section .single-job:hover .job-salary {
     background: #d1fae5 !important;
-    transform: translateX(2px) !important;
 }
 
 .job-section .single-job .job-meta {
@@ -19406,7 +19405,6 @@ body{
 
 .job-section .single-job:hover .featured-label {
     background: #fde68a !important;
-    transform: scale(1.05) !important;
 }
 
 /* Staggered entrance animation for job cards */

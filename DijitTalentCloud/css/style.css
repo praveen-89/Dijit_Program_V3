@@ -1,0 +1,12 @@
+/* 
+  DIJIT Talent Cloud - Main Stylesheet
+  This file imports the modular CSS architecture.
+*/
+
+@import 'variables.css';
+@import 'layout.css';
+@import 'components.css';
+@import 'animations.css';
+
+/* Any page-specific overrides can go below, 
+   but ideally should be kept to a minimum to maintain consistency. */
