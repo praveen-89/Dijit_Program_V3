@@ -338,7 +338,7 @@
   <main id="main-content">
 
     <!-- Hero Section -->
-    <section class="hero-section" style="padding: 6rem 0 5rem; text-align: left; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; background-position: center center;">
+    <section class="hero-section" style="padding: 4.5rem 0; text-align: left; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; background-position: center center;">
       <div class="hero-bg"></div>
       <div class="container animate-slide-up" style="position: relative; z-index: 2;">
         
@@ -478,8 +478,8 @@
     <!-- About Section -->
     <style>
       .about-section {
-        background: #f9f9f6;
-        padding: 6rem 0;
+        background: #ffffff;
+        padding: 4.5rem 0;
       }
       .about-grid {
         display: grid;
@@ -523,7 +523,7 @@
         <div class="about-grid">
           <!-- Left Column -->
           <div>
-            <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.8rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">About DTC</div>
+            <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.95rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">About DTC</div>
             <h2 style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: clamp(2.25rem, 4vw, 3rem); font-weight: 700; color: #0f172a; line-height: 1.15; margin: 0; letter-spacing: -0.02em;">
               Built to transform<br>how businesses hire.
             </h2>
@@ -584,7 +584,7 @@
     <style>
       .offers-section {
         background: #f9f9f6;
-        padding: 6rem 0;
+        padding: 4.5rem 0;
       }
       .offers-header {
         display: grid;
@@ -611,6 +611,12 @@
         padding: 2rem 1.75rem;
         display: flex;
         flex-direction: column;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .offer-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08), 0 0 0 1px #9cfb60;
+        border-color: #9cfb60;
       }
       .offer-card-header {
         display: flex;
@@ -714,7 +720,7 @@
         <!-- Section Header -->
         <div class="offers-header">
           <div>
-            <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.8rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">What DTC Offers</div>
+            <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.95rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">What DTC Offers</div>
             <h2 style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: clamp(2.25rem, 4vw, 3.25rem); font-weight: 600; color: #111827; line-height: 1.15; margin: 0; letter-spacing: -0.02em;">
               One platform. Every<br>hiring lever you need.
             </h2>
@@ -838,7 +844,7 @@
     <style>
       .who-section {
         background: #f9f9f6;
-        padding-bottom: 6rem;
+        padding: 1.5rem 0 4.5rem 0;
       }
       .who-cards {
         display: grid;
@@ -853,6 +859,11 @@
         padding: 2.25rem 1.75rem;
         display: flex;
         flex-direction: column;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .who-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
       }
       .who-icon {
         width: 46px;
@@ -920,7 +931,7 @@
       <div class="container">
         
         <div>
-          <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.75rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">Who It's For</div>
+          <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.95rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">Who It's For</div>
           <h2 style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; color: #111827; line-height: 1.15; margin: 0; letter-spacing: -0.02em;">
             Built for every kind of hiring<br>team.
           </h2>
@@ -986,7 +997,7 @@
     <style>
       .industries-section {
         background: #0b1120;
-        padding: 6rem 0;
+        padding: 4.5rem 0;
       }
       .industries-container {
         display: grid;
@@ -1033,7 +1044,15 @@
         font-weight: 500;
         white-space: nowrap;
         background: transparent;
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: default;
+      }
+      .industry-pill:hover {
+        transform: translateY(-3px) scale(1.02);
+        background: rgba(255,255,255,0.08);
+        color: #9cfb60;
+        box-shadow: 0 4px 15px rgba(204, 255, 0, 0.15);
+        border-color: rgba(156, 251, 96, 0.4);
       }
       .industry-pill.highlight {
         border-color: #9cfb60;
@@ -1086,14 +1105,14 @@
     <style>
       .why-dtc-section {
         background: #f9f9f6;
-        padding: 6rem 0;
+        padding: 4.5rem 0;
       }
       .why-header {
         margin-bottom: 4rem;
       }
       .why-label {
         font-family: 'Inter', system-ui, sans-serif;
-        font-size: 0.75rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: #64748b;
         letter-spacing: 0.2em;
@@ -1125,6 +1144,11 @@
       .why-item {
         padding: 2.5rem 2rem;
         border-right: 1px solid #e8e8e4;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .why-item:hover {
+        background: #f8fafc;
+        box-shadow: inset 0 -4px 0 #9cfb60;
       }
       .why-item:last-child {
         border-right: none;
@@ -1219,12 +1243,13 @@
     <!-- How It Works Section -->
     <style>
       .how-section {
-        background: #f9f9f6;
-        padding-bottom: 6rem;
+        background: #ffffff;
+        padding-top: 1.5rem;
+        padding-bottom: 4.5rem;
       }
       .how-label {
         font-family: 'Inter', system-ui, sans-serif;
-        font-size: 0.75rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: #64748b;
         letter-spacing: 0.2em;
@@ -1254,6 +1279,12 @@
         display: flex;
         flex-direction: column;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .how-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+        border-color: #9cfb60;
       }
       .how-card-header {
         display: flex;
@@ -1368,7 +1399,7 @@
     <style>
       .packages-section {
         background: #fcfcf9;
-        padding-bottom: 6rem;
+        padding: 1.5rem 0 4.5rem 0;
       }
       .packages-header {
         display: grid;
@@ -1379,7 +1410,7 @@
       }
       .pack-label {
         font-family: 'Inter', system-ui, sans-serif;
-        font-size: 0.75rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: #64748b;
         letter-spacing: 0.2em;
@@ -1414,6 +1445,11 @@
         display: flex;
         flex-direction: column;
         position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .pack-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
       }
       .pack-card.popular {
         border: 1px solid #9cfb60;
@@ -1638,8 +1674,10 @@
     <!-- Metrics Banner Section -->
     <style>
       .metrics-banner {
-        background: #fcfcf9;
-        padding: 5rem 0;
+        background: #0f172a;
+        padding: 4.5rem 0;
+        color: #ffffff;
+        text-align: center;
       }
       .metrics-flex {
         display: flex;
@@ -1652,7 +1690,7 @@
         flex-direction: column;
         gap: 0.5rem;
         padding: 0 2.5rem;
-        border-left: 1px solid #e8e8e4;
+        border-left: 1px solid #334155;
         flex: 1;
       }
       .metric-item:first-child {
@@ -1666,7 +1704,7 @@
         font-family: 'Space Grotesk', system-ui, sans-serif;
         font-size: 2.25rem;
         font-weight: 600;
-        color: #111827;
+        color: #ffffff;
         line-height: 1;
         letter-spacing: -0.02em;
       }
@@ -1674,7 +1712,7 @@
         font-family: 'Inter', system-ui, sans-serif;
         font-size: 0.65rem;
         font-weight: 600;
-        color: #64748b;
+        color: #94a3b8;
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
@@ -1736,11 +1774,11 @@
     <style>
       .testimonials-section {
         background: #fcfcf9;
-        padding-bottom: 6rem;
+        padding: 1.5rem 0 4.5rem 0;
       }
       .testi-label {
         font-family: 'Inter', system-ui, sans-serif;
-        font-size: 0.75rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: #64748b;
         letter-spacing: 0.2em;
@@ -1772,6 +1810,14 @@
         justify-content: space-between;
         min-height: 220px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .testi-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 15px 30px rgba(15, 23, 42, 0.08);
+      }
+      .testi-card.dark:hover {
+        box-shadow: 0 15px 30px rgba(15, 23, 42, 0.2), 0 0 0 1px #9cfb60;
       }
       .testi-card.dark {
         background: #0b1120;
@@ -1850,7 +1896,7 @@
     <style>
       .faq-section {
         background: #fcfcf9;
-        padding-bottom: 8rem;
+        padding: 0 0 4.5rem 0;
       }
       .faq-header {
         text-align: center;
@@ -1858,7 +1904,7 @@
       }
       .faq-label {
         font-family: 'Inter', system-ui, sans-serif;
-        font-size: 0.75rem;
+        font-size: 0.95rem;
         font-weight: 700;
         color: #64748b;
         letter-spacing: 0.2em;
