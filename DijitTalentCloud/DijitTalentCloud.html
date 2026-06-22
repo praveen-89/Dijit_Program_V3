@@ -8,20 +8,131 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    
+    /* ── Light Theme Overrides ────────────────────────────── */
+    :root {
+      /* Deep Midnight + Electric Lime Theme */
+      --color-bg-base: #fafafa;
+      --color-bg-surface: #ffffff;
+      
+      --color-primary: #0f172a;
+      --color-primary-hover: #1e293b;
+      --color-accent: #ccff00;
+      
+      --glass-bg: rgba(0, 0, 0, 0.02);
+      --glass-bg-hover: rgba(0, 0, 0, 0.04);
+      --glass-border: rgba(0, 0, 0, 0.06);
+      --glass-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05);
+      
+      --color-text-primary: #1e293b;
+      --color-text-secondary: #64748b;
+      --color-text-muted: #94a3b8;
+    }
+    
     /* ── Landing Page Specific Styles ─────────────────────── */
     .hero-section {
-      padding: 3rem 0 2rem;
+      padding: 4rem 0 3rem;
       position: relative;
       overflow: hidden;
-      text-align: center;
+      background-color: var(--color-primary);
     }
     
     .hero-bg {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+      background: 
+        radial-gradient(circle at 20% 30%, rgba(204, 255, 0, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 60%, rgba(6, 182, 212, 0.15) 0%, transparent 40%);
       pointer-events: none;
-      z-index: -1;
+      z-index: 0;
+    }
+    
+    .hero-section .container {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Hero CTA Buttons */
+    .btn-hero-primary {
+      background: linear-gradient(90deg, #d4ff33 0%, #66ff66 100%);
+      color: #0f172a;
+      font-weight: 600;
+      padding: 0.875rem 2.25rem;
+      font-size: 1.125rem;
+      border-radius: 99px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      border: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 20px rgba(204, 255, 0, 0.2);
+    }
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(204, 255, 0, 0.4);
+      background: linear-gradient(90deg, #ddff4d 0%, #7dff7d 100%);
+    }
+
+    .btn-hero-secondary {
+      background: rgba(255,255,255,0.06);
+      color: #ffffff;
+      font-weight: 600;
+      padding: 0.875rem 2.25rem;
+      font-size: 1.125rem;
+      border-radius: 99px;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-hero-secondary:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-hero-ghost {
+      color: #e2e8f0;
+      font-size: 1.125rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-left: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    .btn-hero-ghost:hover {
+      color: #ffffff;
+      transform: translateX(4px);
+    }
+
+    .btn-primary {
+      background-color: var(--color-accent) !important;
+      color: #0f172a !important;
+      font-weight: 700 !important;
+    }
+    .btn-primary:hover {
+      background-color: #d6ff33 !important;
+      box-shadow: 0 4px 15px rgba(204, 255, 0, 0.4) !important;
+    }
+    .hero-section .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+    .hero-section .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.15) !important;
+    }
+    .hero-section .btn-ghost {
+      color: #ffffff !important;
+    }
+    .hero-section .btn-ghost:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
     }
 
     .hero-content {
@@ -49,7 +160,7 @@
       font-size: clamp(2rem, 4vw, 3rem);
       margin-bottom: var(--space-4);
       text-align: center;
-      background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+      background: linear-gradient(135deg, #0f172a 0%, #475569 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -78,7 +189,7 @@
 
     /* Cards */
     .feature-card {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(0, 0, 0, 0.02);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-xl);
       padding: var(--space-8);
@@ -88,7 +199,7 @@
       flex-direction: column;
     }
     .feature-card:hover {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.04);
       transform: translateY(-5px);
       box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2);
     }
@@ -119,20 +230,22 @@
 
     /* Pricing */
     .pricing-card {
-      background: rgba(17, 24, 39, 0.6);
+      background: #ffffff;
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-2xl);
       padding: var(--space-8);
       display: flex; flex-direction: column;
       transition: all var(--transition-normal);
+      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
     }
     .pricing-card:hover {
       transform: translateY(-10px);
       border-color: var(--color-primary);
+      box-shadow: 0 20px 40px -10px rgba(99, 102, 241, 0.15);
     }
     .pricing-card.popular {
       border-color: var(--color-primary);
-      background: linear-gradient(180deg, rgba(99, 102, 241, 0.1) 0%, rgba(17, 24, 39, 0.6) 100%);
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.03) 0%, #ffffff 100%);
       position: relative;
     }
     .pricing-card.popular::before {
@@ -167,7 +280,7 @@
     }
 
     .badge-industry {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.03);
       border: 1px solid var(--glass-border);
       padding: var(--space-3) var(--space-6);
       border-radius: 30px;
@@ -185,7 +298,7 @@
     .hero-image-card {
       border-radius: 1.25rem;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid rgba(0,0,0,0.1);
       box-shadow: 0 20px 60px -15px rgba(99, 102, 241, 0.3), 0 0 40px rgba(99, 102, 241, 0.1);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
@@ -197,421 +310,1834 @@
 </head>
 <body>
 
-  <header class="app-header" role="banner">
-    <div class="container flex justify-between items-center" style="height: 100%;">
-      <a href="#" class="logo" aria-label="DIJIT Talent Cloud Home">
-        <i class="ph ph-cloud-nodes" aria-hidden="true" style="color: var(--color-primary); font-size: 2rem;"></i>
-        <span style="font-weight: bold; font-size: 1.25rem;">DIJIT Talent Cloud</span>
+  <header class="app-header" role="banner" style="background-color: #ffffff; position: sticky; top: 0; z-index: 50; padding: 1rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; height: 100%;">
+      <!-- Logo -->
+      <a href="#" class="logo" aria-label="DIJIT Talent Cloud Home" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none;">
+        <div style="width: 36px; height: 36px; background-color: #0f172a; color: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 1.125rem;">D</div>
+        <span style="color: #0f172a; font-size: 1.125rem; font-family: 'Space Grotesk', system-ui, sans-serif;"><strong style="font-weight: 700;">DIJIT</strong> <span style="color: #475569;">Talent Cloud</span></span>
       </a>
 
-      <nav class="nav-links flex gap-6 items-center" id="main-nav" aria-label="Main navigation">
-        <a href="#about" class="nav-link">About</a>
-        <a href="#offerings" class="nav-link">Offerings</a>
-        <a href="#packages" class="nav-link">Packages</a>
-        <a href="pages/login.html" class="btn btn-ghost" style="margin-left: var(--space-4);">Log In</a>
+      <!-- Center Links -->
+      <nav class="nav-links" id="main-nav" aria-label="Main navigation" style="display: flex; gap: 2rem; align-items: center;">
+        <a href="#platform" class="nav-link" style="color: var(--color-text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s;">Platform</a>
+        <a href="#who-its-for" class="nav-link" style="color: var(--color-text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s;">Who it's for</a>
+        <a href="#pricing" class="nav-link" style="color: var(--color-text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s;">Pricing</a>
+        <a href="#how-it-works" class="nav-link" style="color: var(--color-text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s;">How it works</a>
+        <a href="#faq" class="nav-link" style="color: var(--color-text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s;">FAQ</a>
       </nav>
+
+      <!-- Right Buttons -->
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a href="#book-demo" style="background-color: #ffffff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 99px; padding: 0.5rem 1.25rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">Book a demo</a>
+        <a href="pages/login.html" style="background-color: #0f172a; color: #ffffff; border-radius: 99px; padding: 0.5rem 1.25rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.25rem; transition: all 0.2s;">Start hiring <i class="ph ph-arrow-up-right" style="font-size: 1rem;"></i></a>
+      </div>
     </div>
   </header>
 
   <main id="main-content">
 
     <!-- Hero Section -->
-    <section class="hero-section">
+    <section class="hero-section" style="padding: 6rem 0 5rem; text-align: left; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 40px 40px; background-position: center center;">
       <div class="hero-bg"></div>
-      <div class="container animate-slide-up" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
-        <!-- Left: Content -->
-        <div style="text-align: left;">
-          <span class="badge badge-primary" style="margin-bottom: 1.5rem; display: inline-block;">The Smart Hiring Platform for Modern Businesses</span>
-          <h1 style="font-size: clamp(3rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 1.5rem; background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Hire Smarter.<br>Faster. Better.</h1>
-          <p style="font-size: var(--text-xl); color: var(--color-text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
-            DIJIT Talent Cloud is an AI-powered recruitment and talent discovery platform designed to simplify hiring for businesses of all sizes. From job posting to talent search, candidate shortlisting to workforce solutions — we help organizations find the right talent at the right time.
+      <div class="container animate-slide-up" style="position: relative; z-index: 2;">
+        
+        <div style="max-width: 900px;">
+          <!-- Badge -->
+          <div style="display: inline-flex; align-items: center; gap: 0.425rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 0.3rem 0.85rem; border-radius: 99px; margin-bottom: 2rem;">
+            <div style="width: 5px; height: 5px; background-color: var(--color-accent); border-radius: 50%;"></div>
+            <span style="color: #cbd5e1; font-size: 0.74rem; font-weight: 500;">Hiring intelligence platform - India</span>
+          </div>
+
+          <!-- Headline -->
+          <h1 style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: clamp(3.15rem, 5.4vw, 4.95rem); line-height: 1.1; margin-bottom: 1.5rem; color: #ffffff; font-weight: 700; letter-spacing: -0.02em;">
+            Smarter hiring. <span style="color: var(--color-accent);">Better<br>talent.</span> Faster growth.
+          </h1>
+
+          <!-- Description -->
+          <p style="font-size: 1.25rem; color: #94a3b8; margin-bottom: 2.5rem; line-height: 1.6; max-width: 700px;">
+            DIJIT Talent Cloud is your complete hiring ecosystem — from job<br>posting and verified candidate discovery to AI matching and end-to-<br>end recruitment support.
           </p>
-          <p style="font-size: var(--text-md); color: var(--color-text-muted); margin-bottom: 2rem;">
-            Whether you're hiring for entry-level, mid-level, leadership, or niche positions, get access to verified, job-ready talent across industries.
-          </p>
-          <div class="flex items-center gap-4 flex-wrap">
-            <a href="#start" class="btn btn-primary btn-lg">Start Hiring</a>
-            <a href="#post" class="btn btn-secondary btn-lg">Post a Job</a>
-            <a href="#search" class="btn btn-ghost btn-lg" style="border: 1px solid var(--glass-border);">Search Talent</a>
+
+          <!-- CTAs -->
+          <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3rem;">
+            <a href="pages/login.html" class="btn-hero-primary">Start Hiring <i class="ph ph-arrow-up-right" style="font-weight: bold;"></i></a>
+            <a href="#demo" class="btn-hero-secondary">Book a Demo</a>
+            <a href="#explore" class="btn-hero-ghost">Explore Talent <span style="font-family: sans-serif;">→</span></a>
           </div>
         </div>
-        <!-- Right: Image Card -->
-        <div style="display: flex; justify-content: center; align-items: center;">
-          <div class="hero-image-card">
-            <img src="assets/hero-image.jpg" alt="DIJIT Talent Cloud - Smart Hiring" style="display: block; width: 100%; height: auto;">
+
+        <!-- Stats row inside Hero -->
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem; max-width: 1100px; width: 100%;">
+          <div>
+            <div style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 2.125rem; font-weight: 700; color: #ffffff; line-height: 1;">1M+</div>
+            <div style="font-family: 'Inter', system-ui, sans-serif; color: #94a3b8; font-size: 0.875rem; margin-top: 0.5rem;">Active candidates</div>
+          </div>
+          <div>
+            <div style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 2.125rem; font-weight: 700; color: #ffffff; line-height: 1;">5,000+</div>
+            <div style="font-family: 'Inter', system-ui, sans-serif; color: #94a3b8; font-size: 0.875rem; margin-top: 0.5rem;">Live jobs</div>
+          </div>
+          <div>
+            <div style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 2.125rem; font-weight: 700; color: #ffffff; line-height: 1;">500+</div>
+            <div style="font-family: 'Inter', system-ui, sans-serif; color: #94a3b8; font-size: 0.875rem; margin-top: 0.5rem;">Recruiters</div>
+          </div>
+          <div>
+            <div style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: 2.125rem; font-weight: 700; color: #ffffff; line-height: 1;">150+</div>
+            <div style="font-family: 'Inter', system-ui, sans-serif; color: #94a3b8; font-size: 0.875rem; margin-top: 0.5rem;">Cities</div>
           </div>
         </div>
+
       </div>
     </section>
 
+    <!-- Industries Sliding Ticker -->
+    <style>
+      .ticker-wrap {
+        width: 100%;
+        overflow: hidden;
+        background: #f6f5f0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+        padding: 0.84rem 0;
+        display: flex;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+      }
+      .ticker-container {
+        width: 90%;
+        margin: 0 auto;
+        overflow: hidden;
+      }
+      .ticker {
+        display: inline-flex;
+        align-items: center;
+        white-space: nowrap;
+        animation: marquee 40s linear infinite;
+      }
+      .ticker-item {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 1.05rem;
+        font-weight: 400;
+        color: #576574;
+        padding-left: 0.75rem;
+        padding-right: 1.75rem;
+        letter-spacing: -0.01em;
+        line-height: 1;
+      }
+      .ticker-dot {
+        width: 6px;
+        height: 6px;
+        background-color: #a0aab2;
+        border-radius: 50%;
+        display: inline-block;
+        flex-shrink: 0;
+      }
+      @keyframes marquee {
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-50%, 0, 0); }
+      }
+    </style>
+
+    <div class="ticker-wrap">
+      <div class="ticker-container">
+        <div class="ticker">
+          <!-- Group 1 -->
+          <span class="ticker-dot"></span><span class="ticker-item">Information Technology</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Semiconductor</span>
+          <span class="ticker-dot"></span><span class="ticker-item">BFSI</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Healthcare</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Manufacturing</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Automotive</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Retail</span>
+          <span class="ticker-dot"></span><span class="ticker-item">E-commerce</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Logistics</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Telecom</span>
+          <span class="ticker-dot"></span><span class="ticker-item">SaaS</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Product Engineering</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Education</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Consulting</span>
+          <!-- Group 2 (Duplicate for seamless loop) -->
+          <span class="ticker-dot"></span><span class="ticker-item">Information Technology</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Semiconductor</span>
+          <span class="ticker-dot"></span><span class="ticker-item">BFSI</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Healthcare</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Manufacturing</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Automotive</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Retail</span>
+          <span class="ticker-dot"></span><span class="ticker-item">E-commerce</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Logistics</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Telecom</span>
+          <span class="ticker-dot"></span><span class="ticker-item">SaaS</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Product Engineering</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Education</span>
+          <span class="ticker-dot"></span><span class="ticker-item">Consulting</span>
+        </div>
+      </div>
+    </div>
+
     <!-- About Section -->
-    <section id="about" class="section-padding" style="background: rgba(255,255,255,0.01);">
+    <style>
+      .about-section {
+        background: #f9f9f6;
+        padding: 6rem 0;
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1.9fr;
+        gap: 4rem;
+        align-items: start;
+      }
+      .about-cards-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+      .about-pill-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 99px;
+        padding: 0.85rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+      }
+      @media (max-width: 992px) {
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+      }
+      @media (max-width: 640px) {
+        .about-cards-grid {
+          grid-template-columns: 1fr;
+        }
+        .about-section {
+          padding: 4rem 0;
+        }
+      }
+    </style>
+
+    <section id="about" class="about-section">
       <div class="container">
-        <div class="grid-2" style="align-items: center;">
+        <div class="about-grid">
+          <!-- Left Column -->
           <div>
-            <h2 class="section-title">About DIJIT Talent Cloud</h2>
-            <p style="color: var(--color-text-secondary); font-size: var(--text-lg); margin-bottom: var(--space-6); line-height: 1.6;">
-              DIJIT Talent Cloud is a complete hiring ecosystem built for companies, consultancies, startups, and enterprise recruiters. It combines smart recruitment technology with DIJIT’s industry expertise to create a platform where hiring becomes faster, more efficient, and result-driven.
-            </p>
-            <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-4);">We help businesses:</h3>
-            <ul class="list-check" style="font-size: var(--text-lg); display: inline-block; text-align: left;">
-              <li><i class="ph-fill ph-check-circle"></i> Access quality talent</li>
-              <li><i class="ph-fill ph-check-circle"></i> Reduce hiring turnaround time</li>
-              <li><i class="ph-fill ph-check-circle"></i> Improve candidate quality</li>
-              <li><i class="ph-fill ph-check-circle"></i> Scale recruitment efforts</li>
-              <li><i class="ph-fill ph-check-circle"></i> Hire across multiple industries</li>
-            </ul>
+            <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.8rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">About DTC</div>
+            <h2 style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: clamp(2.25rem, 4vw, 3rem); font-weight: 700; color: #0f172a; line-height: 1.15; margin: 0; letter-spacing: -0.02em;">
+              Built to transform<br>how businesses hire.
+            </h2>
           </div>
-          <div style="position: relative;">
-            <div style="position: absolute; inset: 0; background: radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%); z-index: -1;"></div>
-            <div class="feature-card" style="background: rgba(17, 24, 39, 0.8); backdrop-filter: blur(10px);">
-              <div class="flex items-center gap-4" style="margin-bottom: var(--space-6); border-bottom: 1px solid var(--glass-border); padding-bottom: var(--space-4);">
-                <i class="ph-fill ph-rocket-launch" style="font-size: 2rem; color: var(--color-secondary);"></i>
-                <div>
-                  <h4 style="font-size: var(--text-lg); font-weight: 600;">Fast-track Hiring</h4>
-                  <p style="color: var(--color-text-muted); font-size: var(--text-sm);">Reduce manual effort with AI</p>
-                </div>
+          
+          <!-- Right Column -->
+          <div>
+            <p style="color: #475569; font-size: 1.05rem; line-height: 1.6; margin-top: 0; margin-bottom: 2rem;">
+              Backed by DIJIT's expertise in talent acquisition and workforce solutions, DTC combines recruitment technology with real hiring intelligence to create a powerful ecosystem for recruiters.
+            </p>
+            
+            <!-- Cards Grid -->
+            <div class="about-cards-grid">
+              
+              <!-- Card 1 -->
+              <div class="about-pill-card">
+                <i class="ph-bold ph-check" style="color: #0f172a; font-size: 0.95rem;"></i>
+                <span style="font-size: 0.925rem; font-weight: 600; color: #0f172a;">Find the right talent faster</span>
               </div>
-              <div class="flex items-center gap-4" style="margin-bottom: var(--space-6); border-bottom: 1px solid var(--glass-border); padding-bottom: var(--space-4);">
-                <i class="ph-fill ph-users-three" style="font-size: 2rem; color: var(--color-primary);"></i>
-                <div>
-                  <h4 style="font-size: var(--text-lg); font-weight: 600;">Verified Talent</h4>
-                  <p style="color: var(--color-text-muted); font-size: var(--text-sm);">Pre-screened & validated candidates</p>
-                </div>
+              
+              <!-- Card 2 -->
+              <div class="about-pill-card">
+                <i class="ph-bold ph-check" style="color: #0f172a; font-size: 0.95rem;"></i>
+                <span style="font-size: 0.925rem; font-weight: 600; color: #0f172a;">Reduce hiring time</span>
               </div>
-              <div class="flex items-center gap-4">
-                <i class="ph-fill ph-chart-line-up" style="font-size: 2rem; color: var(--color-success);"></i>
-                <div>
-                  <h4 style="font-size: var(--text-lg); font-weight: 600;">Scale Instantly</h4>
-                  <p style="color: var(--color-text-muted); font-size: var(--text-sm);">Built for companies of all sizes</p>
-                </div>
+              
+              <!-- Card 3 -->
+              <div class="about-pill-card">
+                <i class="ph-bold ph-check" style="color: #0f172a; font-size: 0.95rem;"></i>
+                <span style="font-size: 0.925rem; font-weight: 600; color: #0f172a;">Improve hiring quality</span>
               </div>
+              
+              <!-- Card 4 -->
+              <div class="about-pill-card">
+                <i class="ph-bold ph-check" style="color: #0f172a; font-size: 0.95rem;"></i>
+                <span style="font-size: 0.925rem; font-weight: 600; color: #0f172a;">Access verified candidate profiles</span>
+              </div>
+              
+              <!-- Card 5 -->
+              <div class="about-pill-card">
+                <i class="ph-bold ph-check" style="color: #0f172a; font-size: 0.95rem;"></i>
+                <span style="font-size: 0.925rem; font-weight: 600; color: #0f172a;">Manage multiple hiring requirements</span>
+              </div>
+              
+              <!-- Card 6 -->
+              <div class="about-pill-card">
+                <i class="ph-bold ph-check" style="color: #0f172a; font-size: 0.95rem;"></i>
+                <span style="font-size: 0.925rem; font-weight: 600; color: #0f172a;">Scale hiring operations</span>
+              </div>
+              
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- What We Offer -->
-    <section id="offerings" class="section-padding container">
-      <h2 class="section-title">What We Offer</h2>
-      <p class="section-subtitle">A comprehensive suite of tools and services designed to streamline every aspect of your recruitment process.</p>
-      
-      <div class="grid-3" style="margin-bottom: var(--space-12);">
-        <!-- Offer 1 -->
-        <div class="feature-card">
-          <div class="feature-icon"><i class="ph ph-briefcase"></i></div>
-          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">1. Job Posting Platform</h3>
-          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Post jobs and connect with active job seekers instantly.</p>
-          <ul class="list-check" style="font-size: var(--text-sm); margin-bottom: var(--space-4);">
-            <li><i class="ph-bold ph-check"></i> Quick job creation & Multi-role support</li>
-            <li><i class="ph-bold ph-check"></i> Industry-based targeting</li>
-            <li><i class="ph-bold ph-check"></i> Smart candidate recommendations</li>
-            <li><i class="ph-bold ph-check"></i> Premium visibility & Urgent tags</li>
-          </ul>
-          <p style="font-size: var(--text-xs); color: var(--color-primary); font-weight: 600;">Best for: Companies | Startups | Consultancies</p>
-        </div>
+    <!-- What DTC Offers -->
+    <style>
+      .offers-section {
+        background: #f9f9f6;
+        padding: 6rem 0;
+      }
+      .offers-header {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 3rem;
+        align-items: end;
+        margin-bottom: 4rem;
+      }
+      .offers-cards-top {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.25rem;
+        margin-bottom: 1.25rem;
+      }
+      .offers-cards-bottom {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+      }
+      .offer-card {
+        background: #ffffff;
+        border: 1px solid #e8e8e4;
+        border-radius: 16px;
+        padding: 2rem 1.75rem;
+        display: flex;
+        flex-direction: column;
+      }
+      .offer-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+      .offer-card-label {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #94a3b8;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .offer-card-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f5f9;
+        border-radius: 10px;
+        font-size: 1.15rem;
+        color: #0f172a;
+      }
+      .offer-card h3 {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin: 0 0 0.5rem 0;
+        line-height: 1.25;
+      }
+      .offer-card-desc {
+        font-size: 0.875rem;
+        color: #64748b;
+        line-height: 1.5;
+        margin-bottom: 1.25rem;
+      }
+      .offer-check-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex-grow: 1;
+      }
+      .offer-check-list li {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #1e293b;
+      }
+      .offer-check-list li i {
+        color: #0f172a;
+        font-size: 0.8rem;
+        flex-shrink: 0;
+      }
+      .offer-best-for {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        margin: 0;
+        padding-top: 0.75rem;
+        border-top: 1px solid #f1f5f9;
+      }
+      .offer-best-for span {
+        font-style: italic;
+        color: #64748b;
+      }
+      @media (max-width: 992px) {
+        .offers-header {
+          grid-template-columns: 1fr;
+          gap: 2rem;
+          align-items: start;
+        }
+        .offers-cards-top {
+          grid-template-columns: 1fr 1fr;
+        }
+        .offers-cards-bottom {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .offers-cards-top,
+        .offers-cards-bottom {
+          grid-template-columns: 1fr;
+        }
+        .offers-section {
+          padding: 4rem 0;
+        }
+      }
+    </style>
 
-        <!-- Offer 2 -->
-        <div class="feature-card">
-          <div class="feature-icon"><i class="ph ph-database"></i></div>
-          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">2. Resume Database</h3>
-          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Search through a large talent pool and find candidates based on your requirements.</p>
-          <ul class="list-check" style="font-size: var(--text-sm);">
-            <li><i class="ph-bold ph-check"></i> Advanced search filters (Skill, Exp, Loc)</li>
-            <li><i class="ph-bold ph-check"></i> Salary & Industry filters</li>
-            <li><i class="ph-bold ph-check"></i> Candidate contact unlocks</li>
-            <li><i class="ph-bold ph-check"></i> Verified candidate profiles</li>
-          </ul>
-        </div>
-
-        <!-- Offer 3 -->
-        <div class="feature-card" style="border-color: rgba(99,102,241,0.3); background: rgba(99,102,241,0.02);">
-          <div class="feature-icon"><i class="ph ph-brain"></i></div>
-          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">3. AI Candidate Matching</h3>
-          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Our smart matching engine helps recruiters identify the most relevant candidates.</p>
-          <ul class="list-check" style="font-size: var(--text-sm); margin-bottom: var(--space-4);">
-            <li><i class="ph-bold ph-check"></i> Matches skills & experience relevance</li>
-            <li><i class="ph-bold ph-check"></i> Location & Salary fit analysis</li>
-            <li><i class="ph-bold ph-check"></i> Industry relevance mapping</li>
-          </ul>
-          <div style="background: rgba(16, 185, 129, 0.1); color: var(--color-success); padding: 8px; border-radius: 8px; font-size: var(--text-xs); font-weight: 600;">
-            Benefits: Faster shortlisting. Better hiring accuracy. Less manual effort.
-          </div>
-        </div>
-      </div>
-
-      <div class="grid-2">
-        <!-- Offer 4 -->
-        <div class="feature-card">
-          <div class="feature-icon"><i class="ph ph-users-three"></i></div>
-          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">4. Talent Acquisition Support</h3>
-          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Need hiring support beyond the platform? DIJIT provides comprehensive recruitment services.</p>
-          <div class="flex flex-wrap gap-2" style="margin-bottom: var(--space-4);">
-            <span class="badge badge-secondary">Permanent Hiring</span>
-            <span class="badge badge-secondary">Leadership</span>
-            <span class="badge badge-secondary">Bulk Hiring</span>
-            <span class="badge badge-secondary">Contract Staffing</span>
-            <span class="badge badge-secondary">RPO Solutions</span>
-            <span class="badge badge-secondary">Niche Hiring</span>
-          </div>
-          <p style="font-size: var(--text-sm); color: var(--color-text-muted);">Gives clients both technology and service support.</p>
-        </div>
-
-        <!-- Offer 5 -->
-        <div class="feature-card">
-          <div class="feature-icon"><i class="ph ph-graduation-cap"></i></div>
-          <h3 style="font-size: var(--text-xl); margin-bottom: var(--space-2);">5. Campus Hiring Solutions</h3>
-          <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">Hire fresh talent directly from colleges and universities.</p>
-          <ul class="list-check" style="font-size: var(--text-sm); margin-bottom: var(--space-4);">
-            <li><i class="ph-bold ph-check"></i> Campus & Virtual hiring drives</li>
-            <li><i class="ph-bold ph-check"></i> Fresher campaigns & Internships</li>
-            <li><i class="ph-bold ph-check"></i> Skill-based assessments</li>
-          </ul>
-          <p style="font-size: var(--text-xs); color: var(--color-primary); font-weight: 600;">Perfect for building early-career talent pipelines.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Industries & Why Choose Us Section -->
-    <section class="section-padding" style="background: linear-gradient(180deg, transparent 0%, rgba(99,102,241,0.05) 100%);">
+    <section id="platform" class="offers-section">
       <div class="container">
-        <h2 class="section-title">Industries We Serve</h2>
-        <div style="display: grid; grid-template-columns: repeat(5, auto); gap: var(--space-4) var(--space-6); justify-content: center; margin-bottom: 4rem; align-items: center;">
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-desktop"></i> Information Technology</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-cpu"></i> Semiconductor</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-bank"></i> BFSI</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-heartbeat"></i> Healthcare & Pharma</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-car"></i> Automotive</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-factory"></i> Manufacturing</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-shopping-cart"></i> E-commerce</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-storefront"></i> Retail</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-truck"></i> Logistics</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-wrench"></i> Product Engineering</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-rocket"></i> Startups</span>
-          <span class="badge-industry" style="width: 100%;"><i class="ph ph-cloud"></i> SaaS Companies</span>
+
+        <!-- Section Header -->
+        <div class="offers-header">
+          <div>
+            <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.8rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">What DTC Offers</div>
+            <h2 style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: clamp(2.25rem, 4vw, 3.25rem); font-weight: 600; color: #111827; line-height: 1.15; margin: 0; letter-spacing: -0.02em;">
+              One platform. Every<br>hiring lever you need.
+            </h2>
+          </div>
+          <div>
+            <p style="color: #4b5563; font-size: 1.05rem; line-height: 1.6; margin: 0; max-width: 520px;">
+              From the first job post to the final offer — we replace 4 to 5 tools and a stack of spreadsheets with a single, intelligent workspace.
+            </p>
+          </div>
         </div>
 
-        <h2 class="section-title">Why Choose DIJIT Talent Cloud?</h2>
-        <div class="grid-3" style="margin-top: var(--space-12);">
-          <div class="text-center">
-            <i class="ph ph-lightning" style="font-size: 3rem; color: var(--color-warning); margin-bottom: var(--space-4);"></i>
-            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Faster Hiring</h4>
-            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Reduce hiring timelines with AI-driven search and matching.</p>
+        <!-- Top Row: 3 Cards -->
+        <div class="offers-cards-top">
+
+          <!-- Card 01 - Jobs -->
+          <div class="offer-card">
+            <div class="offer-card-header">
+              <span class="offer-card-label">01 · Jobs</span>
+              <div class="offer-card-icon"><i class="ph ph-buildings"></i></div>
+            </div>
+            <h3>Job Posting Solutions</h3>
+            <p class="offer-card-desc">Post jobs and connect with active job seekers instantly.</p>
+            <ul class="offer-check-list">
+              <li><i class="ph-bold ph-check"></i> Quick Job Creation</li>
+              <li><i class="ph-bold ph-check"></i> Multi-role Job Posting</li>
+              <li><i class="ph-bold ph-check"></i> Premium Job Visibility</li>
+              <li><i class="ph-bold ph-check"></i> Urgent Hiring Tags</li>
+              <li><i class="ph-bold ph-check"></i> Industry-based Targeting</li>
+              <li><i class="ph-bold ph-check"></i> Application Management</li>
+              <li><i class="ph-bold ph-check"></i> Recruiter Dashboard</li>
+            </ul>
+            <p class="offer-best-for">Best for: <span>Startups · Companies · Consultancies · Enterprises</span></p>
           </div>
-          <div class="text-center">
-            <i class="ph ph-shield-check" style="font-size: 3rem; color: var(--color-success); margin-bottom: var(--space-4);"></i>
-            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Verified Talent Pool</h4>
-            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Access candidates who are screened and validated.</p>
+
+          <!-- Card 02 - Database -->
+          <div class="offer-card">
+            <div class="offer-card-header">
+              <span class="offer-card-label">02 · Database</span>
+              <div class="offer-card-icon"><i class="ph ph-magnifying-glass"></i></div>
+            </div>
+            <h3>Resume Database Access</h3>
+            <p class="offer-card-desc">Search and access talent based on your hiring needs.</p>
+            <ul class="offer-check-list">
+              <li><i class="ph-bold ph-check"></i> Advanced Candidate Search</li>
+              <li><i class="ph-bold ph-check"></i> Skill-Based Search</li>
+              <li><i class="ph-bold ph-check"></i> Experience & Location Filters</li>
+              <li><i class="ph-bold ph-check"></i> Salary & Industry Filters</li>
+              <li><i class="ph-bold ph-check"></i> Candidate Contact Unlocks</li>
+              <li><i class="ph-bold ph-check"></i> Verified Profiles</li>
+            </ul>
+            <p class="offer-best-for">Best for: <span>Recruiters who want direct talent access</span></p>
           </div>
-          <div class="text-center">
-            <i class="ph ph-globe" style="font-size: 3rem; color: var(--color-primary); margin-bottom: var(--space-4);"></i>
-            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Multi-Industry Expertise</h4>
-            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Specialized hiring support across diverse domains.</p>
+
+          <!-- Card 03 - AI -->
+          <div class="offer-card">
+            <div class="offer-card-header">
+              <span class="offer-card-label">03 · AI</span>
+              <div class="offer-card-icon"><i class="ph ph-brain"></i></div>
+            </div>
+            <h3>AI-Powered Candidate Matching</h3>
+            <p class="offer-card-desc">Smart hiring intelligence to identify best-fit candidates.</p>
+            <ul class="offer-check-list">
+              <li><i class="ph-bold ph-check"></i> Job requirement mapping</li>
+              <li><i class="ph-bold ph-check"></i> Skills matching</li>
+              <li><i class="ph-bold ph-check"></i> Experience analysis</li>
+              <li><i class="ph-bold ph-check"></i> Salary & location fit</li>
+              <li><i class="ph-bold ph-check"></i> Faster shortlisting</li>
+              <li><i class="ph-bold ph-check"></i> Reduced manual screening</li>
+            </ul>
+            <p class="offer-best-for">Best for: <span>Improved recruiter productivity</span></p>
           </div>
-          <div class="text-center">
-            <i class="ph ph-headset" style="font-size: 3rem; color: var(--color-secondary); margin-bottom: var(--space-4);"></i>
-            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Dedicated Support</h4>
-            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Backed by DIJIT’s experienced talent acquisition team.</p>
+
+        </div>
+
+        <!-- Bottom Row: 2 Cards -->
+        <div class="offers-cards-bottom">
+
+          <!-- Card 04 - Services -->
+          <div class="offer-card">
+            <div class="offer-card-header">
+              <span class="offer-card-label">04 · Services</span>
+              <div class="offer-card-icon"><i class="ph ph-users-three"></i></div>
+            </div>
+            <h3>Recruitment Support Services</h3>
+            <p class="offer-card-desc">Need support beyond technology? Get expert recruiters on demand.</p>
+            <ul class="offer-check-list">
+              <li><i class="ph-bold ph-check"></i> Permanent Hiring</li>
+              <li><i class="ph-bold ph-check"></i> Leadership Hiring</li>
+              <li><i class="ph-bold ph-check"></i> Bulk Hiring</li>
+              <li><i class="ph-bold ph-check"></i> Contract Staffing</li>
+              <li><i class="ph-bold ph-check"></i> Executive Search</li>
+              <li><i class="ph-bold ph-check"></i> Specialized Hiring</li>
+            </ul>
+            <p class="offer-best-for">Best for: <span>Platform access + expert support</span></p>
           </div>
-          <div class="text-center">
-            <i class="ph ph-puzzle-piece" style="font-size: 3rem; color: #a855f7; margin-bottom: var(--space-4);"></i>
-            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Flexible Plans</h4>
-            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Packages designed for startups, SMEs, consultancies, and enterprises.</p>
+
+          <!-- Card 05 - Campus -->
+          <div class="offer-card">
+            <div class="offer-card-header">
+              <span class="offer-card-label">05 · Campus</span>
+              <div class="offer-card-icon"><i class="ph ph-graduation-cap"></i></div>
+            </div>
+            <h3>Campus Hiring Solutions</h3>
+            <p class="offer-card-desc">Build your future workforce with fresh talent.</p>
+            <ul class="offer-check-list">
+              <li><i class="ph-bold ph-check"></i> Virtual Hiring Drives</li>
+              <li><i class="ph-bold ph-check"></i> Campus Placement Drives</li>
+              <li><i class="ph-bold ph-check"></i> Internship Hiring</li>
+              <li><i class="ph-bold ph-check"></i> Fresher Hiring Campaigns</li>
+              <li><i class="ph-bold ph-check"></i> College Partnership Programs</li>
+            </ul>
+            <p class="offer-best-for">Best for: <span>Young talent pipelines</span></p>
           </div>
-          <div class="text-center">
-            <i class="ph ph-network" style="font-size: 3rem; color: #ec4899; margin-bottom: var(--space-4);"></i>
-            <h4 style="font-size: var(--text-lg); margin-bottom: var(--space-2);">Strong Talent Network</h4>
-            <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Thousands of active job seekers and professionals at your fingertips.</p>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Who It's For Section -->
+    <style>
+      .who-section {
+        background: #f9f9f6;
+        padding-bottom: 6rem;
+      }
+      .who-cards {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.25rem;
+        margin-top: 3.5rem;
+      }
+      .who-card {
+        background: #ffffff;
+        border: 1px solid #e8e8e4;
+        border-radius: 20px;
+        padding: 2.25rem 1.75rem;
+        display: flex;
+        flex-direction: column;
+      }
+      .who-icon {
+        width: 46px;
+        height: 46px;
+        background: #9cfb60;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.75rem;
+        color: #1a2e05;
+        font-size: 1.25rem;
+      }
+      .who-card h3 {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.75rem;
+      }
+      .who-card p {
+        font-size: 0.85rem;
+        color: #64748b;
+        line-height: 1.6;
+        margin-bottom: 1.75rem;
+        min-height: 2.5rem;
+      }
+      .who-card-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-top: 1px solid #f1f5f9;
+        padding-top: 1.5rem;
+        flex-grow: 1;
+      }
+      .who-card-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.6rem;
+        font-size: 0.85rem;
+        color: #334155;
+        margin-bottom: 0.85rem;
+        line-height: 1.4;
+        font-weight: 500;
+      }
+      .who-card-list li i {
+        color: #111827;
+        font-size: 0.9rem;
+        margin-top: 0.15rem;
+      }
+      @media (max-width: 1024px) {
+        .who-cards {
+          grid-template-columns: repeat(2, 1fr);
+          gap: 1.5rem;
+        }
+      }
+      @media (max-width: 640px) {
+        .who-cards {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <section id="who-its-for" class="who-section">
+      <div class="container">
+        
+        <div>
+          <div style="font-family: 'Inter', system-ui, sans-serif; font-size: 0.75rem; font-weight: 700; color: #64748b; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.25rem;">Who It's For</div>
+          <h2 style="font-family: 'Space Grotesk', system-ui, sans-serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; color: #111827; line-height: 1.15; margin: 0; letter-spacing: -0.02em;">
+            Built for every kind of hiring<br>team.
+          </h2>
+        </div>
+
+        <div class="who-cards">
+          
+          <!-- Card 1 -->
+          <div class="who-card">
+            <div class="who-icon"><i class="ph ph-buildings"></i></div>
+            <h3>Companies</h3>
+            <p>Hire full-time, contract, and leadership talent.</p>
+            <ul class="who-card-list">
+              <li><i class="ph-light ph-check"></i> Direct candidate access</li>
+              <li><i class="ph-light ph-check"></i> Faster hiring</li>
+              <li><i class="ph-light ph-check"></i> Reduced vendor dependency</li>
+            </ul>
           </div>
+
+          <!-- Card 2 -->
+          <div class="who-card">
+            <div class="who-icon"><i class="ph ph-tree-structure"></i></div>
+            <h3>Consultancies</h3>
+            <p>Manage multiple client requirements efficiently.</p>
+            <ul class="who-card-list">
+              <li><i class="ph-light ph-check"></i> Resume database access</li>
+              <li><i class="ph-light ph-check"></i> Candidate unlocks</li>
+              <li><i class="ph-light ph-check"></i> Job posting credits</li>
+              <li><i class="ph-light ph-check"></i> Faster sourcing</li>
+            </ul>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="who-card">
+            <div class="who-icon"><i class="ph ph-rocket-launch"></i></div>
+            <h3>Startups</h3>
+            <p>Build teams without heavy multi-platform spend.</p>
+            <ul class="who-card-list">
+              <li><i class="ph-light ph-check"></i> Affordable packages</li>
+              <li><i class="ph-light ph-check"></i> Faster team building</li>
+              <li><i class="ph-light ph-check"></i> Quality talent access</li>
+            </ul>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="who-card">
+            <div class="who-icon"><i class="ph ph-factory"></i></div>
+            <h3>Enterprises</h3>
+            <p>Scale with large and niche requirements.</p>
+            <ul class="who-card-list">
+              <li><i class="ph-light ph-check"></i> Dedicated hiring support</li>
+              <li><i class="ph-light ph-check"></i> Leadership hiring</li>
+              <li><i class="ph-light ph-check"></i> High-volume campaigns</li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Industries Section -->
+    <style>
+      .industries-section {
+        background: #0b1120;
+        padding: 6rem 0;
+      }
+      .industries-container {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .industry-label {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #9cfb60;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .industry-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: clamp(2.25rem, 4vw, 3.25rem);
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.15;
+        margin: 0 0 1.5rem 0;
+        letter-spacing: -0.02em;
+      }
+      .industry-desc {
+        color: #94a3b8;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        margin: 0;
+        max-width: 480px;
+      }
+      .industry-pills-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.85rem;
+      }
+      .industry-pill {
+        padding: 0.65rem 1.25rem;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 9999px;
+        color: #cbd5e1;
+        font-size: 0.875rem;
+        font-weight: 500;
+        white-space: nowrap;
+        background: transparent;
+        transition: all 0.3s ease;
+      }
+      .industry-pill.highlight {
+        border-color: #9cfb60;
+        color: #9cfb60;
+      }
+      @media (max-width: 992px) {
+        .industries-container {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+      }
+    </style>
+
+    <section class="industries-section">
+      <div class="container industries-container">
+        <!-- Left Side: Text -->
+        <div>
+          <div class="industry-label">INDUSTRIES</div>
+          <h2 class="industry-title">
+            Domain depth across<br>14 high-growth<br>sectors.
+          </h2>
+          <p class="industry-desc">
+            Specialist recruiters and curated talent pools — so you skip the learning curve and hire from day one.
+          </p>
+        </div>
+
+        <!-- Right Side: Pills -->
+        <div class="industry-pills-wrap">
+          <span class="industry-pill highlight">Information Technology</span>
+          <span class="industry-pill">Semiconductor</span>
+          <span class="industry-pill">BFSI</span>
+          <span class="industry-pill">Healthcare</span>
+          <span class="industry-pill">Manufacturing</span>
+          
+          <span class="industry-pill highlight">Automotive</span>
+          <span class="industry-pill">Retail</span>
+          <span class="industry-pill">E-commerce</span>
+          <span class="industry-pill">Logistics</span>
+          <span class="industry-pill">Telecom</span>
+          <span class="industry-pill highlight">SaaS</span>
+          
+          <span class="industry-pill">Product Engineering</span>
+          <span class="industry-pill">Education</span>
+          <span class="industry-pill">Consulting</span>
         </div>
       </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="section-padding container">
-      <h2 class="section-title">How It Works</h2>
-      <p class="section-subtitle">Your journey to finding the perfect candidate is just 5 steps away.</p>
-      
-      <div class="grid-4" style="grid-template-columns: repeat(5, 1fr); gap: var(--space-4); margin-top: var(--space-12);">
-        <div class="step-card">
-          <div class="step-number">1</div>
-          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Create Account</h4>
-          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Register as a Company or Consultancy.</p>
+    <!-- Why DTC Section -->
+    <style>
+      .why-dtc-section {
+        background: #f9f9f6;
+        padding: 6rem 0;
+      }
+      .why-header {
+        margin-bottom: 4rem;
+      }
+      .why-label {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748b;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .why-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: clamp(2.25rem, 4vw, 3.25rem);
+        font-weight: 600;
+        color: #111827;
+        line-height: 1.15;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+      .why-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .why-row {
+        background: #ffffff;
+        border: 1px solid #e8e8e4;
+        border-radius: 24px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        overflow: hidden;
+      }
+      .why-item {
+        padding: 2.5rem 2rem;
+        border-right: 1px solid #e8e8e4;
+      }
+      .why-item:last-child {
+        border-right: none;
+      }
+      .why-num {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #64748b;
+        margin-bottom: 1.5rem;
+      }
+      .why-item-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.75rem;
+      }
+      .why-item-desc {
+        font-size: 0.875rem;
+        color: #64748b;
+        line-height: 1.6;
+        margin: 0;
+      }
+      @media (max-width: 992px) {
+        .why-row {
+          grid-template-columns: 1fr;
+        }
+        .why-item {
+          border-right: none;
+          border-bottom: 1px solid #e8e8e4;
+        }
+        .why-item:last-child {
+          border-bottom: none;
+        }
+      }
+    </style>
+
+    <section class="why-dtc-section">
+      <div class="container">
+        
+        <div class="why-header">
+          <div class="why-label">WHY DTC</div>
+          <h2 class="why-title">
+            Better outcomes, not just<br>more tools.
+          </h2>
         </div>
-        <div class="step-card">
-          <div class="step-number">2</div>
-          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Choose Package</h4>
-          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Select based on resume access & job credits.</p>
+
+        <div class="why-grid">
+          <!-- Row 1 -->
+          <div class="why-row">
+            <div class="why-item">
+              <div class="why-num">01</div>
+              <h4 class="why-item-title">Faster Hiring</h4>
+              <p class="why-item-desc">Reduce time-to-hire with smart search and AI matching.</p>
+            </div>
+            <div class="why-item">
+              <div class="why-num">02</div>
+              <h4 class="why-item-title">Verified Talent</h4>
+              <p class="why-item-desc">Access profiles that are active and validated.</p>
+            </div>
+            <div class="why-item">
+              <div class="why-num">03</div>
+              <h4 class="why-item-title">Multi-Industry Expertise</h4>
+              <p class="why-item-desc">Support across 14+ sectors with domain recruiters.</p>
+            </div>
+          </div>
+          
+          <!-- Row 2 -->
+          <div class="why-row">
+            <div class="why-item">
+              <div class="why-num">04</div>
+              <h4 class="why-item-title">Flexible Plans</h4>
+              <p class="why-item-desc">Choose plans based on your real hiring volume.</p>
+            </div>
+            <div class="why-item">
+              <div class="why-num">05</div>
+              <h4 class="why-item-title">Recruitment Expertise</h4>
+              <p class="why-item-desc">Powered by DIJIT's talent acquisition team.</p>
+            </div>
+            <div class="why-item">
+              <div class="why-num">06</div>
+              <h4 class="why-item-title">Better Hiring Results</h4>
+              <p class="why-item-desc">Improve quality of hires and reduce attrition.</p>
+            </div>
+          </div>
         </div>
-        <div class="step-card">
-          <div class="step-number">3</div>
-          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Post or Search</h4>
-          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Use advanced filters to find right talent.</p>
+
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <style>
+      .how-section {
+        background: #f9f9f6;
+        padding-bottom: 6rem;
+      }
+      .how-label {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748b;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .how-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: clamp(2.25rem, 4vw, 3.25rem);
+        font-weight: 600;
+        color: #111827;
+        line-height: 1.15;
+        margin: 0;
+        letter-spacing: -0.02em;
+        margin-bottom: 4rem;
+      }
+      .how-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1.25rem;
+      }
+      .how-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 20px;
+        padding: 2rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      }
+      .how-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2.5rem;
+      }
+      .how-card-num {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: #cbd5e1;
+      }
+      .how-card-dash {
+        width: 24px;
+        height: 2px;
+        background: #e2e8f0;
+      }
+      .how-card-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.75rem;
+      }
+      .how-card-desc {
+        font-size: 0.85rem;
+        color: #64748b;
+        line-height: 1.5;
+        margin: 0;
+      }
+      @media (max-width: 1024px) {
+        .how-grid {
+          grid-template-columns: repeat(3, 1fr);
+          row-gap: 1.5rem;
+        }
+      }
+      @media (max-width: 640px) {
+        .how-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <section id="how-it-works" class="how-section">
+      <div class="container">
+        
+        <div class="how-header">
+          <div class="how-label">HOW IT WORKS</div>
+          <h2 class="how-title">
+            From signup to first hire in 5<br>steps.
+          </h2>
         </div>
-        <div class="step-card">
-          <div class="step-number">4</div>
-          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Shortlist & Connect</h4>
-          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Unlock profiles and reach candidates directly.</p>
-        </div>
-        <div class="step-card">
-          <div class="step-number">5</div>
-          <h4 style="font-size: var(--text-md); margin-bottom: var(--space-2);">Hire Successfully</h4>
-          <p style="font-size: var(--text-sm); color: var(--color-text-secondary);">Close positions faster with quality talent.</p>
+
+        <div class="how-grid">
+          
+          <!-- Step 1 -->
+          <div class="how-card">
+            <div class="how-card-header">
+              <span class="how-card-num">01</span>
+              <div class="how-card-dash"></div>
+            </div>
+            <h4 class="how-card-title">Create your account</h4>
+            <p class="how-card-desc">Register as a Company or Consultancy in minutes.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="how-card">
+            <div class="how-card-header">
+              <span class="how-card-num">02</span>
+              <div class="how-card-dash"></div>
+            </div>
+            <h4 class="how-card-title">Choose your plan</h4>
+            <p class="how-card-desc">Pick resume access, job credits and unlock volume.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="how-card">
+            <div class="how-card-header">
+              <span class="how-card-num">03</span>
+              <div class="how-card-dash"></div>
+            </div>
+            <h4 class="how-card-title">Start hiring</h4>
+            <p class="how-card-desc">Post jobs or search the candidate database.</p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="how-card">
+            <div class="how-card-header">
+              <span class="how-card-num">04</span>
+              <div class="how-card-dash"></div>
+            </div>
+            <h4 class="how-card-title">Shortlist & connect</h4>
+            <p class="how-card-desc">Unlock profiles and reach out directly.</p>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="how-card">
+            <div class="how-card-header">
+              <span class="how-card-num">05</span>
+              <div class="how-card-dash"></div>
+            </div>
+            <h4 class="how-card-title">Hire successfully</h4>
+            <p class="how-card-desc">Close positions faster with quality talent.</p>
+          </div>
+
         </div>
       </div>
     </section>
 
     <!-- Packages Section -->
-    <section id="packages" class="section-padding" style="background: rgba(255,255,255,0.01);">
+    <style>
+      .packages-section {
+        background: #fcfcf9;
+        padding-bottom: 6rem;
+      }
+      .packages-header {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 3rem;
+        align-items: center;
+        margin-bottom: 4rem;
+      }
+      .pack-label {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748b;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .pack-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: clamp(2.25rem, 4vw, 3.25rem);
+        font-weight: 600;
+        color: #111827;
+        line-height: 1.15;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+      .pack-desc {
+        color: #64748b;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+      .pack-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+      }
+      .pack-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        padding: 2.5rem 1.75rem;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .pack-card.popular {
+        border: 1px solid #9cfb60;
+      }
+      .popular-badge {
+        position: absolute;
+        top: -12px;
+        left: 24px;
+        background: #9cfb60;
+        color: #1a2e05;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.35rem 0.85rem;
+        border-radius: 9999px;
+      }
+      .pack-name {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 0.25rem;
+      }
+      .pack-subtitle {
+        font-size: 0.8rem;
+        color: #64748b;
+        margin-bottom: 1.5rem;
+      }
+      .pack-price-wrap {
+        display: flex;
+        align-items: baseline;
+        gap: 0.25rem;
+        margin-bottom: 1.5rem;
+        height: 40px;
+      }
+      .pack-price {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 2.25rem;
+        font-weight: 700;
+        color: #111827;
+        letter-spacing: -0.02em;
+      }
+      .pack-price-period {
+        font-size: 0.8rem;
+        color: #64748b;
+      }
+      .pack-divider {
+        height: 1px;
+        background: #f1f5f9;
+        margin-bottom: 1.5rem;
+        width: 100%;
+      }
+      .pack-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2.5rem 0;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .pack-features li {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-size: 0.85rem;
+        color: #334155;
+      }
+      .pack-features li i {
+        color: #111827;
+        font-size: 0.9rem;
+      }
+      .pack-btn {
+        width: 100%;
+        padding: 0.85rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        cursor: pointer;
+      }
+      .pack-btn-outline {
+        background: #fafaf9;
+        border: 1px solid #e8e8e4;
+        color: #111827;
+      }
+      .pack-btn-outline:hover {
+        background: #f5f5f4;
+      }
+      .pack-btn-dark {
+        background: #0b1120;
+        border: 1px solid #0b1120;
+        color: #ffffff;
+      }
+      .pack-btn-dark:hover {
+        background: #1e293b;
+      }
+      @media (max-width: 1024px) {
+        .packages-header {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        .pack-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        .pack-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <section id="pricing" class="packages-section">
       <div class="container">
-        <h2 class="section-title">Talent Cloud Packages</h2>
-        <p class="section-subtitle">Flexible plans tailored to your hiring needs.</p>
         
-        <div class="grid-4" style="margin-top: var(--space-12);">
-          <!-- Starter -->
-          <div class="pricing-card">
-            <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-2);">Starter</h3>
-            <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-6); min-height: 40px;">For startups and small businesses</p>
-            <ul class="list-check" style="flex-grow: 1; margin-bottom: var(--space-8);">
-              <li><i class="ph-bold ph-check"></i> Resume database access</li>
-              <li><i class="ph-bold ph-check"></i> Job posting credits</li>
-              <li><i class="ph-bold ph-check"></i> Candidate unlocks</li>
-              <li><i class="ph-bold ph-check"></i> Basic AI recommendations</li>
-            </ul>
-            <button class="btn btn-secondary w-full" style="width: 100%;">Select Starter</button>
+        <div class="packages-header">
+          <div>
+            <div class="pack-label">PACKAGES</div>
+            <h2 class="pack-title">
+              Transparent pricing. Real<br>hiring power.
+            </h2>
           </div>
+          <div style="display: flex; align-items: flex-end; height: 100%;">
+            <p class="pack-desc" style="padding-bottom: 0.5rem;">
+              Starting prices. All plans include verified candidate<br>access and recruiter dashboard.
+            </p>
+          </div>
+        </div>
+
+        <div class="pack-grid">
           
-          <!-- Professional -->
-          <div class="pricing-card popular">
-            <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-2); color: var(--color-primary);">Professional</h3>
-            <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-6); min-height: 40px;">For growing companies</p>
-            <ul class="list-check" style="flex-grow: 1; margin-bottom: var(--space-8);">
-              <li><i class="ph-bold ph-check"></i> Higher candidate unlocks</li>
-              <li><i class="ph-bold ph-check"></i> Premium job postings</li>
-              <li><i class="ph-bold ph-check"></i> Better visibility</li>
-              <li><i class="ph-bold ph-check"></i> AI smart matching</li>
+          <!-- Starter -->
+          <div class="pack-card">
+            <div>
+              <h3 class="pack-name">Starter</h3>
+              <p class="pack-subtitle">Best for startups</p>
+              <div class="pack-price-wrap">
+                <span class="pack-price">₹4,999</span>
+                <span class="pack-price-period">/ starting</span>
+              </div>
+            </div>
+            <div class="pack-divider"></div>
+            <ul class="pack-features">
+              <li><i class="ph-light ph-check"></i> 2 Job Posts</li>
+              <li><i class="ph-light ph-check"></i> 200 Candidate Unlocks</li>
+              <li><i class="ph-light ph-check"></i> Resume Search Access</li>
             </ul>
-            <button class="btn btn-primary w-full" style="width: 100%;">Select Professional</button>
+            <a href="#" class="pack-btn pack-btn-outline">Get Started <i class="ph-bold ph-arrow-up-right"></i></a>
+          </div>
+
+          <!-- Professional -->
+          <div class="pack-card popular">
+            <span class="popular-badge">Most popular</span>
+            <div>
+              <h3 class="pack-name">Professional</h3>
+              <p class="pack-subtitle">Best for growing companies</p>
+              <div class="pack-price-wrap">
+                <span class="pack-price">₹14,999</span>
+                <span class="pack-price-period">/ starting</span>
+              </div>
+            </div>
+            <div class="pack-divider"></div>
+            <ul class="pack-features">
+              <li><i class="ph-light ph-check"></i> 10 Job Posts</li>
+              <li><i class="ph-light ph-check"></i> 1,000 Candidate Unlocks</li>
+              <li><i class="ph-light ph-check"></i> AI Candidate Matching</li>
+              <li><i class="ph-light ph-check"></i> Premium Job Visibility</li>
+            </ul>
+            <a href="#" class="pack-btn pack-btn-dark">Choose Professional <i class="ph-bold ph-arrow-up-right"></i></a>
           </div>
 
           <!-- Premium -->
-          <div class="pricing-card">
-            <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-2);">Premium</h3>
-            <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-6); min-height: 40px;">For consultancies and hiring teams</p>
-            <ul class="list-check" style="flex-grow: 1; margin-bottom: var(--space-8);">
-              <li><i class="ph-bold ph-check"></i> Bulk hiring support</li>
-              <li><i class="ph-bold ph-check"></i> Unlimited searches</li>
-              <li><i class="ph-bold ph-check"></i> Team access</li>
-              <li><i class="ph-bold ph-check"></i> Candidate management tools</li>
+          <div class="pack-card">
+            <div>
+              <h3 class="pack-name">Premium</h3>
+              <p class="pack-subtitle">Best for consultancies</p>
+              <div class="pack-price-wrap">
+                <span class="pack-price">₹34,999</span>
+                <span class="pack-price-period">/ starting</span>
+              </div>
+            </div>
+            <div class="pack-divider"></div>
+            <ul class="pack-features">
+              <li><i class="ph-light ph-check"></i> Unlimited Search</li>
+              <li><i class="ph-light ph-check"></i> 5,000 Candidate Unlocks</li>
+              <li><i class="ph-light ph-check"></i> Team Access</li>
+              <li><i class="ph-light ph-check"></i> Priority Support</li>
             </ul>
-            <button class="btn btn-secondary w-full" style="width: 100%;">Select Premium</button>
+            <a href="#" class="pack-btn pack-btn-outline">Choose Premium <i class="ph-bold ph-arrow-up-right"></i></a>
           </div>
 
           <!-- Enterprise -->
-          <div class="pricing-card">
-            <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-2);">Enterprise</h3>
-            <p style="color: var(--color-text-muted); font-size: var(--text-sm); margin-bottom: var(--space-6); min-height: 40px;">Custom solutions for large organizations</p>
-            <ul class="list-check" style="flex-grow: 1; margin-bottom: var(--space-8);">
-              <li><i class="ph-bold ph-check"></i> Dedicated account manager</li>
-              <li><i class="ph-bold ph-check"></i> Custom hiring campaigns</li>
-              <li><i class="ph-bold ph-check"></i> Leadership hiring support</li>
-              <li><i class="ph-bold ph-check"></i> Campus hiring access</li>
+          <div class="pack-card">
+            <div>
+              <h3 class="pack-name">Enterprise</h3>
+              <p class="pack-subtitle">Custom hiring solutions</p>
+              <div class="pack-price-wrap">
+                <span class="pack-price">Custom</span>
+              </div>
+            </div>
+            <div class="pack-divider"></div>
+            <ul class="pack-features">
+              <li><i class="ph-light ph-check"></i> Unlimited Access</li>
+              <li><i class="ph-light ph-check"></i> Dedicated Hiring Support</li>
+              <li><i class="ph-light ph-check"></i> Leadership Hiring</li>
+              <li><i class="ph-light ph-check"></i> Campus Hiring</li>
             </ul>
-            <button class="btn btn-secondary w-full" style="width: 100%;">Contact Us</button>
+            <a href="#" class="pack-btn pack-btn-outline">Contact Sales <i class="ph-bold ph-arrow-up-right"></i></a>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Who Can Use & Success Metrics -->
-    <section class="section-padding container">
-      <div class="grid-2" style="margin-bottom: var(--space-20); align-items: center;">
-        <div>
-          <h2 class="section-title">Who Can Use DIJIT Talent Cloud?</h2>
-          <div class="grid" style="gap: var(--space-6); margin-top: var(--space-8); display: flex; flex-direction: column; align-items: center; text-align: center;">
-            <div class="flex gap-4 flex-col items-center">
-              <i class="ph-fill ph-buildings" style="font-size: 2rem; color: var(--color-primary);"></i>
-              <div>
-                <h4 style="font-size: var(--text-lg); margin-bottom: 4px;">Companies</h4>
-                <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Hire full-time employees, freshers, and leadership talent.</p>
-              </div>
-            </div>
-            <div class="flex gap-4 flex-col items-center">
-              <i class="ph-fill ph-rocket" style="font-size: 2rem; color: var(--color-secondary);"></i>
-              <div>
-                <h4 style="font-size: var(--text-lg); margin-bottom: 4px;">Startups</h4>
-                <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Build your founding and scaling teams quickly.</p>
-              </div>
-            </div>
-            <div class="flex gap-4 flex-col items-center">
-              <i class="ph-fill ph-users-three" style="font-size: 2rem; color: var(--color-success);"></i>
-              <div>
-                <h4 style="font-size: var(--text-lg); margin-bottom: 4px;">Consultancies</h4>
-                <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Access talent faster and manage multiple hiring requirements.</p>
-              </div>
-            </div>
-            <div class="flex gap-4 flex-col items-center">
-              <i class="ph-fill ph-globe-hemisphere-west" style="font-size: 2rem; color: var(--color-warning);"></i>
-              <div>
-                <h4 style="font-size: var(--text-lg); margin-bottom: 4px;">Enterprises</h4>
-                <p style="color: var(--color-text-secondary); font-size: var(--text-sm);">Run large-scale hiring campaigns efficiently.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="feature-card" style="background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(17,24,39,0.8)); text-align: center;">
-          <h3 style="font-size: var(--text-2xl); margin-bottom: var(--space-8); color: var(--color-text-primary);">Success Metrics</h3>
-          <div class="grid-2" style="gap: var(--space-6);">
-            <div>
-              <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-primary);">5000+</div>
-              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Live Jobs</div>
-            </div>
-            <div>
-              <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-secondary);">1M+</div>
-              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Active Candidates</div>
-            </div>
-            <div>
-              <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-success);">1500+</div>
-              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Companies</div>
-            </div>
-            <div>
-              <div style="font-size: 2.5rem; font-weight: bold; color: var(--color-warning);">40+</div>
-              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Enterprise Clients</div>
-            </div>
-            <div>
-              <div style="font-size: 2.5rem; font-weight: bold; color: #a855f7;">1M+</div>
-              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Workforce Deployments</div>
-            </div>
-            <div>
-              <div style="font-size: 2.5rem; font-weight: bold; color: #ec4899;">150+</div>
-              <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Cities Presence</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Final CTA -->
-    <section class="section-padding" style="background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%); text-align: center;">
+    <!-- Metrics Banner Section -->
+    <style>
+      .metrics-banner {
+        background: #fcfcf9;
+        padding: 5rem 0;
+      }
+      .metrics-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .metric-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 0 2.5rem;
+        border-left: 1px solid #e8e8e4;
+        flex: 1;
+      }
+      .metric-item:first-child {
+        border-left: none;
+        padding-left: 0;
+      }
+      .metric-item:last-child {
+        padding-right: 0;
+      }
+      .metric-number {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 2.25rem;
+        font-weight: 600;
+        color: #111827;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+      .metric-label {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      @media (max-width: 1024px) {
+        .metrics-flex {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 3rem 0;
+        }
+        .metric-item:nth-child(3n+1) {
+          border-left: none;
+          padding-left: 0;
+        }
+      }
+      @media (max-width: 640px) {
+        .metrics-flex {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .metric-item {
+          border-left: none !important;
+          padding: 0 !important;
+          text-align: center;
+        }
+      }
+    </style>
+
+    <section class="metrics-banner">
       <div class="container">
-        <h2 style="font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: var(--space-6); background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Build Your Team with DIJIT Talent Cloud</h2>
-        <p style="font-size: var(--text-xl); color: var(--color-text-secondary); max-width: 700px; margin: 0 auto var(--space-10);">
-          Find the right talent, reduce hiring challenges, and grow faster with DIJIT.
-        </p>
-        <div class="flex justify-center gap-4 flex-wrap" style="margin-bottom: var(--space-12);">
-          <a href="#get-started" class="btn btn-primary btn-lg">Get Started</a>
-          <a href="#demo" class="btn btn-secondary btn-lg">Book a Demo</a>
-          <a href="#sales" class="btn btn-ghost btn-lg" style="border: 1px solid var(--glass-border);">Contact Sales</a>
-        </div>
-        <div class="flex justify-center gap-8 flex-wrap" style="color: var(--color-text-muted);">
-          <div class="flex items-center gap-2">
-            <i class="ph ph-envelope-simple" style="font-size: 1.5rem;"></i>
-            <a href="mailto:support@dijitprogram.com" style="color: inherit; text-decoration: none;">support@dijitprogram.com</a>
+        <div class="metrics-flex">
+          <div class="metric-item">
+            <span class="metric-number">5,000+</span>
+            <span class="metric-label">Live Jobs</span>
           </div>
-          <div class="flex items-center gap-2">
-            <i class="ph ph-phone" style="font-size: 1.5rem;"></i>
-            <a href="tel:+919676693875" style="color: inherit; text-decoration: none;">+91 9676693875</a>
+          <div class="metric-item">
+            <span class="metric-number">1M+</span>
+            <span class="metric-label">Active Candidates</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-number">500+</span>
+            <span class="metric-label">Recruiters</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-number">100+</span>
+            <span class="metric-label">Enterprise Clients</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-number">5,000+</span>
+            <span class="metric-label">Workforce Deployments</span>
+          </div>
+          <div class="metric-item">
+            <span class="metric-number">150+</span>
+            <span class="metric-label">Cities Presence</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <style>
+      .testimonials-section {
+        background: #fcfcf9;
+        padding-bottom: 6rem;
+      }
+      .testi-label {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748b;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .testi-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: clamp(2.25rem, 4vw, 3.25rem);
+        font-weight: 600;
+        color: #111827;
+        line-height: 1.15;
+        margin: 0;
+        letter-spacing: -0.02em;
+        margin-bottom: 4rem;
+      }
+      .testi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      .testi-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 220px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      }
+      .testi-card.dark {
+        background: #0b1120;
+        border: 1px solid #0b1120;
+        color: #ffffff;
+      }
+      .testi-quote {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 1.15rem;
+        font-weight: 500;
+        font-style: italic;
+        line-height: 1.6;
+        color: #111827;
+      }
+      .testi-card.dark .testi-quote {
+        color: #ffffff;
+      }
+      .testi-author {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .testi-author::before {
+        content: "—";
+      }
+      @media (max-width: 992px) {
+        .testi-grid {
+          grid-template-columns: 1fr;
+        }
+        .testi-card {
+          min-height: auto;
+        }
+      }
+    </style>
+
+    <section class="testimonials-section">
+      <div class="container">
+        <div class="testi-header">
+          <div class="testi-label">TESTIMONIALS</div>
+          <h2 class="testi-title">
+            Recruiters who hire faster<br>with DTC.
+          </h2>
+        </div>
+
+        <div class="testi-grid">
+          
+          <div class="testi-card">
+            <div class="testi-quote">
+              "DTC helped us reduce hiring time significantly."
+            </div>
+            <div class="testi-author">Head of Talent, SaaS Company</div>
+          </div>
+
+          <div class="testi-card dark">
+            <div class="testi-quote">
+              "The candidate quality and search filters are excellent."
+            </div>
+            <div class="testi-author">Recruitment Lead, BFSI</div>
+          </div>
+
+          <div class="testi-card">
+            <div class="testi-quote">
+              "A great platform for consultancies managing multiple roles."
+            </div>
+            <div class="testi-author">Director, Staffing Firm</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <style>
+      .faq-section {
+        background: #fcfcf9;
+        padding-bottom: 8rem;
+      }
+      .faq-header {
+        text-align: center;
+        margin-bottom: 4rem;
+      }
+      .faq-label {
+        font-family: 'Inter', system-ui, sans-serif;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: #64748b;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1.25rem;
+      }
+      .faq-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: clamp(2.25rem, 4vw, 3.25rem);
+        font-weight: 600;
+        color: #111827;
+        line-height: 1.15;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+      .faq-container {
+        max-width: 850px;
+        margin: 0 auto;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        padding: 0 2rem;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+      }
+      .faq-item {
+        border-bottom: 1px solid #e2e8f0;
+      }
+      .faq-item:last-child {
+        border-bottom: none;
+      }
+      .faq-q {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem 0;
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #111827;
+        cursor: pointer;
+        user-select: none;
+        list-style: none;
+      }
+      .faq-q::-webkit-details-marker {
+        display: none;
+      }
+      .faq-icon {
+        color: #64748b;
+        font-size: 1.25rem;
+        transition: transform 0.3s ease;
+      }
+      details[open] .faq-icon {
+        transform: rotate(180deg);
+      }
+      .faq-a {
+        padding-bottom: 2rem;
+        font-size: 0.95rem;
+        color: #64748b;
+        line-height: 1.6;
+        padding-right: 2rem;
+      }
+    </style>
+
+    <section id="faq" class="faq-section">
+      <div class="container">
+        <div class="faq-header">
+          <div class="faq-label">FAQ</div>
+          <h2 class="faq-title">Questions, answered.</h2>
+        </div>
+        
+        <div class="faq-container">
+          <details class="faq-item" open>
+            <summary class="faq-q">
+              Can companies directly access resumes?
+              <i class="ph ph-caret-down faq-icon"></i>
+            </summary>
+            <div class="faq-a">
+              Yes. Companies get direct access to verified candidate profiles based on their plan.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q">
+              Can consultancies use DTC?
+              <i class="ph ph-caret-down faq-icon"></i>
+            </summary>
+            <div class="faq-a">
+              Absolutely. We offer multi-seat team access and high-volume unlocks built for consultancies.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q">
+              Is AI matching included?
+              <i class="ph ph-caret-down faq-icon"></i>
+            </summary>
+            <div class="faq-a">
+              Yes — included with Professional and above. AI matching maps job requirements to candidates automatically.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q">
+              Can I buy only resume database access?
+              <i class="ph ph-caret-down faq-icon"></i>
+            </summary>
+            <div class="faq-a">
+              Yes. You can subscribe to standalone resume database access without job postings.
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-q">
+              Do you offer recruitment support?
+              <i class="ph ph-caret-down faq-icon"></i>
+            </summary>
+            <div class="faq-a">
+              Yes. DIJIT's recruitment team supports permanent, leadership, bulk, contract and campus hiring.
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+          item.addEventListener('toggle', () => {
+            if (item.open) {
+              faqItems.forEach(otherItem => {
+                if (otherItem !== item && otherItem.open) {
+                  otherItem.open = false;
+                }
+              });
+            }
+          });
+        });
+      });
+    </script>
+
+    <!-- Final CTA Section -->
+    <style>
+      .final-cta-section {
+        padding: 4rem 1.5rem;
+      }
+      .final-cta-card {
+        background-color: #0b1120;
+        background-image: 
+          radial-gradient(circle at 10% 30%, rgba(156, 251, 96, 0.15) 0%, transparent 40%),
+          radial-gradient(circle at 90% 20%, rgba(56, 189, 248, 0.05) 0%, transparent 40%),
+          linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        border-radius: 32px;
+        padding: 5rem 4rem;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 2rem;
+      }
+      .cta-content {
+        max-width: 600px;
+        position: relative;
+        z-index: 1;
+      }
+      .cta-title {
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        font-size: clamp(2.5rem, 5vw, 3.5rem);
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+      .cta-title-highlight {
+        color: #9cfb60;
+      }
+      .cta-desc {
+        font-size: 1.1rem;
+        color: #94a3b8;
+        margin-bottom: 3rem;
+      }
+      .cta-btn-group {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 4rem;
+      }
+      .cta-btn {
+        padding: 0.85rem 1.5rem;
+        border-radius: 9999px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+      .cta-btn-primary {
+        background: #9cfb60;
+        color: #111827;
+      }
+      .cta-btn-primary:hover {
+        background: #84ea46;
+      }
+      .cta-btn-outline {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid #334155;
+        color: #ffffff;
+        backdrop-filter: blur(10px);
+      }
+      .cta-btn-outline:hover {
+        background: rgba(30, 41, 59, 0.8);
+      }
+      .cta-divider {
+        height: 1px;
+        background: #1e293b;
+        margin-bottom: 1.5rem;
+        width: 60%;
+      }
+      .cta-contact {
+        display: flex;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+      }
+      .cta-contact-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #94a3b8;
+        font-size: 0.85rem;
+        text-decoration: none;
+      }
+      .cta-contact-item i {
+        font-size: 1.1rem;
+      }
+      @media (max-width: 768px) {
+        .final-cta-card {
+          padding: 3rem 2rem;
+        }
+        .cta-divider {
+          width: 100%;
+        }
+      }
+    </style>
+
+    <section class="final-cta-section container">
+      <div class="final-cta-card">
+        <div class="cta-content">
+          <h2 class="cta-title">
+            Build your team with <br>
+            <span class="cta-title-highlight">DIJIT Talent Cloud.</span>
+          </h2>
+          <p class="cta-desc">
+            Find talent faster, simplify hiring, and grow with confidence.
+          </p>
+          
+          <div class="cta-btn-group">
+            <a href="pages/login.html" class="cta-btn cta-btn-primary">
+              Get Started <i class="ph-bold ph-arrow-up-right"></i>
+            </a>
+            <a href="#demo" class="cta-btn cta-btn-outline">
+              Book a Demo
+            </a>
+            <a href="#sales" class="cta-btn cta-btn-outline">
+              Contact Sales
+            </a>
+          </div>
+
+          <div class="cta-divider"></div>
+          
+          <div class="cta-contact">
+            <a href="mailto:support@dijitprogram.com" class="cta-contact-item">
+              <i class="ph-light ph-envelope-simple"></i> support@dijitprogram.com
+            </a>
+            <a href="tel:+919676693875" class="cta-contact-item">
+              <i class="ph-light ph-phone"></i> +91 96766 93875
+            </a>
           </div>
         </div>
       </div>
@@ -621,11 +2147,11 @@
 
   <!-- Footer -->
   <footer class="app-footer" role="contentinfo" style="padding: var(--space-12) 0 var(--space-4);">
-    <div class="container grid grid-cols-4" style="text-align: left; align-items: start; margin-bottom: var(--space-8);">
+    <div class="container" style="display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; text-align: left; align-items: start; margin-bottom: var(--space-8);">
       <div style="grid-column: span 1;">
         <a href="#" class="logo flex items-center gap-2" style="font-size: 1.25rem; margin-bottom: var(--space-4); text-decoration: none; color: white;" aria-label="DIJIT Talent Cloud">
           <i class="ph ph-cloud-nodes" aria-hidden="true" style="color: var(--color-primary);"></i>
-          <span style="font-weight: bold;">DIJIT Talent Cloud</span>
+          <span style="font-weight: bold; font-family: 'Space Grotesk', system-ui, sans-serif;">DIJIT Talent Cloud</span>
         </a>
         <p style="color: var(--color-text-muted); font-size: var(--text-sm);">The intelligent platform for modern recruitment teams.</p>
       </div>
@@ -666,5 +2192,357 @@
   </footer>
 
   <script src="js/app.js"></script>
+
+  <!-- Book Demo Modal -->
+  <style>
+    /* Demo Modal CSS */
+    .demo-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity;
+    }
+    .demo-modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .demo-modal-content {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 1.75rem 1.5rem 1.5rem;
+      width: 100%;
+      max-width: 390px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      position: relative;
+      max-height: 95vh;
+      overflow-y: auto;
+      transform: translateY(12px) scale(0.98);
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-sizing: border-box;
+      will-change: transform, opacity;
+      scrollbar-width: thin;
+    }
+    .demo-modal-overlay.active .demo-modal-content {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    .demo-modal-close {
+      position: absolute;
+      top: 0.85rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.35rem;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 0.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .demo-modal-close:hover {
+      color: #475569;
+      transform: rotate(90deg);
+    }
+    .demo-modal-title {
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #0f172a;
+      text-align: center;
+      margin: 0 0 1.25rem 0;
+    }
+    .demo-modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .demo-modal-form .form-group {
+      position: relative;
+      width: 100%;
+    }
+    .demo-modal-form input[type="text"],
+    .demo-modal-form input[type="tel"],
+    .demo-modal-form input[type="email"],
+    .demo-modal-form select {
+      width: 100%;
+      padding: 0.75rem 1.1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.925rem;
+      font-family: inherit;
+      background: #ffffff;
+      color: #0f172a;
+      transition: all 0.2s ease;
+      box-sizing: border-box;
+      outline: none;
+    }
+    .demo-modal-form input::placeholder {
+      color: #94a3b8;
+      font-weight: 400;
+    }
+    .demo-modal-form input:focus,
+    .demo-modal-form select:focus {
+      border-color: #0f172a;
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.05);
+    }
+    
+    /* Toggle Option Custom Styling */
+    .form-group-toggle {
+      display: flex;
+      gap: 0.5rem;
+      width: 100%;
+    }
+    .toggle-option {
+      flex: 1;
+      text-align: center;
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 0.925rem;
+      color: #64748b;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      background: #ffffff;
+      user-select: none;
+      box-sizing: border-box;
+    }
+    .toggle-option:hover {
+      background: #f8fafc;
+      color: #475569;
+    }
+    .toggle-option.active {
+      border-color: #0f172a;
+      color: #0f172a;
+      font-weight: 600;
+      background: rgba(15, 23, 42, 0.02);
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.04);
+    }
+    
+    /* Select styling with custom arrow */
+    .demo-modal-form select {
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1.1rem center;
+      background-size: 1rem;
+      padding-right: 2.25rem;
+      color: #64748b;
+    }
+    .demo-modal-form select:valid {
+      color: #0f172a;
+    }
+    
+    /* Submit button */
+    .demo-submit-btn {
+      width: 100%;
+      background: linear-gradient(90deg, #d4ff33 0%, #66ff66 100%);
+      color: #0f172a;
+      border: none;
+      border-radius: 14px;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(204, 255, 0, 0.15);
+      margin-top: 0.5rem;
+    }
+    .demo-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(204, 255, 0, 0.3);
+      background: linear-gradient(90deg, #ddff4d 0%, #7dff7d 100%);
+    }
+    .demo-submit-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Success Toast */
+    .demo-success-toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 100000;
+      pointer-events: none;
+    }
+    .demo-success-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+
+  <div id="demo-modal" class="demo-modal-overlay">
+    <div class="demo-modal-content">
+      <button class="demo-modal-close" id="close-demo-modal" aria-label="Close modal">
+        <i class="ph ph-x"></i>
+      </button>
+      <h3 class="demo-modal-title">Book your personalized demo!</h3>
+      <form id="demo-booking-form" class="demo-modal-form">
+        
+        <div class="form-group">
+          <input type="text" id="demo-fullname" name="fullname" required placeholder="Full Name">
+        </div>
+
+        <div class="form-group">
+          <input type="tel" id="demo-phone" name="phone" required pattern="[0-9]{10}" placeholder="10 digit mobile number">
+        </div>
+
+        <div class="form-group">
+          <input type="email" id="demo-email" name="email" required placeholder="Work Email">
+        </div>
+
+        <!-- Toggle Row: Company / Consultancy -->
+        <div class="form-group-toggle">
+          <div class="toggle-option active" data-value="company" id="toggle-company">
+            Your company
+          </div>
+          <div class="toggle-option" data-value="consultancy" id="toggle-consultancy">
+            Your consultancy
+          </div>
+          <input type="hidden" name="org_type" id="demo-org-type" value="company">
+        </div>
+
+        <div class="form-group">
+          <input type="text" id="demo-designation" name="designation" required placeholder="Designation name">
+        </div>
+
+        <div class="form-group">
+          <input type="text" id="demo-company-name" name="company_name" required placeholder="Company/Consultancy name">
+        </div>
+
+        <div class="form-group">
+          <select id="demo-employees" name="employees" required>
+            <option value="" disabled selected>Number of employees</option>
+            <option value="1-10">1-10 employees</option>
+            <option value="11-50">11-50 employees</option>
+            <option value="51-200">51-200 employees</option>
+            <option value="201-500">201-500 employees</option>
+            <option value="501-1000">501-1000 employees</option>
+            <option value="1000+">1000+ employees</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <input type="text" id="demo-city" name="city" required placeholder="City">
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="demo-submit-btn">Book Demo</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="demo-success-toast" class="demo-success-toast">
+    <i class="ph ph-check-circle" style="color: #66ff66; font-size: 1.5rem;"></i>
+    <span>Demo booked successfully! We will contact you soon.</span>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('demo-modal');
+      const closeBtn = document.getElementById('close-demo-modal');
+      const form = document.getElementById('demo-booking-form');
+      const toggleCompany = document.getElementById('toggle-company');
+      const toggleConsultancy = document.getElementById('toggle-consultancy');
+      const orgTypeInput = document.getElementById('demo-org-type');
+      const successToast = document.getElementById('demo-success-toast');
+
+      const openModal = () => {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeModal = () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      // Listen for click events on any Book Demo buttons
+      document.addEventListener('click', (e) => {
+        const target = e.target.closest('a');
+        if (target) {
+          const href = target.getAttribute('href');
+          if (href === '#demo' || href === '#book-demo' || target.textContent.trim().toLowerCase() === 'book a demo') {
+            e.preventDefault();
+            openModal();
+          }
+        }
+      });
+
+      // Close modal events
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+          closeModal();
+        }
+      });
+
+      // Toggle Options Logic
+      toggleCompany.addEventListener('click', () => {
+        toggleCompany.classList.add('active');
+        toggleConsultancy.classList.remove('active');
+        orgTypeInput.value = 'company';
+      });
+
+      toggleConsultancy.addEventListener('click', () => {
+        toggleConsultancy.classList.add('active');
+        toggleCompany.classList.remove('active');
+        orgTypeInput.value = 'consultancy';
+      });
+
+      // Form Submission
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // In a real app, you would send this to your server
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        console.log('Demo Booking Data:', data);
+
+        closeModal();
+        form.reset();
+        
+        // Re-enable company active state default
+        toggleCompany.classList.add('active');
+        toggleConsultancy.classList.remove('active');
+        orgTypeInput.value = 'company';
+
+        // Show success toast
+        successToast.classList.add('show');
+        setTimeout(() => {
+          successToast.classList.remove('show');
+        }, 4000);
+      });
+    });
+  </script>
 </body>
 </html>

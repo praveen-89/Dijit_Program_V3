@@ -2,7 +2,7 @@
   DIJIT Talent Cloud - Design Tokens
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
   /* Brand Colors */
@@ -33,7 +33,8 @@
   --color-error: #EF4444;
   
   /* Typography */
-  --font-family-base: 'Inter', sans-serif;
+  --font-family-base: 'Inter', system-ui, sans-serif;
+  --font-family-heading: 'Space Grotesk', system-ui, sans-serif;
   
   /* Font Sizes */
   --text-xs: 0.75rem;
