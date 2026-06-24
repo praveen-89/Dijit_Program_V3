@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Management - DIJIT Super Admin</title>
+    <meta name="description" content="Manage all jobs posted across the DIJIT Talent Cloud platform.">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="dashboard.html" class="sidebar-logo"><i data-lucide="hexagon"></i><span>DIJIT Admin</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group"><div class="nav-group-title">Overview</div><a href="dashboard.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <div class="nav-item has-submenu"><i data-lucide="users"></i><span>User Management</span><i data-lucide="chevron-down" style="margin-left:auto;width:16px;"></i></div>
+                    <div class="nav-submenu">
+                        <a href="user-management.html" class="nav-item"><span>All Users</span></a>
+                        <a href="company-management.html" class="nav-item"><span>Companies</span></a>
+                        <a href="consultancy-management.html" class="nav-item"><span>Consultancies</span></a>
+                    </div>
+                    <a href="job-management.html" class="nav-item active"><i data-lucide="briefcase"></i><span>Job Management</span></a>
+                    <a href="candidate-management.html" class="nav-item"><i data-lucide="user-check"></i><span>Candidate Database</span></a>
+                </div>
+                <div class="nav-group"><div class="nav-group-title">Analytics & Revenue</div><a href="usage-analytics.html" class="nav-item"><i data-lucide="activity"></i><span>Usage Analytics</span></a><a href="subscriptions.html" class="nav-item"><i data-lucide="credit-card"></i><span>Subscriptions</span></a><a href="billing.html" class="nav-item"><i data-lucide="file-text"></i><span>Billing & Payments</span></a></div>
+                <div class="nav-group"><div class="nav-group-title">Internal</div><a href="sales-crm.html" class="nav-item"><i data-lucide="trending-up"></i><span>Sales CRM</span></a><a href="reports.html" class="nav-item"><i data-lucide="bar-chart-2"></i><span>Reports</span></a><a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a></div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+                    <div class="global-search"><i data-lucide="search" style="width:16px;height:16px;"></i><input type="text" placeholder="Search jobs..." readonly><span class="shortcut">⌘K</span></div>
+                </div>
+                <div class="header-right">
+                    <div class="dropdown">
+                        <button class="btn btn-primary btn-sm" data-toggle="dropdown"><i data-lucide="plus" style="width:16px;height:16px;"></i> Quick Action</button>
+                        <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="briefcase" style="width:14px;"></i> Post New Job</a><a href="#" class="dropdown-item"><i data-lucide="star" style="width:14px;"></i> Feature a Job</a></div>
+                    </div>
+                    <button class="header-icon-btn"><i data-lucide="bell" style="width:20px;height:20px;"></i><span class="notification-badge"></span></button>
+                    <div class="dropdown">
+                        <div class="user-profile" data-toggle="dropdown"><div class="avatar">SA</div><div class="user-info"><span class="user-name">Praveen K.</span><span class="user-role">Super Admin</span></div></div>
+                        <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="user" style="width:16px;height:16px;"></i> Profile</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="log-out" style="width:16px;height:16px;"></i> Logout</a></div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header fade-in">
+                    <div>
+                        <div class="breadcrumb"><a href="dashboard.html">Home</a><span class="breadcrumb-separator">/</span><span>Job Management</span></div>
+                        <h1 class="page-title" style="margin-top:var(--space-2);">Job Management</h1>
+                        <p class="text-muted" style="font-size:0.875rem;margin-top:2px;">Monitor, approve, and manage all jobs posted across the platform.</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-outline btn-sm"><i data-lucide="download" style="width:14px;height:14px;"></i> Export</button>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-4 mb-6 fade-in">
+                    <div class="kpi-card" style="--kpi-accent:var(--primary);"><div class="kpi-top"><div><p class="kpi-label">Total Jobs</p><h3 class="kpi-value">5,420</h3></div><div class="kpi-icon" style="background:var(--primary-light);color:var(--primary);"><i data-lucide="briefcase" style="width:20px;height:20px;"></i></div></div><div class="kpi-footer"><span class="kpi-trend up"><i data-lucide="trending-up" style="width:12px;height:12px;"></i> 14.2%</span><span class="kpi-period">vs last month</span></div></div>
+                    <div class="kpi-card" style="--kpi-accent:var(--success);"><div class="kpi-top"><div><p class="kpi-label">Active Jobs</p><h3 class="kpi-value">3,892</h3></div><div class="kpi-icon" style="background:var(--success-bg);color:var(--success);"><i data-lucide="check-circle" style="width:20px;height:20px;"></i></div></div><div class="kpi-footer"><span class="kpi-trend up"><i data-lucide="trending-up" style="width:12px;height:12px;"></i> 6.8%</span><span class="kpi-period">vs last month</span></div></div>
+                    <div class="kpi-card" style="--kpi-accent:var(--warning);"><div class="kpi-top"><div><p class="kpi-label">Pending Approval</p><h3 class="kpi-value">67</h3></div><div class="kpi-icon" style="background:var(--warning-bg);color:var(--warning);"><i data-lucide="clock" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card" style="--kpi-accent:var(--danger);"><div class="kpi-top"><div><p class="kpi-label">Closed This Month</p><h3 class="kpi-value">245</h3></div><div class="kpi-icon" style="background:var(--danger-bg);color:var(--danger);"><i data-lucide="x-circle" style="width:20px;height:20px;"></i></div></div></div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs fade-in">
+                    <button class="tab-btn active" onclick="switchTab(event,'tab-all')">All Jobs <span class="tab-count">5,420</span></button>
+                    <button class="tab-btn" onclick="switchTab(event,'tab-active')">Active <span class="tab-count">3,892</span></button>
+                    <button class="tab-btn" onclick="switchTab(event,'tab-pending')">Pending <span class="tab-count">67</span></button>
+                    <button class="tab-btn" onclick="switchTab(event,'tab-paused')">Paused <span class="tab-count">128</span></button>
+                    <button class="tab-btn" onclick="switchTab(event,'tab-closed')">Closed <span class="tab-count">1,333</span></button>
+                </div>
+
+                <!-- All Jobs Tab -->
+                <div class="tab-panel active" id="tab-all">
+                    <div class="card fade-in">
+                        <div class="table-toolbar">
+                            <div style="display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap;">
+                                <div class="table-search"><i data-lucide="search" style="width:14px;height:14px;"></i><input type="text" placeholder="Search by title, company..."></div>
+                                <select class="filter-select"><option>All Industries</option><option>Technology</option><option>Finance</option><option>Healthcare</option><option>Manufacturing</option></select>
+                                <select class="filter-select"><option>All Locations</option><option>Mumbai</option><option>Bangalore</option><option>Delhi NCR</option><option>Remote</option><option>Hyderabad</option></select>
+                                <select class="filter-select"><option>All Experience</option><option>0-2 Years</option><option>3-5 Years</option><option>5-10 Years</option><option>10+ Years</option></select>
+                                <select class="filter-select"><option>All User Types</option><option>Company</option><option>Consultancy</option></select>
+                            </div>
+                            <button class="btn btn-outline btn-sm"><i data-lucide="sliders-horizontal" style="width:14px;height:14px;"></i> Bulk Actions</button>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" class="table-check"></th>
+                                        <th>Job Title</th>
+                                        <th>Company</th>
+                                        <th>Posted By</th>
+                                        <th>Location</th>
+                                        <th>Applications</th>
+                                        <th>Shortlisted</th>
+                                        <th>Interviews</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-info"><span class="entity-name">Senior React Developer</span><span class="entity-sub">₹18–25 LPA · 3-5 yrs</span></div></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar">TC</div><span>TechCorp India</span></div></td>
+                                        <td>Rahul Sharma</td>
+                                        <td>Bangalore</td>
+                                        <td><span style="font-weight:600;">124</span></td>
+                                        <td>18</td>
+                                        <td>6</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openJobDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View Details</a><a href="#" class="dropdown-item"><i data-lucide="edit-3" style="width:14px;"></i> Edit Job</a><a href="#" class="dropdown-item"><i data-lucide="star" style="width:14px;"></i> Feature Job</a><a href="#" class="dropdown-item"><i data-lucide="pause-circle" style="width:14px;"></i> Pause Job</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="x-circle" style="width:14px;"></i> Close Job</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-info"><span class="entity-name">Backend Engineer (Node.js)</span><span class="entity-sub">₹12–18 LPA · 2-4 yrs</span></div></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar green">CN</div><span>CloudNine Solutions</span></div></td>
+                                        <td>Vikram Patel</td>
+                                        <td>Remote</td>
+                                        <td><span style="font-weight:600;">87</span></td>
+                                        <td>12</td>
+                                        <td>4</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openJobDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a><a href="#" class="dropdown-item"><i data-lucide="edit-3" style="width:14px;"></i> Edit</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-info"><span class="entity-name">Product Manager – Payments</span><span class="entity-sub">₹30–45 LPA · 5-8 yrs</span></div></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar orange">ZF</div><span>Zeta Financial</span></div></td>
+                                        <td>Amit Gupta</td>
+                                        <td>Mumbai</td>
+                                        <td><span style="font-weight:600;">210</span></td>
+                                        <td>25</td>
+                                        <td>8</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openJobDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-info"><span class="entity-name">UI/UX Designer</span><span class="entity-sub">₹10–15 LPA · 2-4 yrs</span></div></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar cyan">IB</div><span>Infosys BPM</span></div></td>
+                                        <td>Meera Reddy</td>
+                                        <td>Hyderabad</td>
+                                        <td><span style="font-weight:600;">156</span></td>
+                                        <td>20</td>
+                                        <td>5</td>
+                                        <td><span class="badge badge-warning">Pending</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="check-circle" style="width:14px;"></i> Approve</a><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="x-circle" style="width:14px;"></i> Reject</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-info"><span class="entity-name">DevOps Engineer</span><span class="entity-sub">₹15–22 LPA · 3-6 yrs</span></div></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar pink">MH</div><span>MediHealth Corp</span></div></td>
+                                        <td>Suresh Kumar</td>
+                                        <td>Delhi NCR</td>
+                                        <td><span style="font-weight:600;">45</span></td>
+                                        <td>8</td>
+                                        <td>2</td>
+                                        <td><span class="badge badge-secondary">Paused</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="play-circle" style="width:14px;"></i> Resume</a><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="x-circle" style="width:14px;"></i> Close</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-info"><span class="entity-name">Data Scientist – ML</span><span class="entity-sub">₹22–35 LPA · 4-7 yrs</span></div></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar">WP</div><span>Wipro Technologies</span></div></td>
+                                        <td>Anita Desai</td>
+                                        <td>Bangalore</td>
+                                        <td><span style="font-weight:600;">302</span></td>
+                                        <td>35</td>
+                                        <td>12</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openJobDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-info"><span class="entity-name">Sales Executive</span><span class="entity-sub">₹6–10 LPA · 1-3 yrs</span></div></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar green">TS</div><span>TalentSphere Global</span></div></td>
+                                        <td>Priya Menon</td>
+                                        <td>Chennai</td>
+                                        <td><span style="font-weight:600;">68</span></td>
+                                        <td>10</td>
+                                        <td>3</td>
+                                        <td><span class="badge badge-danger">Closed</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="refresh-cw" style="width:14px;"></i> Reopen</a></div></div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination">
+                            <span class="pagination-info">Showing 1–7 of 5,420 jobs</span>
+                            <div class="pagination-controls">
+                                <button class="page-btn" disabled><i data-lucide="chevron-left" style="width:14px;height:14px;"></i></button>
+                                <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button>
+                                <button class="page-btn">...</button><button class="page-btn">775</button>
+                                <button class="page-btn"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder tabs -->
+                <div class="tab-panel" id="tab-active"><div class="card"><div class="empty-state"><i data-lucide="briefcase" style="width:48px;height:48px;"></i><h3>Active Jobs</h3><p>Showing 3,892 active jobs. Use filters above to narrow results.</p></div></div></div>
+                <div class="tab-panel" id="tab-pending"><div class="card"><div class="empty-state"><i data-lucide="clock" style="width:48px;height:48px;"></i><h3>Pending Approval</h3><p>67 jobs are waiting for admin review and approval.</p><button class="btn btn-primary btn-sm">Review All</button></div></div></div>
+                <div class="tab-panel" id="tab-paused"><div class="card"><div class="empty-state"><i data-lucide="pause-circle" style="width:48px;height:48px;"></i><h3>Paused Jobs</h3><p>128 jobs are currently paused by companies or admins.</p></div></div></div>
+                <div class="tab-panel" id="tab-closed"><div class="card"><div class="empty-state"><i data-lucide="x-circle" style="width:48px;height:48px;"></i><h3>Closed Jobs</h3><p>1,333 jobs have been closed after successful hiring or expiry.</p></div></div></div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Job Detail Drawer -->
+    <div class="drawer-overlay" id="jobDrawerOverlay" onclick="closeJobDrawer()"></div>
+    <div class="drawer" id="jobDrawer">
+        <div class="drawer-header"><h3 class="drawer-title">Job Details</h3><button class="modal-close" onclick="closeJobDrawer()"><i data-lucide="x" style="width:18px;height:18px;"></i></button></div>
+        <div class="drawer-body">
+            <div style="margin-bottom:var(--space-6);">
+                <h3 style="margin:0 0 4px 0;font-size:1.25rem;">Senior React Developer</h3>
+                <p class="text-muted" style="margin:0;font-size:0.875rem;">TechCorp India · Bangalore · Posted 5 days ago</p>
+            </div>
+
+            <div class="stats-row" style="margin-bottom:var(--space-6);padding:var(--space-4);background:var(--bg-body);border-radius:var(--radius-lg);">
+                <div class="stat-item"><div class="stat-number">124</div><div class="stat-label">Applications</div></div>
+                <div class="stat-item"><div class="stat-number">18</div><div class="stat-label">Shortlisted</div></div>
+                <div class="stat-item"><div class="stat-number">6</div><div class="stat-label">Interviews</div></div>
+                <div class="stat-item"><div class="stat-number">2</div><div class="stat-label">Offers</div></div>
+            </div>
+
+            <h4 style="font-size:0.875rem;font-weight:600;margin-bottom:var(--space-3);color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Job Information</h4>
+            <div style="margin-bottom:var(--space-6);">
+                <div class="detail-row"><span class="detail-label">Title</span><span class="detail-value">Senior React Developer</span></div>
+                <div class="detail-row"><span class="detail-label">Company</span><span class="detail-value">TechCorp India Pvt Ltd</span></div>
+                <div class="detail-row"><span class="detail-label">Posted By</span><span class="detail-value">Rahul Sharma</span></div>
+                <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">Bangalore, India</span></div>
+                <div class="detail-row"><span class="detail-label">Experience</span><span class="detail-value">3-5 Years</span></div>
+                <div class="detail-row"><span class="detail-label">Salary Range</span><span class="detail-value">₹18–25 LPA</span></div>
+                <div class="detail-row"><span class="detail-label">Job Type</span><span class="detail-value">Full-time</span></div>
+                <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value"><span class="badge badge-success">Active</span></span></div>
+                <div class="detail-row"><span class="detail-label">Posted On</span><span class="detail-value">18 Jun 2026</span></div>
+            </div>
+
+            <h4 style="font-size:0.875rem;font-weight:600;margin-bottom:var(--space-3);color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Skills Required</h4>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-6);">
+                <span class="badge badge-primary">React.js</span>
+                <span class="badge badge-primary">TypeScript</span>
+                <span class="badge badge-primary">Next.js</span>
+                <span class="badge badge-primary">Redux</span>
+                <span class="badge badge-primary">REST APIs</span>
+                <span class="badge badge-primary">Git</span>
+            </div>
+
+            <h4 style="font-size:0.875rem;font-weight:600;margin-bottom:var(--space-3);color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Application Pipeline</h4>
+            <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-4);">
+                <div style="flex:1;text-align:center;padding:var(--space-3);background:var(--primary-light);border-radius:var(--radius-md);">
+                    <div style="font-weight:700;font-size:1.125rem;color:var(--primary);">124</div>
+                    <div style="font-size:0.6875rem;color:var(--text-secondary);">Applied</div>
+                </div>
+                <div style="flex:1;text-align:center;padding:var(--space-3);background:#CFFAFE;border-radius:var(--radius-md);">
+                    <div style="font-weight:700;font-size:1.125rem;color:#0891B2;">18</div>
+                    <div style="font-size:0.6875rem;color:var(--text-secondary);">Screening</div>
+                </div>
+                <div style="flex:1;text-align:center;padding:var(--space-3);background:var(--warning-bg);border-radius:var(--radius-md);">
+                    <div style="font-weight:700;font-size:1.125rem;color:var(--warning);">6</div>
+                    <div style="font-size:0.6875rem;color:var(--text-secondary);">Interview</div>
+                </div>
+                <div style="flex:1;text-align:center;padding:var(--space-3);background:var(--success-bg);border-radius:var(--radius-md);">
+                    <div style="font-weight:700;font-size:1.125rem;color:var(--success);">2</div>
+                    <div style="font-size:0.6875rem;color:var(--text-secondary);">Offered</div>
+                </div>
+            </div>
+        </div>
+        <div class="drawer-footer">
+            <button class="btn btn-outline" onclick="closeJobDrawer()">Close</button>
+            <button class="btn btn-outline"><i data-lucide="edit-3" style="width:14px;height:14px;"></i> Edit</button>
+            <button class="btn btn-primary"><i data-lucide="star" style="width:14px;height:14px;"></i> Feature Job</button>
+        </div>
+    </div>
+
+    <!-- Command Palette -->
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette"><div class="cp-header"><i data-lucide="search" style="width:20px;height:20px;"></i><input type="text" class="cp-input" placeholder="Search..."><button class="modal-close" onclick="document.getElementById('commandPaletteOverlay').classList.remove('open')"><i data-lucide="x" style="width:18px;height:18px;"></i></button></div><div class="cp-body"><div class="cp-group-title">Navigation</div><a href="dashboard.html" class="cp-item"><div class="cp-item-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div><div class="cp-item-content"><div class="cp-item-title">Dashboard</div></div></a><a href="candidate-management.html" class="cp-item"><div class="cp-item-icon"><i data-lucide="user-check" style="width:16px;height:16px;"></i></div><div class="cp-item-content"><div class="cp-item-title">Candidate Database</div></div></a></div><div class="cp-footer"><span><kbd>Esc</kbd> Close</span></div></div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        function switchTab(e, tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+        function openJobDrawer(e) { if(e) e.preventDefault(); document.getElementById('jobDrawerOverlay').classList.add('open'); document.getElementById('jobDrawer').classList.add('open'); }
+        function closeJobDrawer() { document.getElementById('jobDrawerOverlay').classList.remove('open'); document.getElementById('jobDrawer').classList.remove('open'); }
+    </script>
+</body>
+</html>

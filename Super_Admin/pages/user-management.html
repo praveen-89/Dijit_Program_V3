@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - DIJIT Super Admin</title>
+    <meta name="description" content="Manage all platform users including companies, consultancies, and recruiters.">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="sidebar-logo"><i data-lucide="hexagon"></i><span>DIJIT Admin</span></a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <div class="nav-group-title">Overview</div>
+                    <a href="dashboard.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <div class="nav-item has-submenu open">
+                        <i data-lucide="users"></i><span>User Management</span>
+                        <i data-lucide="chevron-down" style="margin-left: auto; width: 16px;"></i>
+                    </div>
+                    <div class="nav-submenu" style="display:block;">
+                        <a href="user-management.html" class="nav-item active"><span>All Users</span></a>
+                        <a href="company-management.html" class="nav-item"><span>Companies</span></a>
+                        <a href="consultancy-management.html" class="nav-item"><span>Consultancies</span></a>
+                    </div>
+                    <a href="job-management.html" class="nav-item"><i data-lucide="briefcase"></i><span>Job Management</span></a>
+                    <a href="candidate-management.html" class="nav-item"><i data-lucide="user-check"></i><span>Candidate Database</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Analytics & Revenue</div>
+                    <a href="usage-analytics.html" class="nav-item"><i data-lucide="activity"></i><span>Usage Analytics</span></a>
+                    <a href="subscriptions.html" class="nav-item"><i data-lucide="credit-card"></i><span>Subscriptions</span></a>
+                    <a href="billing.html" class="nav-item"><i data-lucide="file-text"></i><span>Billing & Payments</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Internal</div>
+                    <a href="sales-crm.html" class="nav-item"><i data-lucide="trending-up"></i><span>Sales CRM</span></a>
+                    <a href="reports.html" class="nav-item"><i data-lucide="bar-chart-2"></i><span>Reports</span></a>
+                    <a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+                    <div class="global-search"><i data-lucide="search" style="width:16px;height:16px;"></i><input type="text" placeholder="Search..." readonly><span class="shortcut">⌘K</span></div>
+                </div>
+                <div class="header-right">
+                    <div class="dropdown">
+                        <button class="btn btn-primary btn-sm" data-toggle="dropdown"><i data-lucide="plus" style="width:16px;height:16px;"></i> Quick Action</button>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item"><i data-lucide="building" style="width:16px;height:16px;"></i> Add Company</a>
+                            <a href="#" class="dropdown-item"><i data-lucide="user-plus" style="width:16px;height:16px;"></i> Add Recruiter</a>
+                        </div>
+                    </div>
+                    <button class="header-icon-btn"><i data-lucide="bell" style="width:20px;height:20px;"></i><span class="notification-badge"></span></button>
+                    <div class="dropdown">
+                        <div class="user-profile" data-toggle="dropdown">
+                            <div class="avatar">SA</div>
+                            <div class="user-info"><span class="user-name">Praveen K.</span><span class="user-role">Super Admin</span></div>
+                        </div>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item"><i data-lucide="user" style="width:16px;height:16px;"></i> Profile</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="log-out" style="width:16px;height:16px;"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header fade-in">
+                    <div>
+                        <div class="breadcrumb">
+                            <a href="dashboard.html">Home</a><span class="breadcrumb-separator">/</span><span>User Management</span>
+                        </div>
+                        <h1 class="page-title" style="margin-top:var(--space-2);">User Management</h1>
+                        <p class="text-muted" style="font-size:0.875rem;margin-top:2px;">Manage all platform users across companies, consultancies, and recruiter accounts.</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-outline btn-sm"><i data-lucide="download" style="width:14px;height:14px;"></i> Export</button>
+                        <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#addUserModal"><i data-lucide="user-plus" style="width:14px;height:14px;"></i> Add User</button>
+                    </div>
+                </div>
+
+                <!-- KPI Summary -->
+                <div class="grid grid-cols-4 mb-6 fade-in">
+                    <div class="kpi-card" style="--kpi-accent: var(--primary);">
+                        <div class="kpi-top"><div><p class="kpi-label">Total Users</p><h3 class="kpi-value">6,245</h3></div><div class="kpi-icon" style="background-color:var(--primary-light);color:var(--primary);"><i data-lucide="users" style="width:20px;height:20px;"></i></div></div>
+                    </div>
+                    <div class="kpi-card" style="--kpi-accent: var(--success);">
+                        <div class="kpi-top"><div><p class="kpi-label">Active Users</p><h3 class="kpi-value">5,892</h3></div><div class="kpi-icon" style="background-color:var(--success-bg);color:var(--success);"><i data-lucide="user-check" style="width:20px;height:20px;"></i></div></div>
+                    </div>
+                    <div class="kpi-card" style="--kpi-accent: var(--warning);">
+                        <div class="kpi-top"><div><p class="kpi-label">Pending Approvals</p><h3 class="kpi-value">48</h3></div><div class="kpi-icon" style="background-color:var(--warning-bg);color:var(--warning);"><i data-lucide="clock" style="width:20px;height:20px;"></i></div></div>
+                    </div>
+                    <div class="kpi-card" style="--kpi-accent: var(--danger);">
+                        <div class="kpi-top"><div><p class="kpi-label">Suspended</p><h3 class="kpi-value">12</h3></div><div class="kpi-icon" style="background-color:var(--danger-bg);color:var(--danger);"><i data-lucide="shield-off" style="width:20px;height:20px;"></i></div></div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs fade-in">
+                    <button class="tab-btn active" onclick="switchTab(event, 'tab-all')">All Users <span class="tab-count">6,245</span></button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-companies')">Companies <span class="tab-count">1,245</span></button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-consultancies')">Consultancies <span class="tab-count">328</span></button>
+                    <button class="tab-btn" onclick="switchTab(event, 'tab-recruiters')">Recruiters <span class="tab-count">4,672</span></button>
+                </div>
+
+                <!-- All Users Tab -->
+                <div class="tab-panel active" id="tab-all">
+                    <div class="card fade-in">
+                        <div class="table-toolbar">
+                            <div style="display:flex;gap:var(--space-3);align-items:center;">
+                                <div class="table-search"><i data-lucide="search" style="width:14px;height:14px;"></i><input type="text" placeholder="Search by name, email, company..."></div>
+                                <select class="filter-select"><option>All Types</option><option>Company Admin</option><option>Consultancy</option><option>Recruiter</option><option>Sales Team</option></select>
+                                <select class="filter-select"><option>All Plans</option><option>Starter</option><option>Professional</option><option>Premium</option><option>Enterprise</option></select>
+                                <select class="filter-select"><option>All Status</option><option>Active</option><option>Pending</option><option>Suspended</option></select>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-outline btn-sm"><i data-lucide="sliders-horizontal" style="width:14px;height:14px;"></i> Bulk Actions</button>
+                            </div>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="table" id="usersTable">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" class="table-check"></th>
+                                        <th>User</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Account Type</th>
+                                        <th>Plan</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar">RS</div><div class="entity-info"><span class="entity-name">Rahul Sharma</span><span class="entity-sub">TechCorp India Pvt Ltd</span></div></div></td>
+                                        <td>rahul.sharma@techcorp.in</td>
+                                        <td>+91 98765 43210</td>
+                                        <td><span class="badge badge-primary">Company Admin</span></td>
+                                        <td>Enterprise</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button>
+                                            <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="eye" style="width:14px;"></i> View</a><a href="#" class="dropdown-item"><i data-lucide="arrow-up-circle" style="width:14px;"></i> Upgrade Plan</a><a href="#" class="dropdown-item"><i data-lucide="plus-circle" style="width:14px;"></i> Add Credits</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="ban" style="width:14px;"></i> Suspend</a></div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar cyan">AD</div><div class="entity-info"><span class="entity-name">Anita Desai</span><span class="entity-sub">PeopleFirst HR Solutions</span></div></div></td>
+                                        <td>anita.desai@peoplefirst.com</td>
+                                        <td>+91 87654 32109</td>
+                                        <td><span class="badge badge-info">Consultancy</span></td>
+                                        <td>Professional</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button>
+                                            <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="eye" style="width:14px;"></i> View</a><a href="#" class="dropdown-item"><i data-lucide="arrow-up-circle" style="width:14px;"></i> Upgrade Plan</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="ban" style="width:14px;"></i> Suspend</a></div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar green">VP</div><div class="entity-info"><span class="entity-name">Vikram Patel</span><span class="entity-sub">CloudNine Solutions</span></div></div></td>
+                                        <td>vikram@cloudnine.io</td>
+                                        <td>+91 76543 21098</td>
+                                        <td><span class="badge badge-primary">Company Admin</span></td>
+                                        <td>Starter</td>
+                                        <td><span class="badge badge-warning">Pending</span></td>
+                                        <td>
+                                            <div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button>
+                                            <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="check-circle" style="width:14px;"></i> Approve</a><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="x-circle" style="width:14px;"></i> Reject</a></div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar orange">PM</div><div class="entity-info"><span class="entity-name">Priya Menon</span><span class="entity-sub">Recruit360</span></div></div></td>
+                                        <td>priya@recruit360.in</td>
+                                        <td>+91 65432 10987</td>
+                                        <td><span class="badge badge-secondary">Recruiter</span></td>
+                                        <td>Premium</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button>
+                                            <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="eye" style="width:14px;"></i> View</a><a href="#" class="dropdown-item"><i data-lucide="user-cog" style="width:14px;"></i> Assign Manager</a></div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar pink">SK</div><div class="entity-info"><span class="entity-name">Suresh Kumar</span><span class="entity-sub">Infosys BPM Ltd</span></div></div></td>
+                                        <td>suresh.kumar@infosys.com</td>
+                                        <td>+91 54321 09876</td>
+                                        <td><span class="badge badge-primary">Company Admin</span></td>
+                                        <td>Enterprise</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button>
+                                            <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="eye" style="width:14px;"></i> View</a><a href="#" class="dropdown-item"><i data-lucide="arrow-up-circle" style="width:14px;"></i> Upgrade Plan</a></div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar">NK</div><div class="entity-info"><span class="entity-name">Neha Kapoor</span><span class="entity-sub">HireRight Consultants</span></div></div></td>
+                                        <td>neha@hireright.co.in</td>
+                                        <td>+91 43210 98765</td>
+                                        <td><span class="badge badge-info">Consultancy</span></td>
+                                        <td>Premium</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button>
+                                            <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar green">AJ</div><div class="entity-info"><span class="entity-name">Arjun Joshi</span><span class="entity-sub">TCS iON</span></div></div></td>
+                                        <td>arjun.joshi@tcs.com</td>
+                                        <td>+91 99887 76655</td>
+                                        <td><span class="badge badge-primary">Company Admin</span></td>
+                                        <td>Enterprise</td>
+                                        <td><span class="badge badge-danger">Suspended</span></td>
+                                        <td>
+                                            <div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button>
+                                            <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="check-circle" style="width:14px;"></i> Reactivate</a><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="trash-2" style="width:14px;"></i> Delete</a></div></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar cyan">MR</div><div class="entity-info"><span class="entity-name">Meera Reddy</span><span class="entity-sub">Wipro Technologies</span></div></div></td>
+                                        <td>meera.reddy@wipro.com</td>
+                                        <td>+91 88776 65544</td>
+                                        <td><span class="badge badge-secondary">Recruiter</span></td>
+                                        <td>Professional</td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td>
+                                            <div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button>
+                                            <div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination">
+                            <span class="pagination-info">Showing 1–8 of 6,245 users</span>
+                            <div class="pagination-controls">
+                                <button class="page-btn" disabled><i data-lucide="chevron-left" style="width:14px;height:14px;"></i></button>
+                                <button class="page-btn active">1</button>
+                                <button class="page-btn">2</button>
+                                <button class="page-btn">3</button>
+                                <button class="page-btn">...</button>
+                                <button class="page-btn">781</button>
+                                <button class="page-btn"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Companies Tab (placeholder content) -->
+                <div class="tab-panel" id="tab-companies">
+                    <div class="card"><p class="text-muted" style="padding: var(--space-4); text-align: center;">View detailed company data on the <a href="company-management.html">Company Management</a> page.</p></div>
+                </div>
+                <div class="tab-panel" id="tab-consultancies">
+                    <div class="card"><p class="text-muted" style="padding: var(--space-4); text-align: center;">View detailed consultancy data on the <a href="consultancy-management.html">Consultancy Management</a> page.</p></div>
+                </div>
+                <div class="tab-panel" id="tab-recruiters">
+                    <div class="card"><p class="text-muted" style="padding: var(--space-4); text-align: center;">Recruiters are managed under their respective company or consultancy accounts.</p></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal-overlay" id="addUserModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New User</h3>
+                <button class="modal-close" data-dismiss="modal"><i data-lucide="x" style="width:18px;height:18px;"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-control" placeholder="Enter full name"></div>
+                <div class="form-group"><label class="form-label">Email Address</label><input type="email" class="form-control" placeholder="user@company.com"></div>
+                <div class="form-group"><label class="form-label">Phone Number</label><input type="tel" class="form-control" placeholder="+91 XXXXX XXXXX"></div>
+                <div class="form-group"><label class="form-label">Company Name</label><input type="text" class="form-control" placeholder="Company name"></div>
+                <div class="form-group"><label class="form-label">Account Type</label><select class="form-control"><option>Company Admin</option><option>Consultancy</option><option>Recruiter</option></select></div>
+                <div class="form-group"><label class="form-label">Plan</label><select class="form-control"><option>Starter</option><option>Professional</option><option>Premium</option><option>Enterprise</option></select></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary">Create User</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Command Palette -->
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette">
+            <div class="cp-header"><i data-lucide="search" style="width:20px;height:20px;"></i><input type="text" class="cp-input" placeholder="Search..."><button class="modal-close cp-close" onclick="document.getElementById('commandPaletteOverlay').classList.remove('open')"><i data-lucide="x" style="width:18px;height:18px;"></i></button></div>
+            <div class="cp-body"><div class="cp-group-title">Navigation</div><a href="dashboard.html" class="cp-item"><div class="cp-item-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div><div class="cp-item-content"><div class="cp-item-title">Dashboard</div></div></a><a href="company-management.html" class="cp-item"><div class="cp-item-icon"><i data-lucide="building" style="width:16px;height:16px;"></i></div><div class="cp-item-content"><div class="cp-item-title">Company Management</div></div></a></div>
+            <div class="cp-footer"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>Esc</kbd> Close</span></div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        // Tab switching
+        function switchTab(e, tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+    </script>
+</body>
+</html>

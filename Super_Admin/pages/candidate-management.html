@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Database - DIJIT Super Admin</title>
+    <meta name="description" content="Central talent pool management for DIJIT Talent Cloud.">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="dashboard.html" class="sidebar-logo"><i data-lucide="hexagon"></i><span>DIJIT Admin</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group"><div class="nav-group-title">Overview</div><a href="dashboard.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <div class="nav-item has-submenu"><i data-lucide="users"></i><span>User Management</span><i data-lucide="chevron-down" style="margin-left:auto;width:16px;"></i></div>
+                    <div class="nav-submenu">
+                        <a href="user-management.html" class="nav-item"><span>All Users</span></a>
+                        <a href="company-management.html" class="nav-item"><span>Companies</span></a>
+                        <a href="consultancy-management.html" class="nav-item"><span>Consultancies</span></a>
+                    </div>
+                    <a href="job-management.html" class="nav-item"><i data-lucide="briefcase"></i><span>Job Management</span></a>
+                    <a href="candidate-management.html" class="nav-item active"><i data-lucide="user-check"></i><span>Candidate Database</span></a>
+                </div>
+                <div class="nav-group"><div class="nav-group-title">Analytics & Revenue</div><a href="usage-analytics.html" class="nav-item"><i data-lucide="activity"></i><span>Usage Analytics</span></a><a href="subscriptions.html" class="nav-item"><i data-lucide="credit-card"></i><span>Subscriptions</span></a><a href="billing.html" class="nav-item"><i data-lucide="file-text"></i><span>Billing & Payments</span></a></div>
+                <div class="nav-group"><div class="nav-group-title">Internal</div><a href="sales-crm.html" class="nav-item"><i data-lucide="trending-up"></i><span>Sales CRM</span></a><a href="reports.html" class="nav-item"><i data-lucide="bar-chart-2"></i><span>Reports</span></a><a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a></div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+                    <div class="global-search"><i data-lucide="search" style="width:16px;height:16px;"></i><input type="text" placeholder="Search candidates..." readonly><span class="shortcut">⌘K</span></div>
+                </div>
+                <div class="header-right">
+                    <div class="dropdown"><button class="btn btn-primary btn-sm" data-toggle="dropdown"><i data-lucide="plus" style="width:16px;height:16px;"></i> Quick Action</button><div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="user-plus" style="width:14px;"></i> Add Candidate</a><a href="#" class="dropdown-item"><i data-lucide="upload" style="width:14px;"></i> Bulk Import</a></div></div>
+                    <button class="header-icon-btn"><i data-lucide="bell" style="width:20px;height:20px;"></i><span class="notification-badge"></span></button>
+                    <div class="dropdown"><div class="user-profile" data-toggle="dropdown"><div class="avatar">SA</div><div class="user-info"><span class="user-name">Praveen K.</span><span class="user-role">Super Admin</span></div></div><div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="user" style="width:16px;height:16px;"></i> Profile</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="log-out" style="width:16px;height:16px;"></i> Logout</a></div></div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header fade-in">
+                    <div>
+                        <div class="breadcrumb"><a href="dashboard.html">Home</a><span class="breadcrumb-separator">/</span><span>Candidate Database</span></div>
+                        <h1 class="page-title" style="margin-top:var(--space-2);">Candidate Database</h1>
+                        <p class="text-muted" style="font-size:0.875rem;margin-top:2px;">Central talent pool — verify profiles, tag resumes, and manage candidate quality.</p>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-outline btn-sm"><i data-lucide="download" style="width:14px;height:14px;"></i> Export</button>
+                        <button class="btn btn-primary btn-sm"><i data-lucide="user-plus" style="width:14px;height:14px;"></i> Add Candidate</button>
+                    </div>
+                </div>
+
+                <!-- KPIs -->
+                <div class="grid grid-cols-4 mb-6 fade-in">
+                    <div class="kpi-card" style="--kpi-accent:var(--primary);"><div class="kpi-top"><div><p class="kpi-label">Total Profiles</p><h3 class="kpi-value">52,480</h3></div><div class="kpi-icon" style="background:var(--primary-light);color:var(--primary);"><i data-lucide="users" style="width:20px;height:20px;"></i></div></div><div class="kpi-footer"><span class="kpi-trend up"><i data-lucide="trending-up" style="width:12px;height:12px;"></i> 18.3%</span><span class="kpi-period">vs last month</span></div></div>
+                    <div class="kpi-card" style="--kpi-accent:var(--success);"><div class="kpi-top"><div><p class="kpi-label">Verified Profiles</p><h3 class="kpi-value">38,240</h3></div><div class="kpi-icon" style="background:var(--success-bg);color:var(--success);"><i data-lucide="shield-check" style="width:20px;height:20px;"></i></div></div><div class="kpi-footer"><span class="kpi-trend up"><i data-lucide="trending-up" style="width:12px;height:12px;"></i> 12.1%</span><span class="kpi-period">vs last month</span></div></div>
+                    <div class="kpi-card" style="--kpi-accent:var(--secondary);"><div class="kpi-top"><div><p class="kpi-label">New This Month</p><h3 class="kpi-value">3,420</h3></div><div class="kpi-icon" style="background:#CFFAFE;color:#0891B2;"><i data-lucide="user-plus" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card" style="--kpi-accent:var(--danger);"><div class="kpi-top"><div><p class="kpi-label">Flagged / Blocked</p><h3 class="kpi-value">142</h3></div><div class="kpi-icon" style="background:var(--danger-bg);color:var(--danger);"><i data-lucide="shield-off" style="width:20px;height:20px;"></i></div></div></div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="tabs fade-in">
+                    <button class="tab-btn active" onclick="switchTab(event,'tab-all')">All Candidates <span class="tab-count">52,480</span></button>
+                    <button class="tab-btn" onclick="switchTab(event,'tab-verified')">Verified <span class="tab-count">38,240</span></button>
+                    <button class="tab-btn" onclick="switchTab(event,'tab-active')">Active <span class="tab-count">28,600</span></button>
+                    <button class="tab-btn" onclick="switchTab(event,'tab-inactive')">Inactive <span class="tab-count">10,840</span></button>
+                    <button class="tab-btn" onclick="switchTab(event,'tab-flagged')">Flagged <span class="tab-count">142</span></button>
+                </div>
+
+                <div class="tab-panel active" id="tab-all">
+                    <div class="card fade-in">
+                        <div class="table-toolbar">
+                            <div style="display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap;">
+                                <div class="table-search"><i data-lucide="search" style="width:14px;height:14px;"></i><input type="text" placeholder="Search by name, skills, location..."></div>
+                                <select class="filter-select"><option>All Experience</option><option>0-2 Years</option><option>3-5 Years</option><option>5-10 Years</option><option>10+ Years</option></select>
+                                <select class="filter-select"><option>All Locations</option><option>Mumbai</option><option>Bangalore</option><option>Delhi NCR</option><option>Hyderabad</option><option>Chennai</option><option>Pune</option></select>
+                                <select class="filter-select"><option>All Status</option><option>Verified</option><option>Unverified</option><option>Flagged</option></select>
+                            </div>
+                            <button class="btn btn-outline btn-sm"><i data-lucide="sliders-horizontal" style="width:14px;height:14px;"></i> Bulk Actions</button>
+                        </div>
+
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th><input type="checkbox" class="table-check"></th>
+                                        <th>Candidate</th>
+                                        <th>Skills</th>
+                                        <th>Experience</th>
+                                        <th>Location</th>
+                                        <th>Current CTC</th>
+                                        <th>Notice Period</th>
+                                        <th>Resume Score</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar">AK</div><div class="entity-info"><span class="entity-name">Arun Kumar</span><span class="entity-sub">arun.kumar@gmail.com</span></div></div></td>
+                                        <td><div style="display:flex;gap:4px;flex-wrap:wrap;"><span class="badge badge-primary" style="font-size:0.6875rem;">React</span><span class="badge badge-primary" style="font-size:0.6875rem;">Node.js</span><span class="badge badge-secondary" style="font-size:0.6875rem;">+3</span></div></td>
+                                        <td>5 Years</td>
+                                        <td>Bangalore</td>
+                                        <td>₹18 LPA</td>
+                                        <td>30 Days</td>
+                                        <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:40px;height:6px;background:var(--border-light);border-radius:3px;overflow:hidden;"><div style="width:88%;height:100%;background:var(--success);border-radius:3px;"></div></div><span style="font-size:0.75rem;font-weight:600;color:var(--success);">88</span></div></td>
+                                        <td><span class="badge badge-success">Verified</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openCandidateDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View Profile</a><a href="#" class="dropdown-item"><i data-lucide="star" style="width:14px;"></i> Feature Profile</a><a href="#" class="dropdown-item"><i data-lucide="tag" style="width:14px;"></i> Tag Resume</a><div class="dropdown-divider"></div><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="ban" style="width:14px;"></i> Block Profile</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar cyan">SR</div><div class="entity-info"><span class="entity-name">Sneha Rao</span><span class="entity-sub">sneha.rao@outlook.com</span></div></div></td>
+                                        <td><div style="display:flex;gap:4px;flex-wrap:wrap;"><span class="badge badge-primary" style="font-size:0.6875rem;">Python</span><span class="badge badge-primary" style="font-size:0.6875rem;">ML</span><span class="badge badge-secondary" style="font-size:0.6875rem;">+2</span></div></td>
+                                        <td>7 Years</td>
+                                        <td>Hyderabad</td>
+                                        <td>₹24 LPA</td>
+                                        <td>60 Days</td>
+                                        <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:40px;height:6px;background:var(--border-light);border-radius:3px;overflow:hidden;"><div style="width:92%;height:100%;background:var(--success);border-radius:3px;"></div></div><span style="font-size:0.75rem;font-weight:600;color:var(--success);">92</span></div></td>
+                                        <td><span class="badge badge-success">Verified</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openCandidateDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View Profile</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar green">RG</div><div class="entity-info"><span class="entity-name">Rajiv Gupta</span><span class="entity-sub">rajiv.g@yahoo.com</span></div></div></td>
+                                        <td><div style="display:flex;gap:4px;flex-wrap:wrap;"><span class="badge badge-primary" style="font-size:0.6875rem;">Java</span><span class="badge badge-primary" style="font-size:0.6875rem;">Spring</span><span class="badge badge-secondary" style="font-size:0.6875rem;">+4</span></div></td>
+                                        <td>10 Years</td>
+                                        <td>Pune</td>
+                                        <td>₹32 LPA</td>
+                                        <td>90 Days</td>
+                                        <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:40px;height:6px;background:var(--border-light);border-radius:3px;overflow:hidden;"><div style="width:76%;height:100%;background:var(--warning);border-radius:3px;"></div></div><span style="font-size:0.75rem;font-weight:600;color:var(--warning);">76</span></div></td>
+                                        <td><span class="badge badge-success">Verified</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openCandidateDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar orange">DM</div><div class="entity-info"><span class="entity-name">Divya Mehta</span><span class="entity-sub">divya.mehta@gmail.com</span></div></div></td>
+                                        <td><div style="display:flex;gap:4px;flex-wrap:wrap;"><span class="badge badge-primary" style="font-size:0.6875rem;">Figma</span><span class="badge badge-primary" style="font-size:0.6875rem;">UI/UX</span><span class="badge badge-secondary" style="font-size:0.6875rem;">+1</span></div></td>
+                                        <td>3 Years</td>
+                                        <td>Mumbai</td>
+                                        <td>₹12 LPA</td>
+                                        <td>15 Days</td>
+                                        <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:40px;height:6px;background:var(--border-light);border-radius:3px;overflow:hidden;"><div style="width:85%;height:100%;background:var(--success);border-radius:3px;"></div></div><span style="font-size:0.75rem;font-weight:600;color:var(--success);">85</span></div></td>
+                                        <td><span class="badge badge-warning">Unverified</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="shield-check" style="width:14px;"></i> Verify Profile</a><a href="#" class="dropdown-item" onclick="openCandidateDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar pink">KS</div><div class="entity-info"><span class="entity-name">Karthik Srinivasan</span><span class="entity-sub">karthik.s@gmail.com</span></div></div></td>
+                                        <td><div style="display:flex;gap:4px;flex-wrap:wrap;"><span class="badge badge-primary" style="font-size:0.6875rem;">AWS</span><span class="badge badge-primary" style="font-size:0.6875rem;">DevOps</span><span class="badge badge-secondary" style="font-size:0.6875rem;">+5</span></div></td>
+                                        <td>8 Years</td>
+                                        <td>Chennai</td>
+                                        <td>₹28 LPA</td>
+                                        <td>60 Days</td>
+                                        <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:40px;height:6px;background:var(--border-light);border-radius:3px;overflow:hidden;"><div style="width:94%;height:100%;background:var(--success);border-radius:3px;"></div></div><span style="font-size:0.75rem;font-weight:600;color:var(--success);">94</span></div></td>
+                                        <td><span class="badge badge-success">Verified</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openCandidateDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a><a href="#" class="dropdown-item"><i data-lucide="star" style="width:14px;"></i> Feature</a></div></div></td>
+                                    </tr>
+                                    <tr>
+                                        <td><input type="checkbox" class="table-check"></td>
+                                        <td><div class="entity-cell"><div class="entity-avatar" style="background:var(--danger-bg);color:var(--danger);">FP</div><div class="entity-info"><span class="entity-name">Fake Profile 001</span><span class="entity-sub">suspicious@temp.org</span></div></div></td>
+                                        <td><div style="display:flex;gap:4px;"><span class="badge badge-secondary" style="font-size:0.6875rem;">N/A</span></div></td>
+                                        <td>—</td>
+                                        <td>—</td>
+                                        <td>—</td>
+                                        <td>—</td>
+                                        <td><div style="display:flex;align-items:center;gap:6px;"><div style="width:40px;height:6px;background:var(--border-light);border-radius:3px;overflow:hidden;"><div style="width:12%;height:100%;background:var(--danger);border-radius:3px;"></div></div><span style="font-size:0.75rem;font-weight:600;color:var(--danger);">12</span></div></td>
+                                        <td><span class="badge badge-danger">Blocked</span></td>
+                                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" style="color:var(--danger);"><i data-lucide="trash-2" style="width:14px;"></i> Delete</a></div></div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pagination">
+                            <span class="pagination-info">Showing 1–6 of 52,480 candidates</span>
+                            <div class="pagination-controls">
+                                <button class="page-btn" disabled><i data-lucide="chevron-left" style="width:14px;height:14px;"></i></button>
+                                <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button>
+                                <button class="page-btn">...</button><button class="page-btn">8747</button>
+                                <button class="page-btn"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel" id="tab-verified"><div class="card"><div class="empty-state"><i data-lucide="shield-check" style="width:48px;height:48px;"></i><h3>Verified Candidates</h3><p>38,240 profiles have been verified by the DIJIT team.</p></div></div></div>
+                <div class="tab-panel" id="tab-active"><div class="card"><div class="empty-state"><i data-lucide="user-check" style="width:48px;height:48px;"></i><h3>Active Candidates</h3><p>28,600 candidates are actively looking for jobs.</p></div></div></div>
+                <div class="tab-panel" id="tab-inactive"><div class="card"><div class="empty-state"><i data-lucide="user-x" style="width:48px;height:48px;"></i><h3>Inactive Candidates</h3><p>10,840 profiles haven't been active in the last 90 days.</p></div></div></div>
+                <div class="tab-panel" id="tab-flagged"><div class="card"><div class="empty-state"><i data-lucide="shield-off" style="width:48px;height:48px;color:var(--danger);"></i><h3>Flagged Profiles</h3><p>142 profiles have been flagged for review or blocked as fake.</p><button class="btn btn-danger btn-sm">Review All Flagged</button></div></div></div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Candidate Profile Drawer -->
+    <div class="drawer-overlay" id="candidateDrawerOverlay" onclick="closeCandidateDrawer()"></div>
+    <div class="drawer" id="candidateDrawer" style="width:520px;">
+        <div class="drawer-header"><h3 class="drawer-title">Candidate Profile</h3><button class="modal-close" onclick="closeCandidateDrawer()"><i data-lucide="x" style="width:18px;height:18px;"></i></button></div>
+        <div class="drawer-body">
+            <!-- Profile Header -->
+            <div style="display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-6);">
+                <div class="entity-avatar" style="width:64px;height:64px;font-size:1.5rem;">AK</div>
+                <div style="flex:1;">
+                    <h3 style="margin:0;font-size:1.25rem;">Arun Kumar</h3>
+                    <p class="text-muted" style="margin:2px 0 0 0;font-size:0.875rem;">Senior Frontend Developer · Bangalore</p>
+                    <div style="display:flex;gap:var(--space-2);margin-top:var(--space-2);">
+                        <span class="badge badge-success">Verified</span>
+                        <span class="badge badge-primary">Featured</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Score -->
+            <div style="background:var(--bg-body);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-6);text-align:center;">
+                <p style="font-size:0.75rem;color:var(--text-secondary);margin:0 0 var(--space-2) 0;text-transform:uppercase;font-weight:600;letter-spacing:0.05em;">Resume Score</p>
+                <div style="display:inline-flex;align-items:center;justify-content:center;width:72px;height:72px;border-radius:50%;background:conic-gradient(var(--success) 0% 88%, var(--border-light) 88% 100%);position:relative;">
+                    <div style="width:56px;height:56px;border-radius:50%;background:var(--bg-body);display:flex;align-items:center;justify-content:center;font-size:1.25rem;font-weight:700;color:var(--success);">88</div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-row" style="margin-bottom:var(--space-6);padding:var(--space-3) 0;justify-content:space-around;">
+                <div class="stat-item"><div class="stat-number" style="font-size:1.25rem;">5</div><div class="stat-label">Experience (yrs)</div></div>
+                <div class="stat-item"><div class="stat-number" style="font-size:1.25rem;">₹18L</div><div class="stat-label">Current CTC</div></div>
+                <div class="stat-item"><div class="stat-number" style="font-size:1.25rem;">30d</div><div class="stat-label">Notice Period</div></div>
+            </div>
+
+            <!-- Details -->
+            <h4 style="font-size:0.875rem;font-weight:600;margin-bottom:var(--space-3);color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Personal Information</h4>
+            <div style="margin-bottom:var(--space-6);">
+                <div class="detail-row"><span class="detail-label">Full Name</span><span class="detail-value">Arun Kumar</span></div>
+                <div class="detail-row"><span class="detail-label">Email</span><span class="detail-value">arun.kumar@gmail.com</span></div>
+                <div class="detail-row"><span class="detail-label">Phone</span><span class="detail-value">+91 98765 12345</span></div>
+                <div class="detail-row"><span class="detail-label">Location</span><span class="detail-value">Bangalore, Karnataka</span></div>
+                <div class="detail-row"><span class="detail-label">Current Company</span><span class="detail-value">Flipkart</span></div>
+                <div class="detail-row"><span class="detail-label">Designation</span><span class="detail-value">Senior Frontend Engineer</span></div>
+            </div>
+
+            <h4 style="font-size:0.875rem;font-weight:600;margin-bottom:var(--space-3);color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Skills</h4>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-6);">
+                <span class="badge badge-primary">React.js</span>
+                <span class="badge badge-primary">Node.js</span>
+                <span class="badge badge-primary">TypeScript</span>
+                <span class="badge badge-primary">Next.js</span>
+                <span class="badge badge-primary">GraphQL</span>
+            </div>
+
+            <h4 style="font-size:0.875rem;font-weight:600;margin-bottom:var(--space-3);color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Resume Tags</h4>
+            <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4);">
+                <span class="badge badge-info">Top Performer</span>
+                <span class="badge badge-success">Immediate Joiner</span>
+                <span class="badge badge-warning">Salary Negotiable</span>
+            </div>
+        </div>
+        <div class="drawer-footer">
+            <button class="btn btn-outline" onclick="closeCandidateDrawer()">Close</button>
+            <button class="btn btn-outline"><i data-lucide="tag" style="width:14px;height:14px;"></i> Add Tag</button>
+            <button class="btn btn-primary"><i data-lucide="shield-check" style="width:14px;height:14px;"></i> Verify</button>
+        </div>
+    </div>
+
+    <!-- Command Palette -->
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette"><div class="cp-header"><i data-lucide="search" style="width:20px;height:20px;"></i><input type="text" class="cp-input" placeholder="Search..."><button class="modal-close" onclick="document.getElementById('commandPaletteOverlay').classList.remove('open')"><i data-lucide="x" style="width:18px;height:18px;"></i></button></div><div class="cp-body"><div class="cp-group-title">Navigation</div><a href="dashboard.html" class="cp-item"><div class="cp-item-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div><div class="cp-item-content"><div class="cp-item-title">Dashboard</div></div></a><a href="job-management.html" class="cp-item"><div class="cp-item-icon"><i data-lucide="briefcase" style="width:16px;height:16px;"></i></div><div class="cp-item-content"><div class="cp-item-title">Job Management</div></div></a></div><div class="cp-footer"><span><kbd>Esc</kbd> Close</span></div></div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        function switchTab(e, tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            e.currentTarget.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+        function openCandidateDrawer(e) { if(e) e.preventDefault(); document.getElementById('candidateDrawerOverlay').classList.add('open'); document.getElementById('candidateDrawer').classList.add('open'); }
+        function closeCandidateDrawer() { document.getElementById('candidateDrawerOverlay').classList.remove('open'); document.getElementById('candidateDrawer').classList.remove('open'); }
+    </script>
+</body>
+</html>

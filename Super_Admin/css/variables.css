@@ -1,0 +1,80 @@
+/* variables.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Premium Colors */
+    --primary: #4F46E5;       /* Deep Indigo */
+    --primary-hover: #4338CA;
+    --primary-light: #EEF2FF;
+    --primary-glow: rgba(79, 70, 229, 0.25);
+    
+    --secondary: #0EA5E9;     /* Vibrant Sky Blue */
+    --accent: #F43F5E;        /* Rose Red */
+    
+    --bg-body: #F8FAFC;       /* Very light slate/gray */
+    --bg-sidebar: #0F172A;    /* Very dark slate */
+    --bg-card: #FFFFFF;
+    
+    --border-color: #E2E8F0;  /* Softer border */
+    --border-light: #F1F5F9;
+    --border-hover: #CBD5E1;
+    
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --text-sidebar: #94A3B8;
+    --text-sidebar-hover: #FFFFFF;
+    
+    /* Semantic Colors - More vibrant */
+    --success: #10B981;
+    --success-bg: #D1FAE5;
+    --success-text: #065F46;
+    
+    --warning: #F59E0B;
+    --warning-bg: #FEF3C7;
+    --warning-text: #92400E;
+    
+    --danger: #EF4444;
+    --danger-bg: #FEE2E2;
+    --danger-text: #991B1B;
+    
+    --info: #3B82F6;
+    --info-bg: #DBEAFE;
+    --info-text: #1E40AF;
+    
+    /* Typography */
+    --font-family: 'Inter', sans-serif;
+    
+    /* Premium Shadows - Softer and more layered */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    --shadow-card: 0 2px 8px -2px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+    --shadow-hover: 0 12px 20px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    --shadow-dropdown: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-8: 3rem;
+    
+    /* Borders - Slightly softer radii for a modern feel */
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+    
+    /* Transitions */
+    --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Layout */
+    --sidebar-width: 260px;
+    --sidebar-collapsed-width: 80px;
+    --header-height: 72px;
+}

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultancy Management - DIJIT Super Admin</title>
+    <meta name="description" content="Manage all consultancy accounts, their recruiters, and usage metrics.">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="dashboard.html" class="sidebar-logo"><i data-lucide="hexagon"></i><span>DIJIT Admin</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group"><div class="nav-group-title">Overview</div><a href="dashboard.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <div class="nav-item has-submenu open"><i data-lucide="users"></i><span>User Management</span><i data-lucide="chevron-down" style="margin-left:auto;width:16px;"></i></div>
+                    <div class="nav-submenu" style="display:block;">
+                        <a href="user-management.html" class="nav-item"><span>All Users</span></a>
+                        <a href="company-management.html" class="nav-item"><span>Companies</span></a>
+                        <a href="consultancy-management.html" class="nav-item active"><span>Consultancies</span></a>
+                    </div>
+                    <a href="job-management.html" class="nav-item"><i data-lucide="briefcase"></i><span>Job Management</span></a>
+                    <a href="candidate-management.html" class="nav-item"><i data-lucide="user-check"></i><span>Candidate Database</span></a>
+                </div>
+                <div class="nav-group"><div class="nav-group-title">Analytics & Revenue</div><a href="usage-analytics.html" class="nav-item"><i data-lucide="activity"></i><span>Usage Analytics</span></a><a href="subscriptions.html" class="nav-item"><i data-lucide="credit-card"></i><span>Subscriptions</span></a><a href="billing.html" class="nav-item"><i data-lucide="file-text"></i><span>Billing & Payments</span></a></div>
+                <div class="nav-group"><div class="nav-group-title">Internal</div><a href="sales-crm.html" class="nav-item"><i data-lucide="trending-up"></i><span>Sales CRM</span></a><a href="reports.html" class="nav-item"><i data-lucide="bar-chart-2"></i><span>Reports</span></a><a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a></div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left"><button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button><div class="global-search"><i data-lucide="search" style="width:16px;height:16px;"></i><input type="text" placeholder="Search..." readonly><span class="shortcut">⌘K</span></div></div>
+                <div class="header-right"><button class="btn btn-primary btn-sm"><i data-lucide="plus" style="width:16px;height:16px;"></i> Add Consultancy</button><button class="header-icon-btn"><i data-lucide="bell" style="width:20px;height:20px;"></i><span class="notification-badge"></span></button><div class="avatar" style="cursor:pointer;">SA</div></div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header fade-in">
+                    <div>
+                        <div class="breadcrumb"><a href="dashboard.html">Home</a><span class="breadcrumb-separator">/</span><a href="user-management.html">Users</a><span class="breadcrumb-separator">/</span><span>Consultancies</span></div>
+                        <h1 class="page-title" style="margin-top:var(--space-2);">Consultancy Management</h1>
+                        <p class="text-muted" style="font-size:0.875rem;margin-top:2px;">Track consultancy accounts, recruiter teams, and platform usage.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-4 mb-6 fade-in">
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Total Consultancies</p><h3 class="kpi-value">328</h3></div><div class="kpi-icon" style="background:#CFFAFE;color:#0891B2;"><i data-lucide="network" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Active Recruiters</p><h3 class="kpi-value">2,140</h3></div><div class="kpi-icon" style="background:var(--success-bg);color:var(--success);"><i data-lucide="users" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Client Requirements</p><h3 class="kpi-value">1,850</h3></div><div class="kpi-icon" style="background:var(--warning-bg);color:var(--warning);"><i data-lucide="clipboard-list" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Avg. Resume Unlocks/Day</p><h3 class="kpi-value">420</h3></div><div class="kpi-icon" style="background:#EDE9FE;color:#8B5CF6;"><i data-lucide="unlock" style="width:20px;height:20px;"></i></div></div></div>
+                </div>
+
+                <div class="card fade-in">
+                    <div class="table-toolbar">
+                        <div style="display:flex;gap:var(--space-3);align-items:center;">
+                            <div class="table-search"><i data-lucide="search" style="width:14px;height:14px;"></i><input type="text" placeholder="Search consultancies..."></div>
+                            <select class="filter-select"><option>All Plans</option><option>Starter</option><option>Professional</option><option>Premium</option><option>Enterprise</option></select>
+                        </div>
+                        <button class="btn btn-outline btn-sm"><i data-lucide="download" style="width:14px;height:14px;"></i> Export</button>
+                    </div>
+
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" class="table-check"></th>
+                                    <th>Consultancy</th>
+                                    <th>Team Size</th>
+                                    <th>Active Recruiters</th>
+                                    <th>Client Reqs</th>
+                                    <th>Candidate Unlocks</th>
+                                    <th>Job Posts</th>
+                                    <th>Plan</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" class="table-check"></td>
+                                    <td><div class="entity-cell"><div class="entity-avatar cyan">PF</div><div class="entity-info"><span class="entity-name">PeopleFirst HR Solutions</span><span class="entity-sub">peoplefirst.com</span></div></div></td>
+                                    <td>48</td>
+                                    <td>38</td>
+                                    <td>156</td>
+                                    <td>2,340 / 5,000</td>
+                                    <td>89 / Unlimited</td>
+                                    <td><span class="badge badge-primary">Enterprise</span></td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openConsultDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View Details</a><a href="#" class="dropdown-item"><i data-lucide="arrow-up-circle" style="width:14px;"></i> Upgrade</a><a href="#" class="dropdown-item"><i data-lucide="users" style="width:14px;"></i> Add Seats</a><a href="#" class="dropdown-item"><i data-lucide="plus-circle" style="width:14px;"></i> Add Credits</a><a href="#" class="dropdown-item"><i data-lucide="activity" style="width:14px;"></i> View Team Activity</a></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-check"></td>
+                                    <td><div class="entity-cell"><div class="entity-avatar">HR</div><div class="entity-info"><span class="entity-name">HireRight Consultants</span><span class="entity-sub">hireright.co.in</span></div></div></td>
+                                    <td>22</td>
+                                    <td>18</td>
+                                    <td>72</td>
+                                    <td>890 / 1,000</td>
+                                    <td>34 / 50</td>
+                                    <td><span class="badge badge-info">Premium</span></td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openConsultDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-check"></td>
+                                    <td><div class="entity-cell"><div class="entity-avatar green">TS</div><div class="entity-info"><span class="entity-name">TalentSphere Global</span><span class="entity-sub">talentsphere.com</span></div></div></td>
+                                    <td>65</td>
+                                    <td>52</td>
+                                    <td>210</td>
+                                    <td>4,100 / 5,000</td>
+                                    <td>120 / Unlimited</td>
+                                    <td><span class="badge badge-primary">Enterprise</span></td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openConsultDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-check"></td>
+                                    <td><div class="entity-cell"><div class="entity-avatar orange">RS</div><div class="entity-info"><span class="entity-name">Recruit360 India</span><span class="entity-sub">recruit360.in</span></div></div></td>
+                                    <td>12</td>
+                                    <td>10</td>
+                                    <td>45</td>
+                                    <td>180 / 200</td>
+                                    <td>15 / 25</td>
+                                    <td><span class="badge badge-secondary">Professional</span></td>
+                                    <td><span class="badge badge-success">Active</span></td>
+                                    <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item" onclick="openConsultDrawer(event)"><i data-lucide="eye" style="width:14px;"></i> View</a></div></div></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" class="table-check"></td>
+                                    <td><div class="entity-cell"><div class="entity-avatar pink">NS</div><div class="entity-info"><span class="entity-name">NexStep Staffing</span><span class="entity-sub">nexstep.co</span></div></div></td>
+                                    <td>8</td>
+                                    <td>5</td>
+                                    <td>18</td>
+                                    <td>45 / 50</td>
+                                    <td>6 / 10</td>
+                                    <td><span class="badge badge-secondary">Starter</span></td>
+                                    <td><span class="badge badge-warning">Expiring Soon</span></td>
+                                    <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item"><i data-lucide="refresh-cw" style="width:14px;"></i> Renew Plan</a></div></div></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="pagination">
+                        <span class="pagination-info">Showing 1–5 of 328 consultancies</span>
+                        <div class="pagination-controls">
+                            <button class="page-btn" disabled><i data-lucide="chevron-left" style="width:14px;height:14px;"></i></button>
+                            <button class="page-btn active">1</button><button class="page-btn">2</button><button class="page-btn">3</button>
+                            <button class="page-btn">...</button><button class="page-btn">66</button>
+                            <button class="page-btn"><i data-lucide="chevron-right" style="width:14px;height:14px;"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Consultancy Detail Drawer -->
+    <div class="drawer-overlay" id="consultDrawerOverlay" onclick="closeConsultDrawer()"></div>
+    <div class="drawer" id="consultDrawer">
+        <div class="drawer-header"><h3 class="drawer-title">Consultancy Details</h3><button class="modal-close" onclick="closeConsultDrawer()"><i data-lucide="x" style="width:18px;height:18px;"></i></button></div>
+        <div class="drawer-body">
+            <div style="display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-6);">
+                <div class="entity-avatar cyan" style="width:56px;height:56px;font-size:1.25rem;">PF</div>
+                <div><h3 style="margin:0;font-size:1.125rem;">PeopleFirst HR Solutions</h3><p class="text-muted" style="margin:0;">peoplefirst.com</p></div>
+            </div>
+            <div class="stats-row" style="margin-bottom:var(--space-6);padding:var(--space-4);background:var(--bg-body);border-radius:var(--radius-lg);">
+                <div class="stat-item"><div class="stat-number">48</div><div class="stat-label">Team Size</div></div>
+                <div class="stat-item"><div class="stat-number">38</div><div class="stat-label">Active</div></div>
+                <div class="stat-item"><div class="stat-number">156</div><div class="stat-label">Client Reqs</div></div>
+                <div class="stat-item"><div class="stat-number">2,340</div><div class="stat-label">Unlocks</div></div>
+            </div>
+            <h4 style="font-size:0.875rem;font-weight:600;margin-bottom:var(--space-3);color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.05em;">Plan Details</h4>
+            <div style="margin-bottom:var(--space-6);">
+                <div class="detail-row"><span class="detail-label">Plan</span><span class="detail-value"><span class="badge badge-primary">Enterprise</span></span></div>
+                <div class="detail-row"><span class="detail-label">Recruiter Seats</span><span class="detail-value">38 / 50 used</span></div>
+                <div class="detail-row"><span class="detail-label">Candidate Unlocks</span><span class="detail-value">2,340 / 5,000</span></div>
+                <div class="detail-row"><span class="detail-label">Job Posts</span><span class="detail-value">89 / Unlimited</span></div>
+                <div class="detail-row"><span class="detail-label">Expiry</span><span class="detail-value">15 Feb 2027</span></div>
+            </div>
+        </div>
+        <div class="drawer-footer">
+            <button class="btn btn-outline" onclick="closeConsultDrawer()">Close</button>
+            <button class="btn btn-primary"><i data-lucide="arrow-up-circle" style="width:14px;height:14px;"></i> Upgrade</button>
+        </div>
+    </div>
+
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette"><div class="cp-header"><i data-lucide="search" style="width:20px;height:20px;"></i><input type="text" class="cp-input" placeholder="Search..."><button class="modal-close" onclick="document.getElementById('commandPaletteOverlay').classList.remove('open')"><i data-lucide="x" style="width:18px;height:18px;"></i></button></div><div class="cp-body"><div class="cp-group-title">Navigation</div><a href="dashboard.html" class="cp-item"><div class="cp-item-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div><div class="cp-item-content"><div class="cp-item-title">Dashboard</div></div></a></div><div class="cp-footer"><span><kbd>Esc</kbd> Close</span></div></div>
+    </div>
+
+    <script src="../js/app.js"></script>
+    <script>
+        function openConsultDrawer(e) { if(e) e.preventDefault(); document.getElementById('consultDrawerOverlay').classList.add('open'); document.getElementById('consultDrawer').classList.add('open'); }
+        function closeConsultDrawer() { document.getElementById('consultDrawerOverlay').classList.remove('open'); document.getElementById('consultDrawer').classList.remove('open'); }
+    </script>
+</body>
+</html>

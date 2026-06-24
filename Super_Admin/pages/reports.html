@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - DIJIT Super Admin</title>
+    <meta name="description" content="Generate and download platform reports.">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="sidebar-logo"><i data-lucide="hexagon"></i><span>DIJIT Admin</span></a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <div class="nav-group-title">Overview</div>
+                    <a href="dashboard.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <div class="nav-item has-submenu">
+                        <i data-lucide="users"></i><span>User Management</span>
+                        <i data-lucide="chevron-down" style="margin-left: auto; width: 16px;"></i>
+                    </div>
+                    <div class="nav-submenu">
+                        <a href="user-management.html" class="nav-item"><span>All Users</span></a>
+                        <a href="company-management.html" class="nav-item"><span>Companies</span></a>
+                        <a href="consultancy-management.html" class="nav-item"><span>Consultancies</span></a>
+                    </div>
+                    <a href="job-management.html" class="nav-item"><i data-lucide="briefcase"></i><span>Job Management</span></a>
+                    <a href="candidate-management.html" class="nav-item"><i data-lucide="user-check"></i><span>Candidate Database</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Analytics & Revenue</div>
+                    <a href="usage-analytics.html" class="nav-item"><i data-lucide="activity"></i><span>Usage Analytics</span></a>
+                    <a href="subscriptions.html" class="nav-item"><i data-lucide="credit-card"></i><span>Subscriptions</span></a>
+                    <a href="billing.html" class="nav-item"><i data-lucide="file-text"></i><span>Billing & Payments</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Internal</div>
+                    <a href="sales-crm.html" class="nav-item"><i data-lucide="trending-up"></i><span>Sales CRM</span></a>
+                    <a href="reports.html" class="nav-item active"><i data-lucide="bar-chart-2"></i><span>Reports</span></a>
+                    <a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+                    <div class="global-search"><i data-lucide="search" style="width:16px;height:16px;"></i><input type="text" placeholder="Search..." readonly><span class="shortcut">⌘K</span></div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary btn-sm"><i data-lucide="plus" style="width:16px;height:16px;"></i> Custom Report</button>
+                    <button class="header-icon-btn"><i data-lucide="bell" style="width:20px;height:20px;"></i></button>
+                    <div class="avatar" style="cursor:pointer;">SA</div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header fade-in">
+                    <div>
+                        <div class="breadcrumb">
+                            <a href="dashboard.html">Home</a><span class="breadcrumb-separator">/</span><span>Reports</span>
+                        </div>
+                        <h1 class="page-title" style="margin-top:var(--space-2);">Reports & Exports</h1>
+                        <p class="text-muted" style="font-size:0.875rem;margin-top:2px;">Generate and download data extracts for compliance and analysis.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 mb-6 fade-in">
+                    
+                    <!-- Report Card 1 -->
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h3 class="card-title" style="display:flex;align-items:center;gap:8px;"><i data-lucide="users" style="color:var(--primary);"></i> User Growth</h3>
+                        </div>
+                        <div style="padding: var(--space-4);">
+                            <p class="text-muted" style="font-size:0.875rem; margin-bottom:var(--space-4);">Detailed breakdown of signups, verified accounts, and blocked profiles over a selected period.</p>
+                            <div class="form-group">
+                                <label class="form-label">Date Range</label>
+                                <select class="form-control"><option>Last 30 Days</option><option>Last 90 Days</option><option>Year to Date</option></select>
+                            </div>
+                            <button class="btn btn-outline" style="width:100%;"><i data-lucide="download" style="width:14px;height:14px;"></i> Export CSV</button>
+                        </div>
+                    </div>
+
+                    <!-- Report Card 2 -->
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h3 class="card-title" style="display:flex;align-items:center;gap:8px;"><i data-lucide="indian-rupee" style="color:var(--success);"></i> Revenue & Billing</h3>
+                        </div>
+                        <div style="padding: var(--space-4);">
+                            <p class="text-muted" style="font-size:0.875rem; margin-bottom:var(--space-4);">Comprehensive log of all invoices, received payments, and MRR growth for financial audits.</p>
+                            <div class="form-group">
+                                <label class="form-label">Date Range</label>
+                                <select class="form-control"><option>This Quarter</option><option>Last Quarter</option><option>Current Financial Year</option></select>
+                            </div>
+                            <button class="btn btn-outline" style="width:100%;"><i data-lucide="download" style="width:14px;height:14px;"></i> Export CSV</button>
+                        </div>
+                    </div>
+
+                    <!-- Report Card 3 -->
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h3 class="card-title" style="display:flex;align-items:center;gap:8px;"><i data-lucide="activity" style="color:#8B5CF6;"></i> Platform Usage</h3>
+                        </div>
+                        <div style="padding: var(--space-4);">
+                            <p class="text-muted" style="font-size:0.875rem; margin-bottom:var(--space-4);">Data on API requests, job postings, resume unlocks, and overall feature adoption.</p>
+                            <div class="form-group">
+                                <label class="form-label">Date Range</label>
+                                <select class="form-control"><option>Last 30 Days</option><option>Last 90 Days</option><option>Year to Date</option></select>
+                            </div>
+                            <button class="btn btn-outline" style="width:100%;"><i data-lucide="download" style="width:14px;height:14px;"></i> Export CSV</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="card fade-in">
+                    <div class="card-header border-bottom">
+                        <h3 class="card-title">Recent Exports</h3>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Report Name</th>
+                                    <th>Generated By</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span style="font-weight: 500;">Q1_Revenue_Audit.csv</span></td>
+                                    <td>Praveen K.</td>
+                                    <td>10 Jun 2026, 14:30</td>
+                                    <td><span class="badge badge-success">Ready</span></td>
+                                    <td><button class="btn-ghost btn-icon"><i data-lucide="download" style="width:16px;"></i></button></td>
+                                </tr>
+                                 <tr>
+                                    <td><span style="font-weight: 500;">May_Usage_Stats.csv</span></td>
+                                    <td>System Auto</td>
+                                    <td>01 Jun 2026, 00:01</td>
+                                    <td><span class="badge badge-success">Ready</span></td>
+                                    <td><button class="btn-ghost btn-icon"><i data-lucide="download" style="width:16px;"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Command Palette -->
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette">
+            <div class="cp-header"><i data-lucide="search" style="width:20px;height:20px;"></i><input type="text" class="cp-input" placeholder="Search..."><button class="modal-close cp-close" onclick="document.getElementById('commandPaletteOverlay').classList.remove('open')"><i data-lucide="x" style="width:18px;height:18px;"></i></button></div>
+            <div class="cp-body"><div class="cp-group-title">Navigation</div><a href="dashboard.html" class="cp-item"><div class="cp-item-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div><div class="cp-item-content"><div class="cp-item-title">Dashboard</div></div></a></div>
+            <div class="cp-footer"><span><kbd>↑</kbd><kbd>↓</kbd> Navigate</span><span><kbd>Esc</kbd> Close</span></div>
+        </div>
+    </div>
+
+    <script src="../js/app.js"></script>
+</body>
+</html>
