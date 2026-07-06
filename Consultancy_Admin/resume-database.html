@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Database - DIJIT Talent Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .search-hero { background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%); padding: var(--space-6); border-radius: var(--radius-lg); margin-bottom: var(--space-6); border: 1px solid #C7D2FE; }
+        .search-hero-title { font-size: 1.25rem; font-weight: 700; color: #3730A3; margin-bottom: var(--space-4); }
+        .search-bar-complex { display: flex; background: #fff; padding: 6px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); gap: 6px; border: 1px solid var(--border-color); }
+        .search-bar-complex input { flex-grow: 1; border: none; padding: 10px 14px; outline: none; font-size: 0.875rem; background: transparent; }
+        .search-bar-complex select { padding: 10px; border: none; border-left: 1px solid var(--border-color); outline: none; background: transparent; font-size: 0.875rem; color: var(--text-secondary); }
+        .search-bar-complex .btn { padding: 10px 24px; }
+        .profile-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); margin-bottom: var(--space-6); }
+        .profile-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: var(--space-5); transition: box-shadow 0.2s, transform 0.2s; }
+        .profile-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .profile-header { display: flex; gap: var(--space-4); margin-bottom: var(--space-4); }
+        .profile-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 600; flex-shrink: 0; }
+        .profile-info h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+        .profile-info p { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 2px; }
+        .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-4); }
+        .skill-tag { background: var(--bg-body); padding: 4px 10px; border-radius: var(--radius-md); font-size: 0.75rem; border: 1px solid var(--border-color); }
+        .profile-footer { display: flex; justify-content: space-between; align-items: center; padding-top: var(--space-4); border-top: 1px solid var(--border-color); }
+        .toast { position: fixed; bottom: 24px; right: 24px; background: var(--success); color: #fff; padding: 12px 24px; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600; z-index: 9999; display: none; box-shadow: var(--shadow-lg); animation: slideInUp 0.3s ease; }
+        @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .quota-banner { background: var(--bg-card); padding: var(--space-3) var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-4); }
+        .quota-bar-container { flex-grow: 1; max-width: 300px; margin: 0 var(--space-4); }
+        .quota-bar-bg { height: 6px; background: var(--border-color); border-radius: var(--radius-full); overflow: hidden; }
+        .quota-bar-fill { height: 100%; background: var(--primary); transition: width 0.3s ease; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="index.html" class="sidebar-logo"><img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" class="sidebar-logo-img"><span>Consultancy</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group"><div class="nav-group-title">Overview</div><a href="index.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Workflow</div>
+                    <a href="client-reqs.html" class="nav-item"><i data-lucide="clipboard-list"></i><span>Client Reqs</span></a>
+                    <a href="sourcing.html" class="nav-item"><i data-lucide="users"></i><span>Sourcing</span></a>
+                    <a href="resume-database.html" class="nav-item active"><i data-lucide="search"></i><span>Resume Database</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <a href="team-members.html" class="nav-item"><i data-lucide="user-plus"></i><span>Team Members</span></a>
+                    <a href="billing-plan.html" class="nav-item"><i data-lucide="credit-card"></i><span>Billing & Plan</span></a>
+                    <a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left"><button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button></div>
+                <div class="header-right"><div class="avatar" style="cursor:pointer;">PF</div></div>
+            </header>
+
+            <main class="main-content fade-in">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Resume Database</h1>
+                        <p class="text-muted" style="font-size:0.875rem; margin-top:2px;">Search and unlock premium candidate profiles for your clients.</p>
+                    </div>
+                </div>
+
+                <div class="quota-banner">
+                    <div style="display:flex; align-items:center; gap:8px;"><i data-lucide="unlock" style="color:var(--primary);width:18px;"></i><span style="font-weight:600; font-size:0.875rem;">Resume Unlocks</span></div>
+                    <div class="quota-bar-container"><div class="quota-bar-bg"><div class="quota-bar-fill" id="quotaFill" style="width: 46%;"></div></div></div>
+                    <div style="font-size:0.875rem; font-weight:600;"><span id="quotaUsed">2340</span> <span class="text-muted">/ 5000</span></div>
+                </div>
+
+                <div class="search-hero">
+                    <div class="search-hero-title">Find the perfect candidate</div>
+                    <div class="search-bar-complex">
+                        <i data-lucide="search" style="margin: 10px; color: var(--text-secondary);"></i>
+                        <input type="text" placeholder="Job title, keywords, or company..." id="searchInput">
+                        <select id="expFilter"><option value="">Experience</option><option value="1-3">1-3 Years</option><option value="3-5">3-5 Years</option><option value="5-10">5-10 Years</option></select>
+                        <select id="locFilter"><option value="">Location</option><option value="Bangalore">Bangalore</option><option value="Remote">Remote</option><option value="Mumbai">Mumbai</option></select>
+                        <button class="btn btn-primary">Search</button>
+                    </div>
+                </div>
+
+                <div class="profile-grid" id="profileGrid">
+                    <!-- Cards rendered via JS -->
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Profile Unlocked! 1 credit deducted.</div>
+
+    <script src="js/app.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let quota = 2340;
+        const totalQuota = 5000;
+
+        const profiles = [
+            { id: 1, name: 'Vikram Sharma', title: 'Senior React Developer', exp: '6 Years', loc: 'Bangalore', salary: '₹22L', skills: ['React', 'Node.js', 'TypeScript', 'AWS'] },
+            { id: 2, name: 'Priya Patel', title: 'Product Manager', exp: '4 Years', loc: 'Mumbai', salary: '₹18L', skills: ['Agile', 'Jira', 'Roadmapping', 'UX'] },
+            { id: 3, name: 'Rohan Desai', title: 'DevOps Engineer', exp: '5 Years', loc: 'Remote', salary: '₹20L', skills: ['Docker', 'Kubernetes', 'CI/CD', 'Azure'] },
+            { id: 4, name: 'Anita Reddy', title: 'Data Scientist', exp: '3 Years', loc: 'Bangalore', salary: '₹15L', skills: ['Python', 'Machine Learning', 'SQL', 'Tableau'] },
+            { id: 5, name: 'Karan Singh', title: 'UI/UX Designer', exp: '7 Years', loc: 'Remote', salary: '₹25L', skills: ['Figma', 'Prototyping', 'User Research', 'CSS'] },
+            { id: 6, name: 'Sneha Gupta', title: 'Backend Lead', exp: '8 Years', loc: 'Mumbai', salary: '₹35L', skills: ['Java', 'Spring Boot', 'Microservices', 'Kafka'] }
+        ];
+
+        function renderProfiles() {
+            const grid = document.getElementById('profileGrid');
+            grid.innerHTML = '';
+            profiles.forEach(p => {
+                grid.innerHTML += `
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">${p.name.charAt(0)}</div>
+                            <div class="profile-info">
+                                <h3><span class="blur-name" id="name-${p.id}">Candidate #${p.id}</span></h3>
+                                <p>${p.title}</p>
+                                <p style="font-size:0.75rem; margin-top:4px;"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline;"></i> ${p.loc} &nbsp;&bull;&nbsp; <i data-lucide="briefcase" style="width:12px;height:12px;display:inline;"></i> ${p.exp}</p>
+                            </div>
+                        </div>
+                        <div class="skill-tags">${p.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}</div>
+                        <div class="profile-footer">
+                            <span style="font-weight:600; font-size:0.875rem;">${p.salary} Expected</span>
+                            <button class="btn btn-outline btn-sm unlock-btn" data-id="${p.id}" id="btn-${p.id}"><i data-lucide="unlock" style="width:14px;height:14px;"></i> Unlock Profile</button>
+                        </div>
+                    </div>
+                `;
+            });
+            if (window.lucide) lucide.createIcons();
+
+            document.querySelectorAll('.unlock-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const id = e.currentTarget.dataset.id;
+                    const profile = profiles.find(pr => pr.id == id);
+                    
+                    document.getElementById(`name-${id}`).textContent = profile.name;
+                    document.getElementById(`name-${id}`).classList.remove('blur-name');
+                    
+                    const button = document.getElementById(`btn-${id}`);
+                    button.innerHTML = '<i data-lucide="check" style="width:14px;height:14px;"></i> Unlocked';
+                    button.classList.remove('btn-outline');
+                    button.classList.add('btn-primary');
+                    button.disabled = true;
+                    if (window.lucide) lucide.createIcons();
+
+                    quota += 1;
+                    document.getElementById('quotaUsed').textContent = quota;
+                    document.getElementById('quotaFill').style.width = (quota/totalQuota * 100) + '%';
+                    
+                    const toast = document.getElementById('toast');
+                    toast.style.display = 'block';
+                    setTimeout(() => toast.style.display = 'none', 3000);
+                });
+            });
+        }
+        renderProfiles();
+    });
+    </script>
+</body>
+</html>

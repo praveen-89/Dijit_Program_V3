@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard - DIJIT Talent Cloud</title>
+    <meta name="description" content="Manage your company's hiring, job credits, resume unlocks, and team members.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .progress-bar-bg {
+            background-color: var(--border-color);
+            border-radius: var(--radius-full);
+            height: 8px;
+            width: 100%;
+            overflow: hidden;
+            margin-top: var(--space-2);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: var(--radius-full);
+            transition: width 0.3s ease;
+        }
+        .progress-fill-primary { background-color: var(--primary); }
+        .progress-fill-success { background-color: var(--success); }
+        .progress-fill-warning { background-color: var(--warning); }
+        .quota-card {
+            padding: var(--space-4);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-card);
+        }
+        .quota-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+        .quota-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .quota-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" class="sidebar-logo-img">
+                    <span>Company</span>
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-group">
+                    <div class="nav-group-title">Overview</div>
+                    <a href="index.html" class="nav-item active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Hiring</div>
+                    <a href="my-jobs.html" class="nav-item"><i data-lucide="briefcase"></i><span>My Jobs</span></a>
+                    <a href="candidates.html" class="nav-item"><i data-lucide="users"></i><span>Candidates</span></a>
+                    <a href="resume-database.html" class="nav-item"><i data-lucide="search"></i><span>Resume Database</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <a href="team-members.html" class="nav-item"><i data-lucide="user-plus"></i><span>Team Members</span></a>
+                    <a href="billing-plan.html" class="nav-item"><i data-lucide="credit-card"></i><span>Billing & Plan</span></a>
+                    <a href="company-settings.html" class="nav-item"><i data-lucide="settings"></i><span>Company Settings</span></a>
+                </div>
+            </nav>
+            <div style="padding: var(--space-4); margin-top: auto;">
+                <div style="background: var(--primary-light); padding: var(--space-3); border-radius: var(--radius-lg); text-align: center;">
+                    <i data-lucide="zap" style="color: var(--primary); margin-bottom: var(--space-2);"></i>
+                    <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 4px;">Need more resources?</h4>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: var(--space-3);">Upgrade your plan for unlimited access.</p>
+                    <button class="btn btn-primary btn-sm" style="width: 100%;">Upgrade Plan</button>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+                    <div class="global-search">
+                        <i data-lucide="search" style="width:16px;height:16px;"></i>
+                        <input type="text" placeholder="Search jobs, candidates..." readonly>
+                        <span class="shortcut">⌘K</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary btn-sm"><i data-lucide="plus" style="width:16px;height:16px;"></i> Post a Job</button>
+                    <button class="header-icon-btn"><i data-lucide="bell" style="width:20px;height:20px;"></i><span class="notification-badge"></span></button>
+                    <div class="avatar" style="cursor:pointer;">TC</div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header fade-in">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%;">
+                        <div>
+                            <h1 class="page-title">Welcome back, TechCorp!</h1>
+                            <p class="text-muted" style="font-size:0.875rem;margin-top:2px;">Here is what's happening with your hiring today.</p>
+                        </div>
+                        <div>
+                            <span class="badge badge-primary" style="font-size: 0.875rem; padding: var(--space-2) var(--space-3);">Enterprise Plan</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Usage Quotas Row -->
+                <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-4);">Plan Usage & Quotas</h2>
+                <div class="grid grid-cols-3 mb-6 fade-in">
+                    <div class="quota-card">
+                        <div class="quota-header">
+                            <span class="quota-title">Job Credits</span>
+                            <i data-lucide="briefcase" style="width: 16px; height: 16px; color: var(--primary);"></i>
+                        </div>
+                        <div style="display: flex; align-items: baseline; gap: 4px;">
+                            <span class="quota-value">120</span>
+                            <span class="text-muted" style="font-size: 0.875rem;">/ 200 used</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill progress-fill-primary" style="width: 60%;"></div>
+                        </div>
+                        <p class="text-muted" style="font-size: 0.75rem; margin-top: var(--space-2);">80 credits remaining</p>
+                    </div>
+                    
+                    <div class="quota-card">
+                        <div class="quota-header">
+                            <span class="quota-title">Resume Unlocks</span>
+                            <i data-lucide="unlock" style="width: 16px; height: 16px; color: var(--success);"></i>
+                        </div>
+                        <div style="display: flex; align-items: baseline; gap: 4px;">
+                            <span class="quota-value">380</span>
+                            <span class="text-muted" style="font-size: 0.875rem;">/ 500 used</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill progress-fill-success" style="width: 76%;"></div>
+                        </div>
+                        <p class="text-muted" style="font-size: 0.75rem; margin-top: var(--space-2);">120 unlocks remaining</p>
+                    </div>
+
+                    <div class="quota-card">
+                        <div class="quota-header">
+                            <span class="quota-title">Recruiter Seats</span>
+                            <i data-lucide="users" style="width: 16px; height: 16px; color: var(--warning);"></i>
+                        </div>
+                        <div style="display: flex; align-items: baseline; gap: 4px;">
+                            <span class="quota-value">15</span>
+                            <span class="text-muted" style="font-size: 0.875rem;">/ 25 used</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill progress-fill-warning" style="width: 60%;"></div>
+                        </div>
+                        <p class="text-muted" style="font-size: 0.75rem; margin-top: var(--space-2);">10 seats remaining</p>
+                    </div>
+                </div>
+
+                <!-- KPI Row -->
+                <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-4);">Hiring Activity</h2>
+                <div class="grid grid-cols-4 mb-6 fade-in">
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Active Jobs</p><h3 class="kpi-value">42</h3></div><div class="kpi-icon" style="background:#EEF2FF;color:#6366F1;"><i data-lucide="briefcase" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Total Applications</p><h3 class="kpi-value">1,240</h3></div><div class="kpi-icon" style="background:#F3E8FF;color:#9333EA;"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Candidates Shortlisted</p><h3 class="kpi-value">128</h3></div><div class="kpi-icon" style="background:var(--warning-bg);color:var(--warning);"><i data-lucide="star" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Candidates Hired</p><h3 class="kpi-value">38</h3></div><div class="kpi-icon" style="background:var(--success-bg);color:var(--success);"><i data-lucide="check-circle" style="width:20px;height:20px;"></i></div></div></div>
+                </div>
+
+                <div class="grid grid-cols-1 mb-6 fade-in">
+                    <div class="card">
+                        <div class="table-toolbar">
+                            <h3 style="font-size: 1rem; font-weight: 600;">Recent Job Postings</h3>
+                            <button class="btn btn-outline btn-sm">View All Jobs</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Job Title</th>
+                                        <th>Department</th>
+                                        <th>Location</th>
+                                        <th>Applicants</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><div class="font-medium">Senior Frontend Engineer</div></td>
+                                        <td>Engineering</td>
+                                        <td>Remote / Bangalore</td>
+                                        <td><span class="badge badge-info">142</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td><button class="btn-ghost btn-icon"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="font-medium">Product Manager</div></td>
+                                        <td>Product</td>
+                                        <td>Mumbai</td>
+                                        <td><span class="badge badge-info">86</span></td>
+                                        <td><span class="badge badge-success">Active</span></td>
+                                        <td><button class="btn-ghost btn-icon"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="font-medium">HR Business Partner</div></td>
+                                        <td>Human Resources</td>
+                                        <td>Delhi</td>
+                                        <td><span class="badge badge-info">34</span></td>
+                                        <td><span class="badge badge-warning">Draft</span></td>
+                                        <td><button class="btn-ghost btn-icon"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button></td>
+                                    </tr>
+                                    <tr>
+                                        <td><div class="font-medium">Backend Developer (Node.js)</div></td>
+                                        <td>Engineering</td>
+                                        <td>Pune</td>
+                                        <td><span class="badge badge-info">210</span></td>
+                                        <td><span class="badge badge-secondary">Closed</span></td>
+                                        <td><button class="btn-ghost btn-icon"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Command Palette (Optional Feature) -->
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette">
+            <div class="cp-header">
+                <i data-lucide="search" style="width:20px;height:20px;"></i>
+                <input type="text" class="cp-input" placeholder="Search...">
+                <button class="modal-close" onclick="document.getElementById('commandPaletteOverlay').classList.remove('open')">
+                    <i data-lucide="x" style="width:18px;height:18px;"></i>
+                </button>
+            </div>
+            <div class="cp-body">
+                <div class="cp-group-title">Navigation</div>
+                <a href="index.html" class="cp-item">
+                    <div class="cp-item-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div>
+                    <div class="cp-item-content"><div class="cp-item-title">Dashboard</div></div>
+                </a>
+            </div>
+            <div class="cp-footer">
+                <span><kbd>Esc</kbd> Close</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        // Dummy Data Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Quota Data
+            const quotas = {
+                jobCredits: { used: 145, total: 200 },
+                resumeUnlocks: { used: 410, total: 500 },
+                recruiterSeats: { used: 18, total: 25 }
+            };
+
+            const quotaCards = document.querySelectorAll('.quota-card');
+            
+            // Update Job Credits
+            if (quotaCards[0]) {
+                const perc = (quotas.jobCredits.used / quotas.jobCredits.total) * 100;
+                quotaCards[0].querySelector('.quota-value').textContent = quotas.jobCredits.used;
+                quotaCards[0].querySelector('.progress-bar-fill').style.width = perc + '%';
+                quotaCards[0].querySelector('.text-muted:last-child').textContent = (quotas.jobCredits.total - quotas.jobCredits.used) + ' credits remaining';
+            }
+
+            // Update Resume Unlocks
+            if (quotaCards[1]) {
+                const perc = (quotas.resumeUnlocks.used / quotas.resumeUnlocks.total) * 100;
+                quotaCards[1].querySelector('.quota-value').textContent = quotas.resumeUnlocks.used;
+                quotaCards[1].querySelector('.progress-bar-fill').style.width = perc + '%';
+                quotaCards[1].querySelector('.text-muted:last-child').textContent = (quotas.resumeUnlocks.total - quotas.resumeUnlocks.used) + ' unlocks remaining';
+            }
+
+            // Update Recruiter Seats
+            if (quotaCards[2]) {
+                const perc = (quotas.recruiterSeats.used / quotas.recruiterSeats.total) * 100;
+                quotaCards[2].querySelector('.quota-value').textContent = quotas.recruiterSeats.used;
+                quotaCards[2].querySelector('.progress-bar-fill').style.width = perc + '%';
+                quotaCards[2].querySelector('.text-muted:last-child').textContent = (quotas.recruiterSeats.total - quotas.recruiterSeats.used) + ' seats remaining';
+            }
+
+            // 2. KPI Data
+            const kpiData = [45, '1,350', 142, 41];
+            const kpiValues = document.querySelectorAll('.kpi-value');
+            kpiValues.forEach((el, index) => {
+                if(kpiData[index] !== undefined) {
+                    // animate counter
+                    let start = 0;
+                    const end = parseInt(kpiData[index].toString().replace(',', ''));
+                    const duration = 1000;
+                    const stepTime = Math.abs(Math.floor(duration / end));
+                    const timer = setInterval(() => {
+                        start += Math.ceil(end / 20);
+                        if (start >= end) {
+                            clearInterval(timer);
+                            el.textContent = kpiData[index];
+                        } else {
+                            el.textContent = start;
+                        }
+                    }, 50);
+                }
+            });
+
+            // 3. Recent Job Postings
+            const jobs = [
+                { title: 'Senior Frontend Engineer', dept: 'Engineering', loc: 'Remote / Bangalore', applicants: 145, status: 'Active', badge: 'success' },
+                { title: 'Product Manager', dept: 'Product', loc: 'Mumbai', applicants: 92, status: 'Active', badge: 'success' },
+                { title: 'HR Business Partner', dept: 'Human Resources', loc: 'Delhi', applicants: 38, status: 'Draft', badge: 'warning' },
+                { title: 'Backend Developer (Node.js)', dept: 'Engineering', loc: 'Pune', applicants: 215, status: 'Closed', badge: 'secondary' },
+                { title: 'UX Designer', dept: 'Design', loc: 'Remote', applicants: 110, status: 'Active', badge: 'success' }
+            ];
+
+            const tbody = document.querySelector('.table tbody');
+            if (tbody) {
+                tbody.innerHTML = ''; // Clear existing
+                jobs.forEach(job => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td><div class="font-medium">${job.title}</div></td>
+                        <td>${job.dept}</td>
+                        <td>${job.loc}</td>
+                        <td><span class="badge badge-info">${job.applicants}</span></td>
+                        <td><span class="badge badge-${job.badge}">${job.status}</span></td>
+                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item">View Details</a><a href="#" class="dropdown-item">Edit Job</a></div></div></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                // Re-initialize lucide icons for new elements
+                if (window.lucide) {
+                    lucide.createIcons();
+                }
+            }
+
+            // Make Search Input Work (Dummy feature)
+            const searchInput = document.querySelector('.global-search input');
+            if(searchInput) {
+                searchInput.removeAttribute('readonly');
+                searchInput.addEventListener('input', (e) => {
+                    const val = e.target.value.toLowerCase();
+                    const rows = document.querySelectorAll('.table tbody tr');
+                    rows.forEach(row => {
+                        const text = row.textContent.toLowerCase();
+                        row.style.display = text.includes(val) ? '' : 'none';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>

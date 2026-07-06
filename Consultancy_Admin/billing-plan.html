@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing & Plan - DIJIT Talent Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .plan-card { background: linear-gradient(135deg, #1E1B4B 0%, #4338CA 100%); border-radius: var(--radius-lg); padding: var(--space-6); color: #fff; margin-bottom: var(--space-6); display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-xl); }
+        .plan-title { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+        .plan-desc { color: #A5B4FC; font-size: 0.875rem; }
+        .plan-price { font-size: 2.5rem; font-weight: 700; }
+        .plan-price span { font-size: 1rem; font-weight: 400; color: #A5B4FC; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="index.html" class="sidebar-logo"><img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" class="sidebar-logo-img"><span>Consultancy</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group"><div class="nav-group-title">Overview</div><a href="index.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Workflow</div>
+                    <a href="client-reqs.html" class="nav-item"><i data-lucide="clipboard-list"></i><span>Client Reqs</span></a>
+                    <a href="sourcing.html" class="nav-item"><i data-lucide="users"></i><span>Sourcing</span></a>
+                    <a href="resume-database.html" class="nav-item"><i data-lucide="search"></i><span>Resume Database</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <a href="team-members.html" class="nav-item"><i data-lucide="user-plus"></i><span>Team Members</span></a>
+                    <a href="billing-plan.html" class="nav-item active"><i data-lucide="credit-card"></i><span>Billing & Plan</span></a>
+                    <a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left"><button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button></div>
+                <div class="header-right"><div class="avatar" style="cursor:pointer;">PF</div></div>
+            </header>
+
+            <main class="main-content fade-in">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Billing & Plan</h1>
+                        <p class="text-muted" style="font-size:0.875rem; margin-top:2px;">Manage your subscription, invoices, and billing information.</p>
+                    </div>
+                </div>
+
+                <div class="plan-card">
+                    <div>
+                        <div class="plan-title">Enterprise Consultancy Plan</div>
+                        <div class="plan-desc">For large scaling recruitment agencies.</div>
+                        <div style="margin-top:var(--space-4); display:flex; gap:var(--space-3);">
+                            <span class="badge" style="background:rgba(255,255,255,0.2); color:#fff;">50 Recruiter Seats</span>
+                            <span class="badge" style="background:rgba(255,255,255,0.2); color:#fff;">5000 Profile Unlocks</span>
+                            <span class="badge" style="background:rgba(255,255,255,0.2); color:#fff;">100 Job Posts</span>
+                        </div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div class="plan-price">$499<span>/mo</span></div>
+                        <div style="font-size:0.875rem; color:#A5B4FC; margin-bottom:var(--space-4);">Next billing on Aug 1, 2026</div>
+                        <button class="btn btn-outline" style="border-color:#fff; color:#fff; background:transparent;">Manage Subscription</button>
+                    </div>
+                </div>
+
+                <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-4);">Billing History</h2>
+                <div class="card">
+                    <table class="table">
+                        <thead><tr><th>Invoice</th><th>Date</th><th>Amount</th><th>Status</th><th>Download</th></tr></thead>
+                        <tbody>
+                            <tr><td>INV-2026-07</td><td>Jul 1, 2026</td><td>$499.00</td><td><span class="badge badge-success">Paid</span></td><td><button class="btn-ghost btn-icon"><i data-lucide="download" style="width:16px;"></i></button></td></tr>
+                            <tr><td>INV-2026-06</td><td>Jun 1, 2026</td><td>$499.00</td><td><span class="badge badge-success">Paid</span></td><td><button class="btn-ghost btn-icon"><i data-lucide="download" style="width:16px;"></i></button></td></tr>
+                            <tr><td>INV-2026-05</td><td>May 1, 2026</td><td>$499.00</td><td><span class="badge badge-success">Paid</span></td><td><button class="btn-ghost btn-icon"><i data-lucide="download" style="width:16px;"></i></button></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+</body>
+</html>

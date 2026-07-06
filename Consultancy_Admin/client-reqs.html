@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Requirements - DIJIT Talent Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .req-stats { display: flex; gap: var(--space-3); margin-bottom: var(--space-4); }
+        .req-stat-chip { padding: 6px 16px; border-radius: var(--radius-full); font-size: 0.8125rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg-card); transition: all 0.2s; }
+        .req-stat-chip:hover { border-color: var(--primary); }
+        .req-stat-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .req-stat-chip .chip-count { margin-left: 6px; opacity: 0.8; }
+        .client-avatar { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="index.html" class="sidebar-logo"><img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" class="sidebar-logo-img"><span>Consultancy</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group"><div class="nav-group-title">Overview</div><a href="index.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Workflow</div>
+                    <a href="client-reqs.html" class="nav-item active"><i data-lucide="clipboard-list"></i><span>Client Reqs</span></a>
+                    <a href="sourcing.html" class="nav-item"><i data-lucide="users"></i><span>Sourcing</span></a>
+                    <a href="resume-database.html" class="nav-item"><i data-lucide="search"></i><span>Resume Database</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <a href="team-members.html" class="nav-item"><i data-lucide="user-plus"></i><span>Team Members</span></a>
+                    <a href="billing-plan.html" class="nav-item"><i data-lucide="credit-card"></i><span>Billing & Plan</span></a>
+                    <a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left"><button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button><div class="global-search"><i data-lucide="search" style="width:16px;height:16px;"></i><input type="text" placeholder="Search requirements..." id="reqSearch"><span class="shortcut">⌘K</span></div></div>
+                <div class="header-right">
+                    <button class="btn btn-primary btn-sm"><i data-lucide="plus" style="width:16px;height:16px;"></i> Add Requirement</button>
+                    <div class="avatar" style="cursor:pointer;">PF</div>
+                </div>
+            </header>
+
+            <main class="main-content fade-in">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Client Requirements</h1>
+                        <p class="text-muted" style="font-size:0.875rem; margin-top:2px;">Manage all job requirements assigned to you by clients.</p>
+                    </div>
+                </div>
+
+                <!-- KPIs -->
+                <div class="grid grid-cols-4 mb-6">
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Total Requirements</p><h3 class="kpi-value" id="kpiTotal">0</h3></div><div class="kpi-icon" style="background:#EEF2FF;color:#6366F1;"><i data-lucide="clipboard-list" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Active</p><h3 class="kpi-value" id="kpiActive">0</h3></div><div class="kpi-icon" style="background:var(--success-bg);color:var(--success);"><i data-lucide="check-circle" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">On Hold</p><h3 class="kpi-value" id="kpiHold">0</h3></div><div class="kpi-icon" style="background:var(--warning-bg);color:var(--warning);"><i data-lucide="pause-circle" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Closed</p><h3 class="kpi-value" id="kpiClosed">0</h3></div><div class="kpi-icon" style="background:#F3F4F6;color:#6B7280;"><i data-lucide="x-circle" style="width:20px;height:20px;"></i></div></div></div>
+                </div>
+
+                <div class="req-stats" id="filterChips">
+                    <span class="req-stat-chip active" data-filter="all">All<span class="chip-count" id="chipAll"></span></span>
+                    <span class="req-stat-chip" data-filter="Active">Active<span class="chip-count" id="chipActive"></span></span>
+                    <span class="req-stat-chip" data-filter="On Hold">On Hold<span class="chip-count" id="chipHold"></span></span>
+                    <span class="req-stat-chip" data-filter="Closed">Closed<span class="chip-count" id="chipClosed"></span></span>
+                </div>
+
+                <div class="card">
+                    <div class="table-toolbar">
+                        <div style="display:flex; gap: var(--space-3);">
+                            <select class="filter-select" id="clientFilter"><option value="all">All Clients</option><option>TechCorp India</option><option>Zeta Financial</option><option>MediHealth Corp</option><option>CloudNine Solutions</option><option>Infosys BPM</option></select>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="table">
+                            <thead><tr><th>Client</th><th>Requirement</th><th>Assigned To</th><th>Sourced</th><th>Status</th><th>Actions</th></tr></thead>
+                            <tbody id="reqsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="js/app.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const reqs = [
+            { client: 'TechCorp India', color: '#3B82F6', title: 'Senior Frontend Engineer', assignee: 'Priya N.', sourced: 45, status: 'Active' },
+            { client: 'Zeta Financial', color: '#F59E0B', title: 'Risk Analyst', assignee: 'Rahul S.', sourced: 12, status: 'Active' },
+            { client: 'MediHealth Corp', color: '#EC4899', title: 'Head of Data Science', assignee: 'Vikram P.', sourced: 8, status: 'On Hold' },
+            { client: 'CloudNine Solutions', color: '#10B981', title: 'DevOps Lead', assignee: 'Sneha D.', sourced: 22, status: 'Closed' },
+            { client: 'Infosys BPM', color: '#8B5CF6', title: 'Customer Success Mgr', assignee: 'Priya N.', sourced: 110, status: 'Active' },
+            { client: 'TechCorp India', color: '#3B82F6', title: 'Backend Developer', assignee: 'Sneha D.', sourced: 56, status: 'Active' },
+            { client: 'Zeta Financial', color: '#F59E0B', title: 'Financial Analyst', assignee: 'Rahul S.', sourced: 18, status: 'On Hold' },
+            { client: 'Infosys BPM', color: '#8B5CF6', title: 'Operations Lead', assignee: 'Vikram P.', sourced: 89, status: 'Closed' }
+        ];
+
+        let currentFilter = 'all';
+
+        function getStatusBadge(s) {
+            if (s === 'Active') return 'success';
+            if (s === 'On Hold') return 'warning';
+            return 'secondary';
+        }
+
+        function renderReqs() {
+            const search = document.getElementById('reqSearch').value.toLowerCase();
+            const client = document.getElementById('clientFilter').value;
+
+            let filtered = [...reqs];
+            if (currentFilter !== 'all') filtered = filtered.filter(r => r.status === currentFilter);
+            if (client !== 'all') filtered = filtered.filter(r => r.client === client);
+            if (search) filtered = filtered.filter(r => r.title.toLowerCase().includes(search) || r.client.toLowerCase().includes(search) || r.assignee.toLowerCase().includes(search));
+
+            const tbody = document.getElementById('reqsTableBody');
+            tbody.innerHTML = '';
+            filtered.forEach(r => {
+                const initial = r.client.charAt(0);
+                tbody.innerHTML += `<tr>
+                    <td><div style="display:flex;align-items:center;gap:8px;"><div class="client-avatar" style="background:${r.color};">${initial}</div><span class="font-medium">${r.client}</span></div></td>
+                    <td>${r.title}</td>
+                    <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar" style="width:24px;height:24px;font-size:0.7rem;background:var(--bg-body);color:var(--text-primary);">${r.assignee.split(' ')[0][0]}</div>${r.assignee}</div></td>
+                    <td><span class="badge badge-info">${r.sourced}</span></td>
+                    <td><span class="badge badge-${getStatusBadge(r.status)}">${r.status}</span></td>
+                    <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item">View Details</a><a href="#" class="dropdown-item">Assign Recruiter</a></div></div></td>
+                </tr>`;
+            });
+            if (window.lucide) lucide.createIcons();
+
+            document.querySelectorAll('.dropdown').forEach(dd => {
+                const toggle = dd.querySelector('[data-toggle="dropdown"]');
+                if (toggle) {
+                    toggle.addEventListener('click', (e) => {
+                        e.preventDefault(); e.stopPropagation();
+                        document.querySelectorAll('.dropdown').forEach(o => { if (o !== dd) o.classList.remove('show'); });
+                        dd.classList.toggle('show');
+                    });
+                }
+            });
+
+            document.getElementById('kpiTotal').textContent = reqs.length;
+            document.getElementById('kpiActive').textContent = reqs.filter(r => r.status === 'Active').length;
+            document.getElementById('kpiHold').textContent = reqs.filter(r => r.status === 'On Hold').length;
+            document.getElementById('kpiClosed').textContent = reqs.filter(r => r.status === 'Closed').length;
+
+            document.getElementById('chipAll').textContent = reqs.length;
+            document.getElementById('chipActive').textContent = reqs.filter(r => r.status === 'Active').length;
+            document.getElementById('chipHold').textContent = reqs.filter(r => r.status === 'On Hold').length;
+            document.getElementById('chipClosed').textContent = reqs.filter(r => r.status === 'Closed').length;
+        }
+
+        renderReqs();
+
+        document.querySelectorAll('.req-stat-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.req-stat-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                currentFilter = chip.dataset.filter;
+                renderReqs();
+            });
+        });
+
+        document.getElementById('reqSearch').addEventListener('input', renderReqs);
+        document.getElementById('clientFilter').addEventListener('change', renderReqs);
+        window.addEventListener('click', () => document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show')));
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Settings - DIJIT Talent Cloud</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .settings-container { max-width: 800px; }
+        .settings-section { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: var(--space-6); margin-bottom: var(--space-6); }
+        .settings-section h3 { font-size: 1.0625rem; font-weight: 600; margin-bottom: var(--space-2); }
+        .settings-section .section-desc { font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: var(--space-5); }
+        .form-group { margin-bottom: var(--space-5); }
+        .form-group label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: var(--space-2); color: var(--text-primary); }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px 14px; border: 1px solid var(--border-color); border-radius: var(--radius-md); font-size: 0.875rem; background: var(--bg-body); color: var(--text-primary); outline: none; font-family: var(--font-family); transition: border-color 0.2s, box-shadow 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-4); }
+        .logo-upload { display: flex; align-items: center; gap: var(--space-4); }
+        .logo-preview { width: 72px; height: 72px; border-radius: var(--radius-lg); background: var(--bg-body); border: 2px dashed var(--border-color); display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0; transition: border-color 0.2s; }
+        .logo-preview:hover { border-color: var(--primary); }
+        .logo-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .toggle-switch { display: flex; align-items: center; justify-content: space-between; padding: var(--space-3) 0; border-bottom: 1px solid var(--border-color); }
+        .toggle-switch:last-child { border-bottom: none; }
+        .toggle-label { font-size: 0.875rem; font-weight: 500; }
+        .toggle-desc { font-size: 0.75rem; color: var(--text-secondary); }
+        .switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+        .switch input { display: none; }
+        .switch .slider { position: absolute; inset: 0; background: #CBD5E1; border-radius: var(--radius-full); cursor: pointer; transition: background 0.3s; }
+        .switch .slider::before { content: ''; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #fff; top: 3px; left: 3px; transition: transform 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        .switch input:checked + .slider { background: var(--primary); }
+        .switch input:checked + .slider::before { transform: translateX(20px); }
+        .toast { position: fixed; bottom: 24px; right: 24px; background: var(--success); color: #fff; padding: 12px 24px; border-radius: var(--radius-md); font-size: 0.875rem; font-weight: 600; z-index: 9999; display: none; box-shadow: var(--shadow-lg); animation: slideInUp 0.3s ease; }
+        @keyframes slideInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .danger-zone { border-color: #FCA5A5; }
+        .danger-zone h3 { color: #DC2626; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="index.html" class="sidebar-logo"><img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" class="sidebar-logo-img"><span>Company</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group"><div class="nav-group-title">Overview</div><a href="index.html" class="nav-item"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Hiring</div>
+                    <a href="my-jobs.html" class="nav-item"><i data-lucide="briefcase"></i><span>My Jobs</span></a>
+                    <a href="candidates.html" class="nav-item"><i data-lucide="users"></i><span>Candidates</span></a>
+                    <a href="resume-database.html" class="nav-item"><i data-lucide="search"></i><span>Resume Database</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <a href="team-members.html" class="nav-item"><i data-lucide="user-plus"></i><span>Team Members</span></a>
+                    <a href="billing-plan.html" class="nav-item"><i data-lucide="credit-card"></i><span>Billing & Plan</span></a>
+                    <a href="company-settings.html" class="nav-item active"><i data-lucide="settings"></i><span>Company Settings</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left"><button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button></div>
+                <div class="header-right"><div class="avatar" style="cursor:pointer;">TC</div></div>
+            </header>
+
+            <main class="main-content fade-in">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Company Settings</h1>
+                        <p class="text-muted" style="font-size:0.875rem; margin-top:2px;">Manage your company profile, preferences, and account settings.</p>
+                    </div>
+                </div>
+
+                <div class="settings-container">
+                    <!-- Company Profile -->
+                    <div class="settings-section">
+                        <h3>Company Profile</h3>
+                        <p class="section-desc">This information will be displayed on your public job postings.</p>
+
+                        <div class="form-group">
+                            <label>Company Logo</label>
+                            <div class="logo-upload">
+                                <div class="logo-preview" id="logoPreview">
+                                    <i data-lucide="image" style="width:24px; height:24px; color: var(--text-secondary);"></i>
+                                </div>
+                                <div>
+                                    <button class="btn btn-outline btn-sm" id="uploadLogoBtn">Upload Logo</button>
+                                    <input type="file" id="logoInput" accept="image/*" style="display: none;">
+                                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">PNG, JPG up to 2MB</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group"><label>Company Name</label><input type="text" value="TechCorp India Pvt Ltd" id="companyName"></div>
+                            <div class="form-group"><label>Website</label><input type="text" value="https://techcorp.in" id="companyWebsite"></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Industry</label>
+                                <select id="companyIndustry">
+                                    <option selected>Technology</option><option>Finance</option><option>Healthcare</option><option>Manufacturing</option><option>Retail</option><option>Education</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label>Company Size</label>
+                                <select id="companySize">
+                                    <option>1-10</option><option>11-50</option><option>51-200</option><option selected>201-500</option><option>501-1000</option><option>1000+</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group"><label>About Company</label><textarea id="companyAbout">TechCorp India is a leading technology company specializing in enterprise software solutions. We build innovative tools that help businesses scale and grow efficiently. With a team of 250+ engineers, designers, and product experts, we're committed to transforming how companies manage their digital infrastructure.</textarea></div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Headquarters</label><input type="text" value="Bangalore, India" id="companyHQ"></div>
+                            <div class="form-group"><label>Founded</label><input type="text" value="2015" id="companyFounded"></div>
+                        </div>
+                        <button class="btn btn-primary" id="saveProfileBtn"><i data-lucide="save" style="width:14px;height:14px;"></i> Save Changes</button>
+                    </div>
+
+                    <!-- Notification Preferences -->
+                    <div class="settings-section">
+                        <h3>Notification Preferences</h3>
+                        <p class="section-desc">Choose how and when you want to be notified.</p>
+
+                        <div class="toggle-switch">
+                            <div><div class="toggle-label">New Applications</div><div class="toggle-desc">Get notified when a candidate applies to your jobs.</div></div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-switch">
+                            <div><div class="toggle-label">Interview Reminders</div><div class="toggle-desc">Receive reminders 30 minutes before scheduled interviews.</div></div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-switch">
+                            <div><div class="toggle-label">Weekly Hiring Report</div><div class="toggle-desc">Receive a weekly email summary of your hiring activity.</div></div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-switch">
+                            <div><div class="toggle-label">Credit Alerts</div><div class="toggle-desc">Get alerts when your job credits or resume unlocks are running low.</div></div>
+                            <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+                        </div>
+                        <div class="toggle-switch">
+                            <div><div class="toggle-label">Marketing Emails</div><div class="toggle-desc">Receive product updates, tips, and promotional offers.</div></div>
+                            <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="settings-section danger-zone">
+                        <h3>Danger Zone</h3>
+                        <p class="section-desc">Irreversible actions. Please proceed with caution.</p>
+                        <div style="display:flex; gap: var(--space-3);">
+                            <button class="btn btn-outline" style="border-color: #FCA5A5; color: #DC2626;" id="deactivateBtn">Deactivate Account</button>
+                            <button class="btn" style="background: #DC2626; color: #fff;" id="deleteBtn">Delete Company</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">Settings saved successfully!</div>
+
+    <script src="js/app.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        // Save profile
+        document.getElementById('saveProfileBtn').addEventListener('click', () => showToast('Company profile saved successfully!'));
+
+        // Logo upload
+        document.getElementById('uploadLogoBtn').addEventListener('click', () => document.getElementById('logoInput').click());
+        document.getElementById('logoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const preview = document.getElementById('logoPreview');
+                    preview.innerHTML = `<img src="${ev.target.result}" alt="Logo">`;
+                };
+                reader.readAsDataURL(file);
+                showToast('Logo uploaded successfully!');
+            }
+        });
+
+        // Notification toggles
+        document.querySelectorAll('.switch input').forEach(toggle => {
+            toggle.addEventListener('change', () => showToast('Notification preference updated!'));
+        });
+
+        // Danger zone
+        document.getElementById('deactivateBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to deactivate your account? This will hide all your job postings.')) {
+                showToast('Account deactivated (demo only).');
+            }
+        });
+        document.getElementById('deleteBtn').addEventListener('click', () => {
+            if (confirm('⚠ This action is irreversible! Are you absolutely sure you want to delete your company and all associated data?')) {
+                showToast('Company deletion requested (demo only).');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultancy Dashboard - DIJIT Talent Cloud</title>
+    <meta name="description" content="Manage your consultancy's clients, jobs, candidates, and team members.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .progress-bar-bg { background-color: var(--border-color); border-radius: var(--radius-full); height: 8px; width: 100%; overflow: hidden; margin-top: var(--space-2); }
+        .progress-bar-fill { height: 100%; border-radius: var(--radius-full); transition: width 0.3s ease; }
+        .progress-fill-primary { background-color: var(--primary); }
+        .progress-fill-success { background-color: var(--success); }
+        .progress-fill-warning { background-color: var(--warning); }
+        .quota-card { padding: var(--space-4); border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-card); }
+        .quota-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2); }
+        .quota-title { font-size: 0.875rem; font-weight: 600; color: var(--text-secondary); }
+        .quota-value { font-size: 1.125rem; font-weight: 700; }
+        .client-avatar { width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header"><a href="index.html" class="sidebar-logo"><img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" class="sidebar-logo-img"><span>Consultancy</span></a></div>
+            <nav class="sidebar-nav">
+                <div class="nav-group"><div class="nav-group-title">Overview</div><a href="index.html" class="nav-item active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a></div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Workflow</div>
+                    <a href="client-reqs.html" class="nav-item"><i data-lucide="clipboard-list"></i><span>Client Reqs</span></a>
+                    <a href="sourcing.html" class="nav-item"><i data-lucide="users"></i><span>Sourcing</span></a>
+                    <a href="resume-database.html" class="nav-item"><i data-lucide="search"></i><span>Resume Database</span></a>
+                </div>
+                <div class="nav-group">
+                    <div class="nav-group-title">Management</div>
+                    <a href="team-members.html" class="nav-item"><i data-lucide="user-plus"></i><span>Team Members</span></a>
+                    <a href="billing-plan.html" class="nav-item"><i data-lucide="credit-card"></i><span>Billing & Plan</span></a>
+                    <a href="settings.html" class="nav-item"><i data-lucide="settings"></i><span>Settings</span></a>
+                </div>
+            </nav>
+            <div style="padding: var(--space-4); margin-top: auto;">
+                <div style="background: var(--primary-light); padding: var(--space-3); border-radius: var(--radius-lg); text-align: center;">
+                    <i data-lucide="zap" style="color: var(--primary); margin-bottom: var(--space-2);"></i>
+                    <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 4px;">Reach Limit?</h4>
+                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: var(--space-3);">Upgrade your plan for more limits.</p>
+                    <button class="btn btn-primary btn-sm" style="width: 100%;">Upgrade Plan</button>
+                </div>
+            </div>
+        </aside>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
+                    <div class="global-search"><i data-lucide="search" style="width:16px;height:16px;"></i><input type="text" placeholder="Search requirements, candidates..." readonly><span class="shortcut">⌘K</span></div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary btn-sm" id="addReqBtn"><i data-lucide="plus" style="width:16px;height:16px;"></i> Add Requirement</button>
+                    <button class="header-icon-btn"><i data-lucide="bell" style="width:20px;height:20px;"></i><span class="notification-badge"></span></button>
+                    <div class="avatar" style="cursor:pointer;">PF</div>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <div class="page-header fade-in">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%;">
+                        <div>
+                            <h1 class="page-title">Welcome back, PeopleFirst!</h1>
+                            <p class="text-muted" style="font-size:0.875rem;margin-top:2px;">Here is an overview of your agency's performance.</p>
+                        </div>
+                        <div><span class="badge badge-primary" style="font-size: 0.875rem; padding: var(--space-2) var(--space-3);">Enterprise Plan</span></div>
+                    </div>
+                </div>
+
+                <!-- Usage Quotas Row -->
+                <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-4);">Plan Usage</h2>
+                <div class="grid grid-cols-3 mb-6 fade-in">
+                    <div class="quota-card">
+                        <div class="quota-header"><span class="quota-title">Job Posts</span><i data-lucide="briefcase" style="width: 16px; height: 16px; color: var(--primary);"></i></div>
+                        <div style="display: flex; align-items: baseline; gap: 4px;"><span class="quota-value" id="quotaJobs">0</span><span class="text-muted" style="font-size: 0.875rem;">/ 100 used</span></div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill progress-fill-primary" id="progressJobs" style="width: 0%;"></div></div>
+                    </div>
+                    
+                    <div class="quota-card">
+                        <div class="quota-header"><span class="quota-title">Candidate Unlocks</span><i data-lucide="unlock" style="width: 16px; height: 16px; color: var(--success);"></i></div>
+                        <div style="display: flex; align-items: baseline; gap: 4px;"><span class="quota-value" id="quotaUnlocks">0</span><span class="text-muted" style="font-size: 0.875rem;">/ 5000 used</span></div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill progress-fill-success" id="progressUnlocks" style="width: 0%;"></div></div>
+                    </div>
+
+                    <div class="quota-card">
+                        <div class="quota-header"><span class="quota-title">Recruiter Seats</span><i data-lucide="users" style="width: 16px; height: 16px; color: var(--warning);"></i></div>
+                        <div style="display: flex; align-items: baseline; gap: 4px;"><span class="quota-value" id="quotaSeats">0</span><span class="text-muted" style="font-size: 0.875rem;">/ 50 used</span></div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill progress-fill-warning" id="progressSeats" style="width: 0%;"></div></div>
+                    </div>
+                </div>
+
+                <!-- KPI Row -->
+                <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-4);">Agency Activity</h2>
+                <div class="grid grid-cols-4 mb-6 fade-in">
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Active Recruiters</p><h3 class="kpi-value">38</h3></div><div class="kpi-icon" style="background:var(--success-bg);color:var(--success);"><i data-lucide="user-check" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Client Reqs</p><h3 class="kpi-value">156</h3></div><div class="kpi-icon" style="background:#F3E8FF;color:#9333EA;"><i data-lucide="clipboard-list" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Candidates Sourced</p><h3 class="kpi-value">3,120</h3></div><div class="kpi-icon" style="background:#EEF2FF;color:#6366F1;"><i data-lucide="search" style="width:20px;height:20px;"></i></div></div></div>
+                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Offers Accepted</p><h3 class="kpi-value">42</h3></div><div class="kpi-icon" style="background:var(--warning-bg);color:var(--warning);"><i data-lucide="star" style="width:20px;height:20px;"></i></div></div></div>
+                </div>
+
+                <div class="grid grid-cols-1 mb-6 fade-in">
+                    <div class="card">
+                        <div class="table-toolbar">
+                            <h3 style="font-size: 1rem; font-weight: 600;">Recent Client Requirements</h3>
+                            <button class="btn btn-outline btn-sm">View All Requirements</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Client</th>
+                                        <th>Requirement</th>
+                                        <th>Assigned To</th>
+                                        <th>Sourced</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Dynamic Data via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Command Palette (Optional Feature) -->
+    <div class="command-palette-overlay" id="commandPaletteOverlay">
+        <div class="command-palette">
+            <div class="cp-header">
+                <i data-lucide="search" style="width:20px;height:20px;"></i>
+                <input type="text" class="cp-input" placeholder="Search...">
+                <button class="modal-close" onclick="document.getElementById('commandPaletteOverlay').classList.remove('open')">
+                    <i data-lucide="x" style="width:18px;height:18px;"></i>
+                </button>
+            </div>
+            <div class="cp-body">
+                <div class="cp-group-title">Navigation</div>
+                <a href="index.html" class="cp-item">
+                    <div class="cp-item-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div>
+                    <div class="cp-item-content"><div class="cp-item-title">Dashboard</div></div>
+                </a>
+            </div>
+            <div class="cp-footer">
+                <span><kbd>Esc</kbd> Close</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Quotas Animation
+            const quotas = {
+                jobs: { used: 89, total: 100 },
+                unlocks: { used: 2340, total: 5000 },
+                seats: { used: 38, total: 50 }
+            };
+
+            setTimeout(() => {
+                document.getElementById('quotaJobs').textContent = quotas.jobs.used;
+                document.getElementById('progressJobs').style.width = (quotas.jobs.used / quotas.jobs.total * 100) + '%';
+                
+                document.getElementById('quotaUnlocks').textContent = quotas.unlocks.used.toLocaleString();
+                document.getElementById('progressUnlocks').style.width = (quotas.unlocks.used / quotas.unlocks.total * 100) + '%';
+                
+                document.getElementById('quotaSeats').textContent = quotas.seats.used;
+                document.getElementById('progressSeats').style.width = (quotas.seats.used / quotas.seats.total * 100) + '%';
+            }, 300);
+
+            // 2. KPI Counters Animation
+            const kpiValues = document.querySelectorAll('.kpi-value');
+            kpiValues.forEach(el => {
+                const text = el.textContent;
+                if(!text.includes(',')) {
+                    let start = 0;
+                    const end = parseInt(text);
+                    if(isNaN(end)) return;
+                    el.textContent = '0';
+                    const timer = setInterval(() => {
+                        start += Math.ceil(end / 20);
+                        if (start >= end) { clearInterval(timer); el.textContent = text; }
+                        else { el.textContent = start; }
+                    }, 50);
+                }
+            });
+
+            // 3. Render Requirements Table
+            const reqs = [
+                { client: 'TechCorp India', color: '#3B82F6', title: 'Senior Frontend Engineer', assignee: 'Priya N.', sourced: 45, status: 'Active', badge: 'success' },
+                { client: 'Zeta Financial', color: '#F59E0B', title: 'Risk Analyst', assignee: 'Rahul S.', sourced: 12, status: 'Active', badge: 'success' },
+                { client: 'MediHealth Corp', color: '#EC4899', title: 'Head of Data Science', assignee: 'Vikram P.', sourced: 8, status: 'On Hold', badge: 'warning' },
+                { client: 'CloudNine Solutions', color: '#10B981', title: 'DevOps Lead', assignee: 'Sneha D.', sourced: 22, status: 'Closed', badge: 'secondary' },
+                { client: 'Infosys BPM', color: '#8B5CF6', title: 'Customer Success Mgr', assignee: 'Priya N.', sourced: 110, status: 'Active', badge: 'success' }
+            ];
+
+            const tbody = document.querySelector('.table tbody');
+            reqs.forEach(r => {
+                const initial = r.client.charAt(0);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><div style="display:flex;align-items:center;gap:8px;"><div class="client-avatar" style="background:${r.color};">${initial}</div><span class="font-medium">${r.client}</span></div></td>
+                    <td>${r.title}</td>
+                    <td><div style="display:flex;align-items:center;gap:6px;"><div class="avatar" style="width:24px;height:24px;font-size:0.7rem;background:var(--bg-body);color:var(--text-primary);">${r.assignee.split(' ')[0][0]}</div>${r.assignee}</div></td>
+                    <td><span class="badge badge-info">${r.sourced}</span></td>
+                    <td><span class="badge badge-${r.badge}">${r.status}</span></td>
+                    <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item">View Details</a><a href="#" class="dropdown-item">Assign Recruiter</a></div></div></td>
+                `;
+                tbody.appendChild(tr);
+            });
+            if (window.lucide) lucide.createIcons();
+
+            // Search Interactivity
+            const searchInput = document.querySelector('.global-search input');
+            searchInput.removeAttribute('readonly');
+            searchInput.addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('.table tbody tr');
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(val) ? '' : 'none';
+                });
+            });
+
+            // Dropdown fix for dynamic content
+            document.querySelectorAll('.dropdown').forEach(dd => {
+                const toggle = dd.querySelector('[data-toggle="dropdown"]');
+                if (toggle) {
+                    toggle.addEventListener('click', (e) => {
+                        e.preventDefault(); e.stopPropagation();
+                        document.querySelectorAll('.dropdown').forEach(o => { if (o !== dd) o.classList.remove('show'); });
+                        dd.classList.toggle('show');
+                    });
+                }
+            });
+            window.addEventListener('click', () => document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show')));
+        });
+    </script>
+</body>
+</html>
