@@ -5,357 +5,1131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Company Dashboard - DIJIT Talent Cloud</title>
     <meta name="description" content="Manage your company's hiring, job credits, resume unlocks, and team members.">
+    <!-- Base styles and icons -->
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        .progress-bar-bg {
-            background-color: var(--border-color);
-            border-radius: var(--radius-full);
-            height: 8px;
+        :root {
+            /* Override primary to match the purple in the image */
+            --primary: #7e22ce;
+            --primary-hover: #6b21a8;
+            --primary-light: #f3e8ff;
+            --bg-body: #f8fafc;
+        }
+        html {
+            font-size: 105%;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 80px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .brand-logo img {
+            height: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* Job Dropdown */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown .nav-link {
+            cursor: pointer;
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 8px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 220px;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-dropdown:hover .nav-link {
+            color: var(--primary);
+        }
+
+        .nav-dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .nav-dropdown-menu a:hover {
+            background: #f5f3ff;
+            color: var(--primary);
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 0 24px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            border-radius: 9999px;
+            padding: 4px 16px;
             width: 100%;
+            max-width: 400px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+        .search-bar .search-icon {
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .platform-guide {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .icon-btn {
+            color: #475569;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .user-profile-top img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Layout */
+        .layout {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 32px 48px;
+            gap: 48px;
+        }
+
+        /* Sidebar */
+        .left-sidebar {
+            width: 280px;
+            box-sizing: border-box;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            
+            /* Glassmorphism background */
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 16px;
+            padding: 24px 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            
+            position: sticky;
+            top: 88px;
+            align-self: flex-start;
+            height: max-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .left-sidebar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .sidebar-item i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .sidebar-item.active, .sidebar-item:hover {
+            background: #f5f3ff;
+            color: #9333ea;
+        }
+        
+        .sidebar-item.active {
+            font-weight: 600;
+        }
+
+        .ai-banner {
+            background: linear-gradient(135deg, #1e1b4b, #312e81);
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            position: relative;
             overflow: hidden;
-            margin-top: var(--space-2);
+            margin-top: 16px;
         }
-        .progress-bar-fill {
-            height: 100%;
-            border-radius: var(--radius-full);
-            transition: width 0.3s ease;
+
+        .ai-pill {
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 0.65rem;
+            padding: 4px 8px;
+            border-radius: 9999px;
+            display: inline-block;
+            margin-bottom: 12px;
+            backdrop-filter: blur(4px);
         }
-        .progress-fill-primary { background-color: var(--primary); }
-        .progress-fill-success { background-color: var(--success); }
-        .progress-fill-warning { background-color: var(--warning); }
-        .quota-card {
-            padding: var(--space-4);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-lg);
-            background: var(--bg-card);
+
+        .ai-banner h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 16px 0;
+            line-height: 1.2;
         }
-        .quota-header {
+
+        .ai-waveform {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 24px;
+            margin-bottom: 16px;
+        }
+
+        .ai-waveform div {
+            width: 2px;
+            background: white;
+            border-radius: 2px;
+            animation: waveform 1s infinite alternate ease-in-out;
+        }
+
+        @keyframes waveform {
+            0% { height: 4px; }
+            100% { height: 100%; }
+        }
+
+        .watch-demo-btn {
+            background: white;
+            color: #312e81;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .dashboard-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+        /* Searches Card */
+        .tabs {
+            display: flex;
+            background: #f1f5f9;
+            border-radius: 9999px;
+            padding: 4px;
+            width: max-content;
+            margin-bottom: 16px;
+        }
+
+        .tab {
+            padding: 6px 24px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background: #fff;
+            color: #0f172a;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .search-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .search-list::-webkit-scrollbar { width: 4px; }
+        .search-list::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .search-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .search-list::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .search-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .search-item:last-child { border-bottom: none; }
+
+        .search-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #334155;
+            font-size: 0.9rem;
+        }
+
+        .search-item-left i { color: #94a3b8; }
+        .search-item-right { color: #64748b; font-size: 0.8rem; text-decoration: underline; cursor: pointer; }
+
+        /* My Jobs Card */
+        .jobs-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: var(--space-2);
+            background: #fafaf9;
+            border-radius: 8px;
+            padding: 24px;
         }
-        .quota-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--text-secondary);
+
+        .jobs-left h3 {
+            font-size: 1.1rem;
+            margin: 0 0 16px 0;
+            color: #1e293b;
         }
-        .quota-value {
-            font-size: 1.125rem;
-            font-weight: 700;
+
+        .jobs-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
+
+        .jobs-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .jobs-list li i { color: #10b981; }
+
+        .btn-purple {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 9999px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-purple:hover { background: var(--primary-hover); }
+
+        .jobs-img-placeholder {
+            width: 300px;
+            height: 150px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e1;
+        }
+
+        /* Campaigns Card */
+        .campaign-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .campaign-list::-webkit-scrollbar { width: 4px; }
+        .campaign-list::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .campaign-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .campaign-list::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        .campaign-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            background: #fafaf9;
+        }
+
+        .campaign-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .campaign-title-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .campaign-title-area i { color: #64748b; }
+        .campaign-name { font-weight: 600; color: #1e293b; }
+        .campaign-date { font-size: 0.8rem; color: #64748b; }
+        
+        .status-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 500;
+        }
+
+        .status-completed { background: #dcfce7; color: #166534; }
+        .status-aborted { background: #fee2e2; color: #991b1b; }
+
+        .campaign-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .campaign-stats {
+            display: flex;
+            gap: 24px;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .campaign-stats span strong { color: #1e293b; }
+
+        /* Credits Card */
+        .credits-header-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .buy-credits {
+            color: var(--primary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .credits-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .credit-col {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .credit-top {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .circular-chart {
+            display: block;
+            margin: 0 auto;
+            max-width: 60px;
+            max-height: 60px;
+        }
+        .circle-bg { fill: none; stroke: #e2e8f0; stroke-width: 3.8; }
+        .circle { fill: none; stroke-width: 3.8; stroke-linecap: round; }
+        .circular-chart.red .circle { stroke: #ef4444; }
+        .circular-chart.blue .circle { stroke: #3b82f6; }
+        .circular-chart.green .circle { stroke: #10b981; }
+        .percentage { fill: #1e293b; font-family: sans-serif; font-size: 0.5em; text-anchor: middle; font-weight: bold; }
+
+        .credit-title h4 { margin: 0; font-size: 0.85rem; color: #475569; font-weight: 500; }
+        .credit-title p { margin: 4px 0 0 0; font-size: 0.9rem; font-weight: 600; color: #1e293b; }
+
+        .recruiter-usage {
+            margin-top: 16px;
+        }
+
+        .usage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .usage-header a { color: var(--primary); text-decoration: none; }
+
+        .usage-list { display: flex; flex-direction: column; gap: 8px; }
+        .usage-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+        .usage-item i { width: 14px; height: 14px; color: #94a3b8; }
+        .usage-item div { display: flex; align-items: center; gap: 8px; }
+
+        .alert-text {
+            color: #ef4444;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 12px;
+        }
+
+        /* Downloads Card */
+        .downloads-empty {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .downloads-empty i { color: #cbd5e1; width: 64px; height: 64px; margin-bottom: 16px; }
+        .downloads-empty h3 { margin: 0 0 8px 0; font-size: 1.1rem; color: #1e293b; }
+        .downloads-empty p { margin: 0 0 24px 0; font-size: 0.9rem; color: #64748b; }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            color: #64748b;
+            background: #fff;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { color: var(--primary); }
+
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <a href="index.html" class="sidebar-logo">
-                    <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" class="sidebar-logo-img">
-                    <span>Company</span>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <a href="#" class="brand-logo">
+                <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" onerror="this.src='https://placehold.co/100x30/7e22ce/white?text=DIJIT'">
+                <span>DIJIT Talent Cloud</span>
+            </a>
+            <div class="nav-links">
+                <a href="search.html" class="nav-link">Search</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link">Job <i data-lucide="chevron-down" style="width:14px;"></i></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="post-job.html">Post a job</a>
+                        <a href="manage-jobs.html">Manage jobs</a>
+                        <a href="manage-questionnaire.html">Manage questionnaire</a>
+                    </div>
+                </div>
+                <a href="campaigns.html" class="nav-link">Campaign</a>
+                <a href="folders.html" class="nav-link">Folders</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+            </div>
+        </div>
+
+        <div class="nav-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Candidates">
+                <div class="search-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="platform-guide">
+                <i data-lucide="help-circle" style="width:16px;"></i> Platform Guide
+            </a>
+            <div class="icon-btn">
+                <i data-lucide="download" style="width:20px;"></i>
+            </div>
+            <div class="user-profile-top">
+                <img src="https://ui-avatars.com/api/?name=Vishal+Saroch&background=random" alt="User">
+                <div>
+                    <div style="color:#64748b;">Hello,</div>
+                    <div style="font-weight:600;color:#1e293b;">Vishal Saroch</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="layout">
+        <!-- Left Sidebar -->
+        <aside class="left-sidebar">
+            <div class="sidebar-menu">
+                <a href="#your-searches" class="sidebar-item active" data-target="your-searches">
+                    <i data-lucide="search"></i> Your Searches
+                </a>
+                <a href="#my-jobs" class="sidebar-item" data-target="my-jobs">
+                    <i data-lucide="briefcase"></i> My Jobs
+                </a>
+                <a href="#my-campaigns" class="sidebar-item" data-target="my-campaigns">
+                    <i data-lucide="megaphone"></i> My Campaigns
+                </a>
+                <a href="#credits-breakdown" class="sidebar-item" data-target="credits-breakdown">
+                    <i data-lucide="file-text"></i> Credits Breakdown
+                </a>
+                <a href="#downloads" class="sidebar-item" data-target="downloads">
+                    <i data-lucide="download"></i> Downloads
                 </a>
             </div>
-            <nav class="sidebar-nav">
-                <div class="nav-group">
-                    <div class="nav-group-title">Overview</div>
-                    <a href="index.html" class="nav-item active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
-                </div>
-                <div class="nav-group">
-                    <div class="nav-group-title">Hiring</div>
-                    <a href="my-jobs.html" class="nav-item"><i data-lucide="briefcase"></i><span>My Jobs</span></a>
-                    <a href="candidates.html" class="nav-item"><i data-lucide="users"></i><span>Candidates</span></a>
-                    <a href="resume-database.html" class="nav-item"><i data-lucide="search"></i><span>Resume Database</span></a>
-                </div>
-                <div class="nav-group">
-                    <div class="nav-group-title">Management</div>
-                    <a href="team-members.html" class="nav-item"><i data-lucide="user-plus"></i><span>Team Members</span></a>
-                    <a href="billing-plan.html" class="nav-item"><i data-lucide="credit-card"></i><span>Billing & Plan</span></a>
-                    <a href="company-settings.html" class="nav-item"><i data-lucide="settings"></i><span>Company Settings</span></a>
-                </div>
-            </nav>
-            <div style="padding: var(--space-4); margin-top: auto;">
-                <div style="background: var(--primary-light); padding: var(--space-3); border-radius: var(--radius-lg); text-align: center;">
-                    <i data-lucide="zap" style="color: var(--primary); margin-bottom: var(--space-2);"></i>
-                    <h4 style="font-size: 0.875rem; font-weight: 600; margin-bottom: 4px;">Need more resources?</h4>
-                    <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: var(--space-3);">Upgrade your plan for unlimited access.</p>
-                    <button class="btn btn-primary btn-sm" style="width: 100%;">Upgrade Plan</button>
-                </div>
-            </div>
+
+
         </aside>
 
-        <div class="main-wrapper">
-            <header class="top-header">
-                <div class="header-left">
-                    <button class="toggle-sidebar"><i data-lucide="menu" style="width:20px;height:20px;"></i></button>
-                    <div class="global-search">
-                        <i data-lucide="search" style="width:16px;height:16px;"></i>
-                        <input type="text" placeholder="Search jobs, candidates..." readonly>
-                        <span class="shortcut">⌘K</span>
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Your Searches -->
+            <div class="dashboard-card" id="your-searches">
+                <div class="card-header">
+                    <i data-lucide="search"></i> Your Searches
+                </div>
+                <div class="tabs">
+                    <div class="tab active" id="tab-recent"><i data-lucide="clock" style="width:14px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Recent</div>
+                    <div class="tab" id="tab-saved"><i data-lucide="bookmark" style="width:14px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Saved</div>
+                </div>
+                
+                <div id="content-recent">
+                    <p style="font-size:0.9rem;color:#64748b;margin-bottom:12px;">Continue Your Recent Searches</p>
+                
+                <div class="search-list">
+                    <div class="search-item">
+                        <div class="search-item-left">
+                            <i data-lucide="search" style="width:16px;"></i>
+                            <span>Sales Associate, Hotel, Customer Relation Executive, customer-facing roles, hospitality sales, retail sales, Hyder...</span>
+                        </div>
+                        <div class="search-item-right">More</div>
+                    </div>
+                    <div class="search-item">
+                        <div class="search-item-left">
+                            <i data-lucide="search" style="width:16px;"></i>
+                            <span>Sales Associate, Hotel, Customer Relation Executive, customer-facing roles, hospitality sales, retail sales, Hyder...</span>
+                        </div>
+                        <div class="search-item-right">More</div>
+                    </div>
+                    <div class="search-item">
+                        <div class="search-item-left">
+                            <i data-lucide="search" style="width:16px;"></i>
+                            <span>Senior Prompt Engineer; AI LLM, Generative AI, RAG systems, agentic AI frameworks, LLM APIs, vector databas...</span>
+                        </div>
+                        <div class="search-item-right">More</div>
+                    </div>
+                    <div class="search-item">
+                        <div class="search-item-left">
+                            <i data-lucide="search" style="width:16px;"></i>
+                            <span>Labour Supplier</span>
+                        </div>
+                        <div class="search-item-right">More</div>
                     </div>
                 </div>
-                <div class="header-right">
-                    <button class="btn btn-primary btn-sm"><i data-lucide="plus" style="width:16px;height:16px;"></i> Post a Job</button>
-                    <button class="header-icon-btn"><i data-lucide="bell" style="width:20px;height:20px;"></i><span class="notification-badge"></span></button>
-                    <div class="avatar" style="cursor:pointer;">TC</div>
                 </div>
-            </header>
+                
+                <div id="content-saved" style="display: none; text-align: center; padding: 40px 0;">
+                    <i data-lucide="folder-search" style="width:64px;height:64px;color:#cbd5e1;margin-bottom:16px;stroke-width:1;"></i>
+                    <h4 style="font-size:1.1rem;color:#1e293b;margin:0 0 8px 0;">No saved searches yet</h4>
+                    <p style="font-size:0.9rem;color:#64748b;margin:0 auto 24px auto;max-width:400px;line-height:1.5;">Save frequently-used searches to find candidates faster. Look for the save icon when searching.</p>
+                    <button class="btn-purple" style="border-radius:9999px;">Start Search</button>
+                </div>
+            </div>
 
-            <main class="main-content">
-                <div class="page-header fade-in">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%;">
-                        <div>
-                            <h1 class="page-title">Welcome back, TechCorp!</h1>
-                            <p class="text-muted" style="font-size:0.875rem;margin-top:2px;">Here is what's happening with your hiring today.</p>
-                        </div>
-                        <div>
-                            <span class="badge badge-primary" style="font-size: 0.875rem; padding: var(--space-2) var(--space-3);">Enterprise Plan</span>
+            <!-- My Jobs -->
+            <div class="dashboard-card" id="my-jobs">
+                <div class="card-header">
+                    <i data-lucide="briefcase"></i> My Jobs
+                </div>
+                <div class="jobs-content">
+                    <div class="jobs-left">
+                        <h3>Start Hiring Smarter Today</h3>
+                        <ul class="jobs-list">
+                            <li><i data-lucide="check"></i> Attract the right talent quickly for your requirements</li>
+                            <li><i data-lucide="check"></i> Unlock Candidate Insights & Analytics</li>
+                            <li><i data-lucide="check"></i> Manage Your Hiring from One Dashboard</li>
+                        </ul>
+                        <button class="btn-purple">Post Your First Job</button>
+                    </div>
+                    <div class="jobs-img-placeholder">
+                        <!-- Placeholder for the UI snippet image -->
+                        <div style="text-align:center;">
+                            <i data-lucide="image" style="width:32px;height:32px;color:#cbd5e1;margin-bottom:8px;"></i>
+                            <p style="font-size:0.8rem;margin:0;">Dashboard Preview Image</p>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Usage Quotas Row -->
-                <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-4);">Plan Usage & Quotas</h2>
-                <div class="grid grid-cols-3 mb-6 fade-in">
-                    <div class="quota-card">
-                        <div class="quota-header">
-                            <span class="quota-title">Job Credits</span>
-                            <i data-lucide="briefcase" style="width: 16px; height: 16px; color: var(--primary);"></i>
+            <!-- My Campaigns -->
+            <div class="dashboard-card" id="my-campaigns">
+                <div class="card-header">
+                    <i data-lucide="megaphone"></i> My Campaigns
+                </div>
+                <div class="campaign-list">
+                    <!-- Campaign 1 -->
+                    <div class="campaign-item">
+                        <div class="campaign-top">
+                            <div class="campaign-title-area">
+                                <i data-lucide="mail" style="width:18px;"></i>
+                                <span class="campaign-name">Prompt Enginner</span>
+                                <span class="campaign-date">Updated: 7 Mar, 2026 11:10 AM</span>
+                                <span class="status-badge status-completed">Completed</span>
+                            </div>
+                            <div class="campaign-actions">
+                                <i data-lucide="eye" style="width:14px;"></i> View responses <i data-lucide="chevron-down" style="width:16px;"></i>
+                            </div>
                         </div>
-                        <div style="display: flex; align-items: baseline; gap: 4px;">
-                            <span class="quota-value">120</span>
-                            <span class="text-muted" style="font-size: 0.875rem;">/ 200 used</span>
+                        <div class="campaign-stats">
+                            <span><strong>7</strong> Opened</span>
+                            <span><strong>1</strong> Responded</span>
                         </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill progress-fill-primary" style="width: 60%;"></div>
-                        </div>
-                        <p class="text-muted" style="font-size: 0.75rem; margin-top: var(--space-2);">80 credits remaining</p>
                     </div>
                     
-                    <div class="quota-card">
-                        <div class="quota-header">
-                            <span class="quota-title">Resume Unlocks</span>
-                            <i data-lucide="unlock" style="width: 16px; height: 16px; color: var(--success);"></i>
+                    <!-- Campaign 2 -->
+                    <div class="campaign-item">
+                        <div class="campaign-top">
+                            <div class="campaign-title-area">
+                                <i data-lucide="mail" style="width:18px;"></i>
+                                <span class="campaign-name">servicenow</span>
+                                <span class="campaign-date">Updated: 14 Feb, 2026 8:41 PM</span>
+                                <span class="status-badge status-aborted">Aborted - Inactivity</span>
+                            </div>
+                            <div class="campaign-actions" style="color:#64748b;">
+                                <i data-lucide="chevron-down" style="width:16px;"></i>
+                            </div>
                         </div>
-                        <div style="display: flex; align-items: baseline; gap: 4px;">
-                            <span class="quota-value">380</span>
-                            <span class="text-muted" style="font-size: 0.875rem;">/ 500 used</span>
-                        </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill progress-fill-success" style="width: 76%;"></div>
-                        </div>
-                        <p class="text-muted" style="font-size: 0.75rem; margin-top: var(--space-2);">120 unlocks remaining</p>
+                        <div style="font-size:0.85rem;color:#64748b;">No responses received</div>
                     </div>
 
-                    <div class="quota-card">
-                        <div class="quota-header">
-                            <span class="quota-title">Recruiter Seats</span>
-                            <i data-lucide="users" style="width: 16px; height: 16px; color: var(--warning);"></i>
+                    <!-- Campaign 3 -->
+                    <div class="campaign-item">
+                        <div class="campaign-top">
+                            <div class="campaign-title-area">
+                                <i data-lucide="mail" style="width:18px;"></i>
+                                <span class="campaign-name">insidesales</span>
+                                <span class="campaign-date">Updated: 13 Feb, 2026 12:10 PM</span>
+                                <span class="status-badge status-completed">Completed</span>
+                            </div>
+                            <div class="campaign-actions">
+                                <i data-lucide="eye" style="width:14px;"></i> View responses <i data-lucide="chevron-down" style="width:16px;"></i>
+                            </div>
                         </div>
-                        <div style="display: flex; align-items: baseline; gap: 4px;">
-                            <span class="quota-value">15</span>
-                            <span class="text-muted" style="font-size: 0.875rem;">/ 25 used</span>
-                        </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill progress-fill-warning" style="width: 60%;"></div>
-                        </div>
-                        <p class="text-muted" style="font-size: 0.75rem; margin-top: var(--space-2);">10 seats remaining</p>
-                    </div>
-                </div>
-
-                <!-- KPI Row -->
-                <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: var(--space-4);">Hiring Activity</h2>
-                <div class="grid grid-cols-4 mb-6 fade-in">
-                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Active Jobs</p><h3 class="kpi-value">42</h3></div><div class="kpi-icon" style="background:#EEF2FF;color:#6366F1;"><i data-lucide="briefcase" style="width:20px;height:20px;"></i></div></div></div>
-                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Total Applications</p><h3 class="kpi-value">1,240</h3></div><div class="kpi-icon" style="background:#F3E8FF;color:#9333EA;"><i data-lucide="file-text" style="width:20px;height:20px;"></i></div></div></div>
-                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Candidates Shortlisted</p><h3 class="kpi-value">128</h3></div><div class="kpi-icon" style="background:var(--warning-bg);color:var(--warning);"><i data-lucide="star" style="width:20px;height:20px;"></i></div></div></div>
-                    <div class="kpi-card"><div class="kpi-top"><div><p class="kpi-label">Candidates Hired</p><h3 class="kpi-value">38</h3></div><div class="kpi-icon" style="background:var(--success-bg);color:var(--success);"><i data-lucide="check-circle" style="width:20px;height:20px;"></i></div></div></div>
-                </div>
-
-                <div class="grid grid-cols-1 mb-6 fade-in">
-                    <div class="card">
-                        <div class="table-toolbar">
-                            <h3 style="font-size: 1rem; font-weight: 600;">Recent Job Postings</h3>
-                            <button class="btn btn-outline btn-sm">View All Jobs</button>
-                        </div>
-                        <div class="table-container">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Job Title</th>
-                                        <th>Department</th>
-                                        <th>Location</th>
-                                        <th>Applicants</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><div class="font-medium">Senior Frontend Engineer</div></td>
-                                        <td>Engineering</td>
-                                        <td>Remote / Bangalore</td>
-                                        <td><span class="badge badge-info">142</span></td>
-                                        <td><span class="badge badge-success">Active</span></td>
-                                        <td><button class="btn-ghost btn-icon"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div class="font-medium">Product Manager</div></td>
-                                        <td>Product</td>
-                                        <td>Mumbai</td>
-                                        <td><span class="badge badge-info">86</span></td>
-                                        <td><span class="badge badge-success">Active</span></td>
-                                        <td><button class="btn-ghost btn-icon"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div class="font-medium">HR Business Partner</div></td>
-                                        <td>Human Resources</td>
-                                        <td>Delhi</td>
-                                        <td><span class="badge badge-info">34</span></td>
-                                        <td><span class="badge badge-warning">Draft</span></td>
-                                        <td><button class="btn-ghost btn-icon"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><div class="font-medium">Backend Developer (Node.js)</div></td>
-                                        <td>Engineering</td>
-                                        <td>Pune</td>
-                                        <td><span class="badge badge-info">210</span></td>
-                                        <td><span class="badge badge-secondary">Closed</span></td>
-                                        <td><button class="btn-ghost btn-icon"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="campaign-stats">
+                            <span><strong>23</strong> Opened</span>
+                            <span><strong>2</strong> Responded</span>
                         </div>
                     </div>
+
+                    <!-- Campaign 4 -->
+                    <div class="campaign-item">
+                        <div class="campaign-top">
+                            <div class="campaign-title-area">
+                                <i data-lucide="mail" style="width:18px;"></i>
+                                <span class="campaign-name">inside sales</span>
+                                <span class="campaign-date">Updated: 13 Feb, 2026 12:10 PM</span>
+                                <span class="status-badge status-completed">Completed</span>
+                            </div>
+                            <div class="campaign-actions">
+                                <i data-lucide="eye" style="width:14px;"></i> View responses <i data-lucide="chevron-down" style="width:16px;"></i>
+                            </div>
+                        </div>
+                        <div class="campaign-stats">
+                            <span><strong>33</strong> Opened</span>
+                            <span><strong>4</strong> Responded</span>
+                        </div>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 8px;">
+                        <button class="btn-purple">View all Campaigns</button>
+                    </div>
                 </div>
-            </main>
-        </div>
+            </div>
+
+            <!-- Credits Breakdown -->
+            <div class="dashboard-card" id="credits-breakdown">
+                <div class="credits-header-wrapper">
+                    <div class="card-header" style="margin:0;">
+                        <i data-lucide="file-text"></i> Credits Breakdown
+                    </div>
+                    <a href="#" class="buy-credits">Buy credits</a>
+                </div>
+                
+                <div class="credits-grid">
+                    <!-- Credit Col 1 -->
+                    <div class="credit-col">
+                        <div class="credit-top">
+                            <svg viewBox="0 0 36 36" class="circular-chart red">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="94, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage">94%</text>
+                            </svg>
+                            <div class="credit-title">
+                                <h4>Account level Profile Usage</h4>
+                                <p>1.8k/2k</p>
+                            </div>
+                        </div>
+                        <div class="recruiter-usage">
+                            <div class="usage-header">
+                                <span>Recruiter level usage</span>
+                                <a href="#">View Report</a>
+                            </div>
+                            <div class="usage-list">
+                                <div class="usage-item">
+                                    <div><i data-lucide="user"></i> Profile view</div>
+                                    <span style="font-weight:600;color:#1e293b;">1.8k</span>
+                                </div>
+                                <div class="usage-item">
+                                    <div><i data-lucide="download"></i> Excel downloads</div>
+                                    <span style="font-weight:600;color:#1e293b;">0</span>
+                                </div>
+                            </div>
+                            <div class="alert-text">
+                                <i data-lucide="alert-triangle" style="width:14px;"></i> Your profile inventory is about to finish
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credit Col 2 -->
+                    <div class="credit-col">
+                        <div class="credit-top">
+                            <svg viewBox="0 0 36 36" class="circular-chart blue">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="40, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage">40%</text>
+                            </svg>
+                            <div class="credit-title">
+                                <h4>Account level Job posting Usage</h4>
+                                <p>2/5</p>
+                            </div>
+                        </div>
+                        <div class="recruiter-usage">
+                            <div class="usage-header">
+                                <span>Recruiter level usage</span>
+                                <a href="#">View Report</a>
+                            </div>
+                            <div class="usage-list">
+                                <div class="usage-item">
+                                    <div><i data-lucide="briefcase"></i> Job Posted</div>
+                                    <span style="font-weight:600;color:#1e293b;">2</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Credit Col 3 -->
+                    <div class="credit-col">
+                        <div class="credit-top">
+                            <svg viewBox="0 0 36 36" class="circular-chart green">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path class="circle" stroke-dasharray="15, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage">15%</text>
+                            </svg>
+                            <div class="credit-title">
+                                <h4>Account level Outreach Usage</h4>
+                                <p>1.5k/10k</p>
+                            </div>
+                        </div>
+                        <div class="recruiter-usage">
+                            <div class="usage-header">
+                                <span>Recruiter level usage</span>
+                                <a href="#">View Report</a>
+                            </div>
+                            <div class="usage-list">
+                                <div class="usage-item">
+                                    <div><i data-lucide="mail"></i> Email</div>
+                                    <span style="font-weight:600;color:#1e293b;">1.5k</span>
+                                </div>
+                                <div class="usage-item">
+                                    <div><i data-lucide="message-square"></i> WhatsApp</div>
+                                    <span style="font-weight:600;color:#1e293b;">0</span>
+                                </div>
+                                <div class="usage-item">
+                                    <div><i data-lucide="message-circle"></i> SMS</div>
+                                    <span style="font-weight:600;color:#1e293b;">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Downloads -->
+            <div class="dashboard-card" id="downloads">
+                <div class="card-header" style="margin-bottom:0;">
+                    <i data-lucide="download"></i> Downloads
+                </div>
+                <div class="downloads-empty">
+                    <i data-lucide="folder-open"></i>
+                    <h3>All your downloads will sit here</h3>
+                    <p>Downloaded candidate profiles, reports, and exports will<br>appear here for easy access</p>
+                    <button class="btn-purple">View Folders</button>
+                </div>
+            </div>
+
+        </main>
     </div>
 
-    <!-- Command Palette (Optional Feature) -->
-    <div class="command-palette-overlay" id="commandPaletteOverlay">
-        <div class="command-palette">
-            <div class="cp-header">
-                <i data-lucide="search" style="width:20px;height:20px;"></i>
-                <input type="text" class="cp-input" placeholder="Search...">
-                <button class="modal-close" onclick="document.getElementById('commandPaletteOverlay').classList.remove('open')">
-                    <i data-lucide="x" style="width:18px;height:18px;"></i>
-                </button>
-            </div>
-            <div class="cp-body">
-                <div class="cp-group-title">Navigation</div>
-                <a href="index.html" class="cp-item">
-                    <div class="cp-item-icon"><i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i></div>
-                    <div class="cp-item-content"><div class="cp-item-title">Dashboard</div></div>
-                </a>
-            </div>
-            <div class="cp-footer">
-                <span><kbd>Esc</kbd> Close</span>
-            </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 DIJIT Talent Cloud - All Rights Reserved</div>
+        <div class="footer-links">
+            <a href="#">Manage logins</a> |
+            <a href="#">Security center</a> |
+            <a href="#">Help center</a> |
+            <a href="#">Buy Job Postings</a> |
+            <a href="#">Buy Resume Database Access</a> |
+            <a href="#">Advertise with Us</a>
         </div>
-    </div>
+    </footer>
 
-    <script src="js/app.js"></script>
     <script>
-        // Dummy Data Initialization
+        lucide.createIcons();
+
+        // Scrollspy logic
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. Quota Data
-            const quotas = {
-                jobCredits: { used: 145, total: 200 },
-                resumeUnlocks: { used: 410, total: 500 },
-                recruiterSeats: { used: 18, total: 25 }
+            const sections = document.querySelectorAll('.dashboard-card[id]');
+            const sidebarLinks = document.querySelectorAll('.sidebar-item');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '-100px 0px -40% 0px',
+                threshold: 0
             };
 
-            const quotaCards = document.querySelectorAll('.quota-card');
-            
-            // Update Job Credits
-            if (quotaCards[0]) {
-                const perc = (quotas.jobCredits.used / quotas.jobCredits.total) * 100;
-                quotaCards[0].querySelector('.quota-value').textContent = quotas.jobCredits.used;
-                quotaCards[0].querySelector('.progress-bar-fill').style.width = perc + '%';
-                quotaCards[0].querySelector('.text-muted:last-child').textContent = (quotas.jobCredits.total - quotas.jobCredits.used) + ' credits remaining';
-            }
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        
+                        // Remove active class from all links
+                        sidebarLinks.forEach(link => {
+                            link.classList.remove('active');
+                        });
 
-            // Update Resume Unlocks
-            if (quotaCards[1]) {
-                const perc = (quotas.resumeUnlocks.used / quotas.resumeUnlocks.total) * 100;
-                quotaCards[1].querySelector('.quota-value').textContent = quotas.resumeUnlocks.used;
-                quotaCards[1].querySelector('.progress-bar-fill').style.width = perc + '%';
-                quotaCards[1].querySelector('.text-muted:last-child').textContent = (quotas.resumeUnlocks.total - quotas.resumeUnlocks.used) + ' unlocks remaining';
-            }
-
-            // Update Recruiter Seats
-            if (quotaCards[2]) {
-                const perc = (quotas.recruiterSeats.used / quotas.recruiterSeats.total) * 100;
-                quotaCards[2].querySelector('.quota-value').textContent = quotas.recruiterSeats.used;
-                quotaCards[2].querySelector('.progress-bar-fill').style.width = perc + '%';
-                quotaCards[2].querySelector('.text-muted:last-child').textContent = (quotas.recruiterSeats.total - quotas.recruiterSeats.used) + ' seats remaining';
-            }
-
-            // 2. KPI Data
-            const kpiData = [45, '1,350', 142, 41];
-            const kpiValues = document.querySelectorAll('.kpi-value');
-            kpiValues.forEach((el, index) => {
-                if(kpiData[index] !== undefined) {
-                    // animate counter
-                    let start = 0;
-                    const end = parseInt(kpiData[index].toString().replace(',', ''));
-                    const duration = 1000;
-                    const stepTime = Math.abs(Math.floor(duration / end));
-                    const timer = setInterval(() => {
-                        start += Math.ceil(end / 20);
-                        if (start >= end) {
-                            clearInterval(timer);
-                            el.textContent = kpiData[index];
-                        } else {
-                            el.textContent = start;
+                        // Add active class to corresponding link
+                        const activeLink = document.querySelector(`.sidebar-item[data-target="${id}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
                         }
-                    }, 50);
-                }
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
             });
 
-            // 3. Recent Job Postings
-            const jobs = [
-                { title: 'Senior Frontend Engineer', dept: 'Engineering', loc: 'Remote / Bangalore', applicants: 145, status: 'Active', badge: 'success' },
-                { title: 'Product Manager', dept: 'Product', loc: 'Mumbai', applicants: 92, status: 'Active', badge: 'success' },
-                { title: 'HR Business Partner', dept: 'Human Resources', loc: 'Delhi', applicants: 38, status: 'Draft', badge: 'warning' },
-                { title: 'Backend Developer (Node.js)', dept: 'Engineering', loc: 'Pune', applicants: 215, status: 'Closed', badge: 'secondary' },
-                { title: 'UX Designer', dept: 'Design', loc: 'Remote', applicants: 110, status: 'Active', badge: 'success' }
-            ];
-
-            const tbody = document.querySelector('.table tbody');
-            if (tbody) {
-                tbody.innerHTML = ''; // Clear existing
-                jobs.forEach(job => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td><div class="font-medium">${job.title}</div></td>
-                        <td>${job.dept}</td>
-                        <td>${job.loc}</td>
-                        <td><span class="badge badge-info">${job.applicants}</span></td>
-                        <td><span class="badge badge-${job.badge}">${job.status}</span></td>
-                        <td><div class="dropdown"><button class="btn-ghost btn-icon" data-toggle="dropdown"><i data-lucide="more-vertical" style="width:16px;height:16px;"></i></button><div class="dropdown-menu"><a href="#" class="dropdown-item">View Details</a><a href="#" class="dropdown-item">Edit Job</a></div></div></td>
-                    `;
-                    tbody.appendChild(tr);
+            // Smooth scrolling for sidebar links
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('data-target');
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        const topOffset = 88; // Accounts for sticky header
+                        const elementPosition = targetSection.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.scrollY - topOffset;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
                 });
-                // Re-initialize lucide icons for new elements
-                if (window.lucide) {
-                    lucide.createIcons();
-                }
-            }
+            });
+            
+            // Tab switching logic for Your Searches
+            const tabRecent = document.getElementById('tab-recent');
+            const tabSaved = document.getElementById('tab-saved');
+            const contentRecent = document.getElementById('content-recent');
+            const contentSaved = document.getElementById('content-saved');
 
-            // Make Search Input Work (Dummy feature)
-            const searchInput = document.querySelector('.global-search input');
-            if(searchInput) {
-                searchInput.removeAttribute('readonly');
-                searchInput.addEventListener('input', (e) => {
-                    const val = e.target.value.toLowerCase();
-                    const rows = document.querySelectorAll('.table tbody tr');
-                    rows.forEach(row => {
-                        const text = row.textContent.toLowerCase();
-                        row.style.display = text.includes(val) ? '' : 'none';
-                    });
+            if (tabRecent && tabSaved) {
+                tabRecent.addEventListener('click', () => {
+                    tabRecent.classList.add('active');
+                    tabSaved.classList.remove('active');
+                    contentRecent.style.display = 'block';
+                    contentSaved.style.display = 'none';
+                });
+
+                tabSaved.addEventListener('click', () => {
+                    tabSaved.classList.add('active');
+                    tabRecent.classList.remove('active');
+                    contentSaved.style.display = 'block';
+                    contentRecent.style.display = 'none';
                 });
             }
         });

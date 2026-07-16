@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post a Job - DIJIT Talent Cloud</title>
+    <meta name="description" content="Post a new job listing on DIJIT Talent Cloud to attract the right talent.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #7e22ce;
+            --primary-hover: #6b21a8;
+            --primary-light: #f3e8ff;
+            --bg-body: #f8fafc;
+        }
+
+        html {
+            font-size: 105%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 80px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .brand-logo img {
+            height: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        /* Job Dropdown */
+        .nav-dropdown {
+            position: relative;
+        }
+
+        .nav-dropdown .nav-link {
+            cursor: pointer;
+        }
+
+        .nav-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 8px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-width: 220px;
+            padding: 8px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-4px);
+            transition: all 0.2s ease;
+            z-index: 100;
+        }
+
+        .nav-dropdown:hover .nav-dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-dropdown:hover .nav-link {
+            color: var(--primary);
+        }
+
+        .nav-dropdown-menu a {
+            display: block;
+            padding: 12px 20px;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .nav-dropdown-menu a:hover {
+            background: #f5f3ff;
+            color: var(--primary);
+        }
+
+        .nav-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            padding: 0 24px;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            border-radius: 9999px;
+            padding: 4px 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+
+        .search-bar .search-icon {
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .platform-guide {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .icon-btn {
+            color: #475569;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+        }
+
+        .user-profile-top img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Breadcrumb Bar */
+        .breadcrumb-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 80px;
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+        }
+
+        .breadcrumb-left a {
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .breadcrumb-left a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb-left span.current {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .breadcrumb-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .breadcrumb-right a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .breadcrumb-right a:hover {
+            text-decoration: underline;
+        }
+
+        .clone-select, .country-select {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #475569;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .country-select img {
+            width: 24px;
+            height: 16px;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        /* Page Layout */
+        .page-layout {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 32px 80px;
+            gap: 32px;
+        }
+
+        /* Left Sidebar */
+        .post-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: sticky;
+            top: 100px;
+            align-self: flex-start;
+        }
+
+        .sidebar-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .sidebar-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 16px 0;
+        }
+
+        .recruiter-card {
+            background: #f8fafc;
+            border: none;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e2e8f0;
+            width: 100%;
+        }
+
+        /* Posting Type Tabs */
+        .posting-tabs {
+            display: flex;
+            background: #f8fafc;
+            border-radius: 9999px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+
+        .posting-tab {
+            flex: 1;
+            padding: 8px 4px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border-radius: 9999px;
+            border: 1px solid transparent;
+        }
+
+        .posting-tab.active {
+            background: #fff;
+            color: #0f172a;
+            border-color: #1e293b;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #475569;
+            cursor: pointer;
+        }
+
+        .radio-label input[type="radio"] {
+            accent-color: #0f172a;
+            width: 16px;
+            height: 16px;
+        }
+
+        .form-label-sm {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Date Input */
+        .date-input {
+            display: flex;
+            align-items: center;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            color: #334155;
+            gap: 8px;
+            background: #fff;
+        }
+
+        .date-input input {
+            border: none;
+            outline: none;
+            font-size: 0.85rem;
+            color: #334155;
+            width: 100%;
+            background: transparent;
+        }
+
+        .auto-renew {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-top: 12px;
+        }
+
+        .auto-renew select {
+            border: none;
+            outline: none;
+            color: #475569;
+            font-size: 0.85rem;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        /* Toggle Switch */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: #334155;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #cbd5e1;
+            border-radius: 22px;
+            transition: 0.3s;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: #1e293b;
+        }
+
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(18px);
+        }
+
+        .sub-radio-group {
+            padding-left: 16px;
+            margin-top: 8px;
+        }
+
+        .sub-radio-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: #475569;
+            margin-bottom: 6px;
+            cursor: pointer;
+        }
+
+        .sub-radio-label input[type="radio"] {
+            accent-color: #0f172a;
+            width: 14px;
+            height: 14px;
+        }
+
+        .sub-note {
+            font-size: 0.72rem;
+            color: #94a3b8;
+            padding-left: 20px;
+            margin-bottom: 4px;
+        }
+
+        /* Recruiter Info */
+        .recruiter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .recruiter-header h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .recruiter-edit {
+            color: #475569;
+            cursor: pointer;
+        }
+
+        .recruiter-detail {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-bottom: 10px;
+        }
+
+        .recruiter-detail i {
+            width: 16px;
+            height: 16px;
+            color: #94a3b8;
+        }
+
+        .recruiter-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .sidebar-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            font-size: 0.82rem;
+            color: #475569;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .sidebar-checkbox input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Main Content */
+        .post-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .main-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 24px 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .form-label .req {
+            color: #ef4444;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #334155;
+            outline: none;
+            transition: border-color 0.2s;
+            background: #fff;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.08);
+        }
+
+        .form-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .form-row {
+            margin-bottom: 24px;
+        }
+
+        .form-row-inline {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .form-row-inline > div {
+            flex: 1;
+        }
+
+        .add-ref-link {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .title-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+        }
+
+        .title-row .form-input-wrap {
+            flex: 1;
+        }
+
+        /* Experience Tabs */
+        .exp-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+        }
+
+        .exp-tab {
+            padding: 8px 20px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fff;
+        }
+
+        .exp-tab:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .exp-tab:last-child {
+            border-radius: 0 8px 8px 0;
+            border-left: none;
+        }
+
+        .exp-tab.active {
+            background: #f1f5f9;
+            color: #1e293b;
+            font-weight: 600;
+            border-color: #94a3b8;
+        }
+
+        /* AI Button */
+        .ai-generate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 9999px;
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 24px;
+        }
+
+        .ai-generate-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: #f5f3ff;
+        }
+
+        .ai-generate-btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Rich Text Editor */
+        .editor-wrapper {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #fafafa;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            color: #475569;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: background 0.15s;
+        }
+
+        .toolbar-btn:hover {
+            background: #f1f5f9;
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 20px;
+            background: #e2e8f0;
+            margin: 0 4px;
+        }
+
+        .toolbar-select {
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.8rem;
+            color: #475569;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .toolbar-clear {
+            margin-left: auto;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+        }
+
+        .toolbar-clear:hover {
+            color: var(--primary);
+        }
+
+        .editor-textarea {
+            width: 100%;
+            min-height: 160px;
+            padding: 16px;
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+            color: #94a3b8;
+            font-style: italic;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        /* Prioritize Row */
+        .prioritize-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 0.85rem;
+            color: #475569;
+            background: #fafafa;
+        }
+
+        .prioritize-row label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .prioritize-row input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Location Row */
+        .location-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .location-row select {
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #334155;
+            outline: none;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .location-row select:focus {
+            border-color: var(--primary);
+        }
+
+        .location-row .location-select {
+            flex: 1;
+        }
+
+        /* Salary Row */
+        .salary-confidential {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .salary-green-text {
+            color: #16a34a;
+            font-size: 0.82rem;
+            font-weight: 500;
+        }
+
+        /* Select Dropdown */
+        .form-select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: #334155;
+            outline: none;
+            background: #fff;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.08);
+        }
+
+        /* Bottom Section */
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .bottom-section h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 16px 0;
+        }
+
+        .questionnaire-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            color: #475569;
+            cursor: pointer;
+        }
+
+        .questionnaire-check input[type="checkbox"] {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Sticky Footer */
+        .post-footer {
+            position: sticky;
+            bottom: 0;
+            z-index: 40;
+            background: #fff;
+            border-top: 1px solid #e2e8f0;
+            padding: 16px 80px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-text {
+            background: transparent;
+            border: none;
+            color: #475569;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+
+        .btn-text:hover {
+            color: var(--primary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 24px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-post {
+            background: #dc2626;
+            border: none;
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 32px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-post:hover {
+            background: #b91c1c;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 80px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            color: #64748b;
+            background: #fff;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo">
+                <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" onerror="this.src='https://placehold.co/100x30/7e22ce/white?text=DIJIT'">
+                <span>DIJIT Talent Cloud</span>
+            </a>
+            <div class="nav-links">
+                <a href="search.html" class="nav-link">Search</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link" style="color: var(--primary); font-weight: 600;">Job <i data-lucide="chevron-up" style="width:14px;"></i></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="post-job.html" style="color: var(--primary);">Post a job</a>
+                        <a href="manage-jobs.html">Manage jobs</a>
+                        <a href="manage-questionnaire.html">Manage questionnaire</a>
+                    </div>
+                </div>
+                <a href="campaigns.html" class="nav-link">Campaign</a>
+                <a href="folders.html" class="nav-link">Folders</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+            </div>
+        </div>
+
+        <div class="nav-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Candidates">
+                <div class="search-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="platform-guide">
+                <i data-lucide="help-circle" style="width:16px;"></i> Platform Guide
+            </a>
+            <div class="icon-btn">
+                <i data-lucide="download" style="width:20px;"></i>
+            </div>
+            <div class="user-profile-top">
+                <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#10b981);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;">VS</div>
+                <div>
+                    <div style="color:#64748b;">Hello,</div>
+                    <div style="font-weight:600;color:#1e293b;">Vishal Saroch</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb Bar -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb-left">
+            <a href="index.html">Dashboard</a>
+            <i data-lucide="chevron-right" style="width:16px;color:#94a3b8;"></i>
+            <span class="current">Post Job</span>
+        </div>
+        <div class="breadcrumb-right">
+            <a href="#">Prohibited listing & rules</a>
+            <a href="#">Help & FAQs</a>
+            <div class="clone-select">
+                Clone from existing job <i data-lucide="chevron-down" style="width:14px;"></i>
+            </div>
+            <div class="country-select">
+                <img src="https://flagcdn.com/w40/in.png" alt="India flag">
+                India <i data-lucide="chevron-down" style="width:14px;"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-layout">
+
+        <!-- Left Sidebar -->
+        <aside class="post-sidebar">
+
+            <!-- Posting Details -->
+            <div class="sidebar-card">
+                <h3 class="sidebar-card-title">Posting details</h3>
+
+                <div class="posting-tabs">
+                    <div class="posting-tab active">Permanent</div>
+                    <div class="posting-tab">Contract</div>
+                    <div class="posting-tab">Walk-in</div>
+                </div>
+
+                <div id="standard-posting-details">
+                    <div class="radio-group" id="job-type-group">
+                        <label class="radio-label">
+                            <input type="radio" name="job-type" checked> Full time
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="job-type"> Part time
+                        </label>
+                    </div>
+
+                    <label class="form-label-sm">Schedule job post</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="schedule" checked> Post now
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="schedule"> Choose a date
+                        </label>
+                    </div>
+
+                    <label class="form-label-sm">Expiry date</label>
+                    <div class="date-input">
+                        <input type="text" value="14/09/2026" readonly>
+                        <i data-lucide="calendar" style="width:16px;color:#94a3b8;cursor:pointer;"></i>
+                    </div>
+
+                    <div class="auto-renew">
+                        Auto renew: 
+                        <select>
+                            <option>Off</option>
+                            <option>On</option>
+                        </select>
+                        <i data-lucide="chevron-down" style="width:14px;color:#94a3b8;"></i>
+                    </div>
+                </div>
+
+                <div id="walkin-posting-details" style="display: none;">
+                    <label class="form-label-sm">Venue address <span style="color:#ef4444;">*</span></label>
+                    <textarea class="form-input" style="height: 100px; resize: none; margin-bottom: 16px;" placeholder="Write address here"></textarea>
+                    
+                    <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                        <div style="flex: 1;">
+                            <label class="form-label-sm">Start Date <span style="color:#ef4444;">*</span></label>
+                            <div class="date-input">
+                                <input type="text" value="17/07/2026" readonly>
+                                <i data-lucide="calendar" style="width:16px;color:#94a3b8;cursor:pointer;"></i>
+                            </div>
+                        </div>
+                        <div style="flex: 1;">
+                            <label class="form-label-sm">Start time <span style="color:#ef4444;">*</span></label>
+                            <div class="date-input">
+                                <input type="text" value="12:00 AM" readonly>
+                                <i data-lucide="clock" style="width:16px;color:#94a3b8;cursor:pointer;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                        <div style="flex: 1;">
+                            <label class="form-label-sm">End Date <span style="color:#ef4444;">*</span></label>
+                            <div class="date-input">
+                                <input type="text" value="18/07/2026" readonly>
+                                <i data-lucide="calendar" style="width:16px;color:#94a3b8;cursor:pointer;"></i>
+                            </div>
+                        </div>
+                        <div style="flex: 1;">
+                            <label class="form-label-sm">End time <span style="color:#ef4444;">*</span></label>
+                            <div class="date-input">
+                                <input type="text" value="12:00 AM" readonly>
+                                <i data-lucide="clock" style="width:16px;color:#94a3b8;cursor:pointer;"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 0.8rem; color: #64748b; line-height: 1.4;">
+                        Note: This is the closing date of the job. The job will be expired once passed this date
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notify Me For -->
+            <div class="sidebar-card" id="notify-me-card">
+                <h3 class="sidebar-card-title">Notify me for</h3>
+
+                <div class="toggle-row">
+                    <span class="toggle-label">
+                        Daily application summary
+                        <i data-lucide="info" style="width:14px;color:#94a3b8;"></i>
+                    </span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="toggle-row">
+                    <span class="toggle-label">Individual Applications</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="sub-radio-group">
+                    <label class="sub-radio-label">
+                        <input type="radio" name="applicant-type" checked> All matching applicants
+                    </label>
+                    <div class="sub-note">We will not send non matching applications</div>
+                    <label class="sub-radio-label">
+                        <input type="radio" name="applicant-type"> Top applicants only
+                    </label>
+                </div>
+            </div>
+
+            <!-- Recruiter Information -->
+            <div class="sidebar-card recruiter-card">
+                <div class="recruiter-header">
+                    <h3>Recruiter information</h3>
+                    <div class="recruiter-edit"><i data-lucide="pencil" style="width:16px;"></i></div>
+                </div>
+
+                <div class="recruiter-detail">
+                    <i data-lucide="user"></i>
+                    <span class="recruiter-name">Vishal Saroch</span>
+                </div>
+                <div class="recruiter-detail">
+                    <i data-lucide="phone"></i>
+                    <span>8219052310</span>
+                </div>
+                <div class="recruiter-detail">
+                    <i data-lucide="mail"></i>
+                    <span>vishalsaroch@dijitprogram.com</span>
+                </div>
+                <div class="recruiter-detail" style="margin-bottom: 20px;">
+                    <i data-lucide="building-2"></i>
+                    <span>Oxmjb Metatech Private Limited</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div style="margin-top: 16px;">
+                    <label class="sidebar-checkbox">
+                        <input type="checkbox"> Share your contact details with the applicants
+                    </label>
+                    <label class="sidebar-checkbox">
+                        <input type="checkbox"> Hide Company details from candidates
+                    </label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="post-main">
+            <div class="main-card">
+                <h2 class="section-title">Job details</h2>
+
+                <!-- Job Title -->
+                <div class="form-row">
+                    <label class="form-label">Job title <span class="req">*</span></label>
+                    <div class="title-row">
+                        <div class="form-input-wrap">
+                            <input type="text" class="form-input" placeholder="Search Job title">
+                        </div>
+                        <a href="#" class="add-ref-link">
+                            <i data-lucide="plus-circle" style="width:16px;"></i> Add reference code
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Experience -->
+                <div class="form-row">
+                    <label class="form-label">Experience <span class="req">*</span></label>
+                    <div class="exp-tabs">
+                        <div class="exp-tab">Fresher only</div>
+                        <div class="exp-tab active">Experienced only</div>
+                    </div>
+                </div>
+
+                <div class="form-row-inline">
+                    <div>
+                        <label class="form-label">Min experience (years) <span class="req">*</span></label>
+                        <select class="form-select">
+                            <option>Years</option>
+                            <option>0</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>5</option>
+                            <option>10</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Max experience (years) <span class="req">*</span></label>
+                        <select class="form-select">
+                            <option>Years</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>5</option>
+                            <option>10</option>
+                            <option>15</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- AI Generate Button -->
+                <button class="ai-generate-btn">
+                    <i data-lucide="sparkles"></i>
+                    Generate skills & job description by AI
+                </button>
+
+                <!-- Job Description -->
+                <div class="form-row">
+                    <label class="form-label">Job description <span class="req">*</span></label>
+                    <div class="editor-wrapper">
+                        <div class="editor-toolbar">
+                            <button class="toolbar-btn"><strong>B</strong></button>
+                            <button class="toolbar-btn"><em>I</em></button>
+                            <button class="toolbar-btn" style="text-decoration:underline;">U</button>
+                            <div class="toolbar-separator"></div>
+                            <button class="toolbar-btn"><i data-lucide="list" style="width:16px;"></i></button>
+                            <button class="toolbar-btn"><i data-lucide="list-ordered" style="width:16px;"></i></button>
+                            <div class="toolbar-separator"></div>
+                            <button class="toolbar-btn"><i data-lucide="align-left" style="width:16px;"></i></button>
+                            <button class="toolbar-btn"><i data-lucide="align-center" style="width:16px;"></i></button>
+                            <button class="toolbar-btn"><i data-lucide="align-right" style="width:16px;"></i></button>
+                            <div class="toolbar-separator"></div>
+                            <select class="toolbar-select">
+                                <option>Normal</option>
+                                <option>Heading 1</option>
+                                <option>Heading 2</option>
+                                <option>Heading 3</option>
+                            </select>
+                            <button class="toolbar-btn" style="font-size: 1.1rem;">⋮</button>
+                            <button class="toolbar-clear">Clear</button>
+                        </div>
+                        <textarea class="editor-textarea" placeholder="Outlines the roles and responsibilities the candidate will perform in this role."></textarea>
+                    </div>
+                </div>
+
+                <!-- Prioritize -->
+                <div class="prioritize-row">
+                    <span>This job will prioritize:</span>
+                    <label>
+                        <input type="checkbox"> Women
+                    </label>
+                </div>
+
+                <!-- Skills -->
+                <div class="form-row">
+                    <label class="form-label">Skills <span class="req">*</span></label>
+                    <input type="text" class="form-input" placeholder="Search by skills or title e.g., Java, Customer Support">
+                </div>
+
+                <!-- Job Location -->
+                <div class="form-row">
+                    <label class="form-label">Job location <span class="req">*</span></label>
+                    <div class="location-row">
+                        <select class="form-select" style="width:130px;flex:none;">
+                            <option>On-site</option>
+                            <option>Remote</option>
+                            <option>Hybrid</option>
+                        </select>
+                        <select class="form-select location-select">
+                            <option>Select Location</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Salary -->
+                <div class="form-row-inline">
+                    <div>
+                        <label class="form-label">Min salary (Annually) <span class="req">*</span></label>
+                        <select class="form-select">
+                            <option>Min</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="form-label">Max salary (Annually) <span class="req">*</span></label>
+                        <select class="form-select">
+                            <option>Max</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="salary-confidential">
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span style="font-size:0.85rem;color:#475569;">Keep salary confidential</span>
+                    <span class="salary-green-text">(Get 3X relevant applications if the salary is mentioned!)</span>
+                </div>
+
+                <!-- Perks and Benefits -->
+                <div class="form-row">
+                    <label class="form-label">Perks and benefits <i data-lucide="info" style="width:14px;color:#94a3b8;vertical-align:middle;"></i></label>
+                    <select class="form-select">
+                        <option>Eg. Cab Services, Paternity leave</option>
+                    </select>
+                </div>
+
+                <!-- Industry -->
+                <div class="form-row">
+                    <label class="form-label">Industry</label>
+                    <select class="form-select">
+                        <option>Select Industry</option>
+                    </select>
+                </div>
+
+                <!-- Functions and Roles -->
+                <div class="form-row">
+                    <label class="form-label">Functions and roles</label>
+                    <select class="form-select">
+                        <option>Select Function and Roles</option>
+                    </select>
+                </div>
+
+                <!-- Education -->
+                <div class="form-row">
+                    <label class="form-label">Education</label>
+                    <select class="form-select">
+                        <option>Select Education</option>
+                    </select>
+                </div>
+
+                <!-- Bottom: Folder & Questionnaire -->
+                <div class="bottom-section">
+                    <div>
+                        <h3>Folder</h3>
+                        <label class="form-label">Folder to save this job <span class="req">*</span></label>
+                        <input type="text" class="form-input" placeholder="">
+                    </div>
+                    <div>
+                        <h3>Questionnaire</h3>
+                        <label class="questionnaire-check">
+                            <input type="checkbox"> Add questionnaire to this job posting
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Sticky Footer Actions -->
+    <div class="post-footer">
+        <button class="btn-text">Save as draft</button>
+        <button class="btn-outline">Preview job post</button>
+        <button class="btn-post">Post Job</button>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Posting type tab switching
+        const jobTypeGroup = document.getElementById('job-type-group');
+        const standardPostingDetails = document.getElementById('standard-posting-details');
+        const walkinPostingDetails = document.getElementById('walkin-posting-details');
+        const notifyMeCard = document.getElementById('notify-me-card');
+        
+        document.querySelectorAll('.posting-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                tab.parentElement.querySelectorAll('.posting-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                const tabText = tab.textContent.trim();
+                
+                // Hide/show logic based on tab selection
+                if (tabText === 'Walk-in') {
+                    if (standardPostingDetails) standardPostingDetails.style.display = 'none';
+                    if (walkinPostingDetails) walkinPostingDetails.style.display = 'block';
+                    if (notifyMeCard) notifyMeCard.style.display = 'none';
+                } else {
+                    if (standardPostingDetails) standardPostingDetails.style.display = 'block';
+                    if (walkinPostingDetails) walkinPostingDetails.style.display = 'none';
+                    if (notifyMeCard) notifyMeCard.style.display = 'block';
+                    
+                    if (tabText === 'Contract') {
+                        if (jobTypeGroup) jobTypeGroup.style.display = 'none';
+                    } else { // Permanent
+                        if (jobTypeGroup) jobTypeGroup.style.display = 'flex';
+                    }
+                }
+            });
+        });
+
+        // Experience tab switching
+        document.querySelectorAll('.exp-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                tab.parentElement.querySelectorAll('.exp-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
