@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Screening Questionnaire - DIJIT Talent Cloud</title>
+    <meta name="description" content="Create a new screening questionnaire for candidates on DIJIT Talent Cloud.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #7e22ce;
+            --primary-hover: #6b21a8;
+            --primary-light: #f3e8ff;
+            --bg-body: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        html { font-size: 105%; }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px; background: #fff; border-bottom: 1px solid var(--border-color);
+            padding: 0 80px; position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+        .brand-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none; }
+        .brand-logo img { height: 28px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-link { color: #475569; text-decoration: none; font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+        .nav-dropdown { position: relative; }
+        .nav-dropdown .nav-link { cursor: pointer; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 8px; background: #fff; border: 1px solid var(--border-color);
+            border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); min-width: 220px; padding: 8px 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown:hover .nav-link { color: var(--primary); }
+        .nav-dropdown-menu a { display: block; padding: 12px 20px; color: #334155; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: background 0.15s, color 0.15s; }
+        .nav-dropdown-menu a:hover { background: var(--primary-light); color: var(--primary); }
+        .nav-center { flex: 1; display: flex; justify-content: center; padding: 0 24px; }
+        .search-bar { display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 4px 16px; width: 100%; max-width: 400px; }
+        .search-bar input { border: none; outline: none; width: 100%; padding: 8px; font-size: 0.9rem; }
+        .search-bar .search-icon { background: var(--primary); color: white; border-radius: 50%; padding: 6px; display: flex; align-items: center; justify-content: center; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .platform-guide { display: flex; align-items: center; gap: 8px; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 9999px; font-size: 0.85rem; color: #475569; text-decoration: none; }
+        .icon-btn { color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .user-profile-top { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .user-profile-top img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+
+        /* Breadcrumb Bar */
+        .breadcrumb-bar {
+            display: flex; align-items: center; padding: 14px 80px;
+            background: #fff; border-bottom: 1px solid var(--border-color);
+        }
+        .breadcrumb-nav { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .breadcrumb-nav a { color: var(--primary); text-decoration: underline; font-weight: 500; }
+        .breadcrumb-nav .separator { color: #94a3b8; font-size: 0.85rem; }
+        .breadcrumb-nav .current { color: var(--text-muted); font-weight: 400; }
+
+        /* Page Layout */
+        .page-layout {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 48px;
+            gap: 24px;
+        }
+
+        /* Left Sidebar */
+        .details-sidebar {
+            width: 260px;
+            flex-shrink: 0;
+        }
+
+        .details-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .details-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 20px 0;
+        }
+
+        .field-group {
+            margin-bottom: 16px;
+        }
+
+        .field-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .field-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .field-label .req { color: #ef4444; }
+
+        .char-count {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .field-input {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .field-input::placeholder { color: #94a3b8; }
+        .field-input:focus { outline: none; border-color: var(--primary); }
+
+        textarea.field-input {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .section-title i { width: 18px; height: 18px; color: #94a3b8; }
+
+        .marks-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+        }
+
+        .marks-info strong { font-weight: 700; }
+
+        .marks-info a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .marks-info a:hover { text-decoration: underline; }
+
+        /* Question Card */
+        .question-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-left: 3px solid var(--primary);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .question-top-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .question-input-group {
+            flex: 1;
+        }
+
+        .q-label-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+
+        .q-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .q-label .req { color: #ef4444; }
+
+        .q-input {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            box-sizing: border-box;
+        }
+
+        .q-input:focus { outline: none; border-color: var(--primary); }
+
+        .points-group {
+            width: 160px;
+            flex-shrink: 0;
+        }
+
+        .points-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .points-input-wrap {
+            flex: 1;
+        }
+
+        .delete-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: #fff;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .response-section {
+            margin-top: 4px;
+        }
+
+        .response-label {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        .response-options {
+            display: flex;
+            gap: 0;
+        }
+
+        .response-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border: 1px solid var(--border-color);
+            background: #fff;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .response-btn:first-child { border-radius: 6px 0 0 6px; }
+        .response-btn:last-child { border-radius: 0 6px 6px 0; border-left: none; }
+
+        .response-btn.selected {
+            background: var(--text-dark);
+            color: #fff;
+            border-color: var(--text-dark);
+        }
+
+        .response-btn input[type="radio"] {
+            accent-color: #fff;
+            width: 14px;
+            height: 14px;
+        }
+
+        /* Add question link */
+        .add-question-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            cursor: pointer;
+            margin-bottom: 24px;
+            text-decoration: none;
+        }
+
+        .add-question-link:hover { text-decoration: underline; }
+
+        /* Acceptance Score */
+        .acceptance-card {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 3px solid #f59e0b;
+            border-radius: 8px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+        }
+
+        .acceptance-left {
+            flex: 1;
+        }
+
+        .acceptance-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .acceptance-title .req { color: #ef4444; }
+        .acceptance-title i { width: 14px; height: 14px; color: #94a3b8; }
+
+        .acceptance-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .passing-points-group {
+            width: 160px;
+            flex-shrink: 0;
+        }
+
+        .passing-label {
+            font-size: 0.82rem;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        /* Essay section */
+        .essay-section {
+            margin-bottom: 24px;
+        }
+
+        .essay-label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        /* Save button */
+        .save-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 16px 0;
+        }
+
+        .btn-save {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 28px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-save:hover { background: var(--primary-hover); }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo">
+                <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" onerror="this.src='https://placehold.co/100x30/7e22ce/white?text=DIJIT'">
+                <span>DIJIT Talent Cloud</span>
+            </a>
+            <div class="nav-links">
+                <a href="search.html" class="nav-link">Search</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link active">Job <i data-lucide="chevron-down" style="width:14px;"></i></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="post-job.html">Post a job</a>
+                        <a href="manage-jobs.html">Manage jobs</a>
+                        <a href="manage-questionnaire.html" style="color: var(--primary);">Manage questionnaire</a>
+                    </div>
+                </div>
+                <a href="campaigns.html" class="nav-link">Campaign</a>
+                <a href="folders.html" class="nav-link">Folders</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+            </div>
+        </div>
+        <div class="nav-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Candidates">
+                <div class="search-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></div>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="#" class="platform-guide"><i data-lucide="help-circle" style="width:16px;"></i> Platform Guide</a>
+            <div class="icon-btn"><i data-lucide="download" style="width:20px;"></i></div>
+            <div class="user-profile-top">
+                <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: #64748b;">Hello,</div>
+                    <div style="font-weight: 600; color: #1e293b;">Vishal Saroch</div>
+                </div>
+                <img src="https://ui-avatars.com/api/?name=Vishal+Saroch&background=f43f5e&color=fff" alt="User">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb-nav">
+            <a href="index.html">Dashboard</a>
+            <span class="separator">›</span>
+            <span class="current">Create screening questionnaire</span>
+        </div>
+    </div>
+
+    <!-- Page Layout -->
+    <div class="page-layout">
+
+        <!-- Left Sidebar -->
+        <aside class="details-sidebar">
+            <div class="details-card">
+                <h3 class="details-card-title">Questionnaire details</h3>
+
+                <div class="field-group">
+                    <div class="field-label-row">
+                        <label class="field-label">Name <span class="req">*</span></label>
+                        <span class="char-count"><span id="name-count">0</span>/50 characters</span>
+                    </div>
+                    <input type="text" class="field-input" id="q-name" placeholder="Eg. Product manager" maxlength="50">
+                </div>
+
+                <div class="field-group">
+                    <div class="field-label-row">
+                        <label class="field-label" style="color: var(--primary);">Description</label>
+                        <span class="char-count"><span id="desc-count">0</span>/250 characters</span>
+                    </div>
+                    <textarea class="field-input" id="q-description" placeholder="Please give a short description which will be shown to the applicants." maxlength="250"></textarea>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="section-header">
+                <div class="section-title">
+                    Create screening questionnaire <i data-lucide="info"></i>
+                </div>
+                <div class="marks-info">
+                    Test is out of <strong>100 marks</strong>
+                    <a href="#">How to assign points?</a>
+                </div>
+            </div>
+
+            <!-- Questions Container -->
+            <div id="questions-container">
+                <!-- Question 1 -->
+                <div class="question-card" data-question="1">
+                    <div class="question-top-row">
+                        <div class="question-input-group">
+                            <div class="q-label-row">
+                                <label class="q-label">Question <span class="req">*</span></label>
+                                <span class="char-count"><span class="q-char-count">0</span>/20 characters</span>
+                            </div>
+                            <input type="text" class="q-input question-text" placeholder="Enter your question" maxlength="20">
+                        </div>
+                        <div class="points-group">
+                            <label class="q-label" style="display:block; margin-bottom:6px;">Assigned point value</label>
+                            <div class="points-row">
+                                <div class="points-input-wrap">
+                                    <input type="number" class="q-input points-value" placeholder="Eg. 100.">
+                                </div>
+                                <button class="delete-btn" title="Delete question">
+                                    <i data-lucide="trash-2" style="width:16px;"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="response-section">
+                        <div class="response-label">Choose desired response</div>
+                        <div class="response-options">
+                            <label class="response-btn selected">
+                                <input type="radio" name="response-1" value="Yes" checked> Yes
+                            </label>
+                            <label class="response-btn">
+                                <input type="radio" name="response-1" value="No"> No
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Question -->
+            <a href="#" class="add-question-link" id="add-question-btn">
+                <i data-lucide="plus-circle" style="width:16px;"></i> Add new MCQ questions (Max 5)
+            </a>
+
+            <!-- Acceptance Score -->
+            <div class="acceptance-card">
+                <div class="acceptance-left">
+                    <div class="acceptance-title">
+                        Minimum acceptance score <span class="req">*</span> <i data-lucide="info"></i>
+                    </div>
+                    <div class="acceptance-desc">
+                        Set the minimum points a candidate must score in this test in order to be eligible for the role
+                    </div>
+                </div>
+                <div class="passing-points-group">
+                    <label class="passing-label">Min passing points</label>
+                    <input type="number" class="q-input" id="min-passing" placeholder="Eg. 35">
+                </div>
+            </div>
+
+            <!-- Essay Section -->
+            <div class="essay-section">
+                <div class="essay-label">Essay/long answer question</div>
+                <input type="text" class="q-input" id="essay-question" placeholder="">
+            </div>
+
+            <!-- Save Footer -->
+            <div class="save-footer">
+                <button class="btn-save" id="save-questionnaire-btn">Save questionnaire</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        let questionCount = 1;
+
+        // Character counters
+        document.getElementById('q-name').addEventListener('input', function() {
+            document.getElementById('name-count').textContent = this.value.length;
+        });
+
+        document.getElementById('q-description').addEventListener('input', function() {
+            document.getElementById('desc-count').textContent = this.value.length;
+        });
+
+        // Question character counters (delegated)
+        document.getElementById('questions-container').addEventListener('input', function(e) {
+            if (e.target.classList.contains('question-text')) {
+                const card = e.target.closest('.question-card');
+                card.querySelector('.q-char-count').textContent = e.target.value.length;
+            }
+        });
+
+        // Response button toggle (delegated)
+        document.getElementById('questions-container').addEventListener('change', function(e) {
+            if (e.target.type === 'radio') {
+                const card = e.target.closest('.question-card');
+                card.querySelectorAll('.response-btn').forEach(btn => btn.classList.remove('selected'));
+                e.target.closest('.response-btn').classList.add('selected');
+            }
+        });
+
+        // Delete question (delegated)
+        document.getElementById('questions-container').addEventListener('click', function(e) {
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (deleteBtn) {
+                const cards = document.querySelectorAll('.question-card');
+                if (cards.length > 1) {
+                    deleteBtn.closest('.question-card').remove();
+                    questionCount = document.querySelectorAll('.question-card').length;
+                }
+            }
+        });
+
+        // Add new question
+        document.getElementById('add-question-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (questionCount >= 5) return;
+            questionCount++;
+            const container = document.getElementById('questions-container');
+            const newCard = document.createElement('div');
+            newCard.className = 'question-card';
+            newCard.setAttribute('data-question', questionCount);
+            newCard.innerHTML = `
+                <div class="question-top-row">
+                    <div class="question-input-group">
+                        <div class="q-label-row">
+                            <label class="q-label">Question <span class="req">*</span></label>
+                            <span class="char-count"><span class="q-char-count">0</span>/20 characters</span>
+                        </div>
+                        <input type="text" class="q-input question-text" placeholder="Enter your question" maxlength="20">
+                    </div>
+                    <div class="points-group">
+                        <label class="q-label" style="display:block; margin-bottom:6px;">Assigned point value</label>
+                        <div class="points-row">
+                            <div class="points-input-wrap">
+                                <input type="number" class="q-input points-value" placeholder="Eg. 100.">
+                            </div>
+                            <button class="delete-btn" title="Delete question">
+                                <i data-lucide="trash-2" style="width:16px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="response-section">
+                    <div class="response-label">Choose desired response</div>
+                    <div class="response-options">
+                        <label class="response-btn selected">
+                            <input type="radio" name="response-${questionCount}" value="Yes" checked> Yes
+                        </label>
+                        <label class="response-btn">
+                            <input type="radio" name="response-${questionCount}" value="No"> No
+                        </label>
+                    </div>
+                </div>
+            `;
+            container.appendChild(newCard);
+            lucide.createIcons();
+        });
+
+        // Save questionnaire to localStorage
+        document.getElementById('save-questionnaire-btn').addEventListener('click', function() {
+            const name = document.getElementById('q-name').value.trim();
+            const description = document.getElementById('q-description').value.trim();
+            const minPassing = document.getElementById('min-passing').value;
+            const essayQuestion = document.getElementById('essay-question').value.trim();
+
+            if (!name) {
+                alert('Please enter a questionnaire name.');
+                return;
+            }
+
+            // Gather questions
+            const questionCards = document.querySelectorAll('.question-card');
+            const questions = [];
+            for (const card of questionCards) {
+                const text = card.querySelector('.question-text').value.trim();
+                const points = card.querySelector('.points-value').value;
+                const checkedRadio = card.querySelector('input[type="radio"]:checked');
+                const response = checkedRadio ? checkedRadio.value : 'Yes';
+                questions.push({ text, points, response });
+            }
+
+            const questionnaire = {
+                id: Date.now(),
+                name,
+                description,
+                questions,
+                minPassing: minPassing || '0',
+                essayQuestion,
+                createdAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+                questionCount: questions.length
+            };
+
+            // Save to localStorage
+            let savedList = JSON.parse(localStorage.getItem('dijit_questionnaires') || '[]');
+            savedList.push(questionnaire);
+            localStorage.setItem('dijit_questionnaires', JSON.stringify(savedList));
+
+            // Redirect to manage page
+            window.location.href = 'manage-questionnaire.html';
+        });
+    </script>
+</body>
+</html>

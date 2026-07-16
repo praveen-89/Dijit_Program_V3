@@ -2,10 +2,1185 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search - DIJIT Talent Cloud</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Candidates - DIJIT Talent Cloud</title>
+    <meta name="description" content="Search candidates using keywords, skills, experience, and location on DIJIT Talent Cloud.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #7e22ce;
+            --primary-hover: #6b21a8;
+            --primary-light: #f3e8ff;
+            --bg-body: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        html { font-size: 105%; }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px; background: #fff; border-bottom: 1px solid var(--border-color);
+            padding: 0 80px; position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+        .brand-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none; }
+        .brand-logo img { height: 28px; }
+        
+        .nav-links { display: flex; gap: 24px; }
+        .nav-link { color: #475569; text-decoration: none; font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+
+        .nav-dropdown { position: relative; }
+        .nav-dropdown .nav-link { cursor: pointer; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 8px; background: #fff; border: 1px solid var(--border-color);
+            border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); min-width: 220px; padding: 8px 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown:hover .nav-link { color: var(--primary); }
+        .nav-dropdown-menu a { display: block; padding: 12px 20px; color: #334155; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: background 0.15s, color 0.15s; }
+        .nav-dropdown-menu a:hover { background: var(--primary-light); color: var(--primary); }
+
+        .nav-center { flex: 1; display: flex; justify-content: center; padding: 0 24px; }
+        .search-bar { display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 4px 16px; width: 100%; max-width: 400px; }
+        .search-bar input { border: none; outline: none; width: 100%; padding: 8px; font-size: 0.9rem; }
+        .search-bar .search-icon { background: var(--primary); color: white; border-radius: 50%; padding: 6px; display: flex; align-items: center; justify-content: center; }
+
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .platform-guide { display: flex; align-items: center; gap: 8px; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 9999px; font-size: 0.85rem; color: #475569; text-decoration: none; }
+        .icon-btn { color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .user-profile-top { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .user-profile-top img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+
+        /* Layout */
+        .page-layout {
+            display: flex;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 24px 80px;
+            gap: 24px;
+        }
+
+        /* Form Card (Left) */
+        .left-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 120px);
+            gap: 16px;
+        }
+
+        .form-card {
+            flex: 1;
+            background: #fff;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-card::-webkit-scrollbar {
+            width: 6px;
+        }
+        .form-card::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .fc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .fc-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .country-select {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        /* Search Type Tabs */
+        .search-type-tabs {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            background: var(--bg-body);
+            padding: 8px 12px;
+            border-radius: 999px;
+            width: fit-content;
+            margin-bottom: 32px;
+        }
+
+        .s-tab {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 999px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .s-tab.active {
+            background: #fff;
+            color: var(--text-dark);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            font-weight: 600;
+        }
+
+        .s-tab:hover:not(.active) {
+            color: var(--text-dark);
+        }
+
+        .beta-tag {
+            background: #e81cff;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Form Fields */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .fg-label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .fg-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .fg-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .toggle-switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Custom Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 36px;
+            height: 20px;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1; transition: .3s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: "";
+            height: 14px; width: 14px; left: 3px; bottom: 3px;
+            background-color: white; transition: .3s;
+            border-radius: 50%;
+        }
+        .toggle-switch input:checked + .slider { background-color: var(--primary); }
+        .toggle-switch input:checked + .slider:before { transform: translateX(16px); }
+
+        .input-row {
+            display: flex;
+            gap: 16px;
+            align-items: stretch;
+        }
+
+        .input-with-icon {
+            flex: 1;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 14px;
+            color: #94a3b8;
+        }
+
+        .input-with-icon input {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px 12px 12px 40px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-with-icon input:focus, .select-box select:focus {
+            border-color: var(--primary);
+        }
+
+        .select-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 160px;
+        }
+
+        .select-box select {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 12px 32px 12px 12px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            appearance: none;
+            outline: none;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .select-box i {
+            position: absolute;
+            right: 12px;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .info-icon {
+            color: #94a3b8;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .add-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            margin-top: 8px;
+        }
+        .add-link:hover { color: var(--primary); text-decoration: underline; }
+
+        .exp-row {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .exp-field {
+            flex: 1;
+        }
+
+        /* Footer Row */
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+        }
+
+        .footer-filters {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: #fff;
+            padding: 12px 24px;
+            border-radius: 999px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .footer-select {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .footer-select.divider {
+            padding-left: 16px;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .footer-actions {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .clear-btn {
+            color: #cbd5e1;
+            background: transparent;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: not-allowed;
+        }
+
+        .search-btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            padding: 12px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-btn:hover { background: var(--primary-hover); }
+
+        .pills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .pill {
+            padding: 8px 16px;
+            border: 1px dashed #cbd5e1;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .accordion-item {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            background: #fff;
+        }
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            cursor: pointer;
+        }
+        .acc-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+        .acc-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-body);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+        }
+        
+        .accordion-content {
+            padding: 0 20px 20px 20px;
+            display: none;
+        }
+        .accordion-item.open .accordion-content {
+            display: block;
+        }
+        .accordion-header i.lucide-chevron-down {
+            transition: transform 0.2s;
+        }
+        .accordion-item.open .accordion-header i.lucide-chevron-down {
+            transform: rotate(180deg);
+        }
+        
+        .acc-label {
+            font-size: 0.85rem;
+            color: #1e293b;
+            margin-bottom: 12px;
+            margin-top: 20px;
+            display: block;
+        }
+        .pill-add {
+            padding: 6px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+            margin-right: 8px;
+        }
+        .pill-add:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .pill-solid {
+            padding: 6px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.2s;
+            margin-bottom: 8px;
+            margin-right: 8px;
+            background: #fff;
+        }
+        .acc-input {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .acc-input:focus {
+            border-color: var(--primary);
+        }
+        .inline-select {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 8px;
+        }
+        .inline-select span {
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        /* Sidebar (Right) */
+        .history-sidebar {
+            width: 420px;
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 120px);
+        }
+
+        .sidebar-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 20px;
+        }
+
+        .s-sidebar-tab {
+            flex: 1;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .s-sidebar-tab.active {
+            color: var(--primary);
+        }
+
+        .s-sidebar-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 0;
+        }
+
+        .history-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .history-list::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .history-item {
+            padding: 16px 20px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .history-item:hover {
+            background: #f8fafc;
+        }
+
+        .history-icon {
+            width: 32px;
+            height: 32px;
+            background: #f1f5f9;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .history-text {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .more-text {
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Sidebar Panels & Empty State */
+        .sidebar-panel { display: none; height: 100%; flex: 1; flex-direction: column; overflow-y: auto; }
+        .sidebar-panel.active { display: flex; }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 40px;
+            text-align: center;
+            flex: 1;
+        }
+        .empty-icon-wrapper {
+            margin-bottom: 24px;
+        }
+        .empty-icon-wrapper img {
+            width: 140px;
+            opacity: 0.8;
+            filter: grayscale(1);
+        }
+        .empty-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 8px;
+        }
+        .empty-desc {
+            font-size: 0.95rem;
+            color: #94a3b8;
+        }
+
+        /* Tab content panels */
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
+
+        .jd-heading {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            margin-top: 8px;
+        }
+        .jd-label {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .jd-textarea {
+            width: 100%;
+            min-height: 280px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            font-size: 0.9rem;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
+            resize: vertical;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        .jd-textarea:focus {
+            border-color: var(--primary);
+        }
+        .jd-char-count {
+            text-align: right;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+        .jd-char-count span {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Search - Under Construction</h1>
-    <a href="index.html">Back to Dashboard</a>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo">
+                <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" onerror="this.src='https://placehold.co/100x30/7e22ce/white?text=DIJIT'">
+                <span>DIJIT Talent Cloud</span>
+            </a>
+            <div class="nav-links">
+                <a href="search.html" class="nav-link active">Search</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link">Job <i data-lucide="chevron-down" style="width:14px;"></i></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="post-job.html">Post a job</a>
+                        <a href="manage-jobs.html">Manage jobs</a>
+                        <a href="manage-questionnaire.html">Manage questionnaire</a>
+                    </div>
+                </div>
+                <a href="campaigns.html" class="nav-link">Campaign</a>
+                <a href="folders.html" class="nav-link">Folders</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+            </div>
+        </div>
+
+        <div class="nav-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Candidates">
+                <div class="search-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="platform-guide">
+                <i data-lucide="help-circle" style="width:16px;"></i> Platform Guide
+            </a>
+            <div class="icon-btn"><i data-lucide="download" style="width:20px;"></i></div>
+            <div class="user-profile-top">
+                <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: #64748b;">Hello,</div>
+                    <div style="font-weight: 600; color: #1e293b;">Vishal Saroch</div>
+                </div>
+                <img src="https://ui-avatars.com/api/?name=Vishal+Saroch&background=f43f5e&color=fff" alt="User">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Layout -->
+    <div class="page-layout">
+        
+        <!-- Left Column: Form + Footer -->
+        <div class="left-column">
+
+        <!-- Main Form Card -->
+        <div class="form-card">
+            <div class="fc-header">
+                <h1 class="fc-title">Candidate search</h1>
+                <div class="country-select">
+                    India <i data-lucide="chevron-down" style="width:14px;"></i>
+                </div>
+            </div>
+
+            <div class="search-type-tabs">
+                <div class="s-tab active" onclick="switchTab(this, 'search-form-panel')">Search form</div>
+                <div class="s-tab" onclick="switchTab(this, 'jd-search-panel')">Search by Job Description</div>
+            </div>
+
+            <!-- Tab Panel: Search Form -->
+            <div id="search-form-panel" class="tab-panel active">
+
+            <!-- Form -->
+            <div class="form-group">
+                <div class="fg-label-row">
+                    <label class="fg-label">Keywords</label>
+                    <div class="fg-controls">
+                        <label class="toggle-switch-wrapper">
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                            Boolean search
+                        </label>
+                        <label class="fg-label" style="margin-left: 12px; margin-right: -8px;">Search in</label>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-with-icon">
+                        <i data-lucide="search" style="width:18px;"></i>
+                        <input type="text" placeholder="Enter keywords like Skills and job Title">
+                    </div>
+                    <div class="select-box">
+                        <select>
+                            <option>Profile</option>
+                            <option>Resume</option>
+                            <option>Job Title</option>
+                        </select>
+                        <i data-lucide="chevron-down" style="width:16px;"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: -8px;">
+                <label class="toggle-switch-wrapper">
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                    Exclude synonyms <i data-lucide="info" class="info-icon" style="width:14px;"></i>
+                </label>
+                <div style="margin-top: 16px;">
+                    <a href="#" class="add-link">
+                        <i data-lucide="plus-circle" style="width:16px;"></i> Add keywords to exclude from search
+                    </a>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="exp-row">
+                    <div class="exp-field">
+                        <div class="fg-label-row"><label class="fg-label">Experience (Minimum)</label></div>
+                        <div class="select-box" style="width:100%;">
+                            <select><option disabled selected>Years</option><option>0 Years</option><option>1 Year</option><option>2 Years</option><option>3 Years</option><option>4 Years</option><option>5 Years</option></select>
+                            <i data-lucide="chevron-down" style="width:16px;"></i>
+                        </div>
+                    </div>
+                    <div class="exp-field">
+                        <div class="fg-label-row"><label class="fg-label">Experience (Maximum)</label></div>
+                        <div class="select-box" style="width:100%;">
+                            <select><option disabled selected>Years</option><option>1 Year</option><option>2 Years</option><option>3 Years</option><option>4 Years</option><option>5 Years</option></select>
+                            <i data-lucide="chevron-down" style="width:16px;"></i>
+                        </div>
+                    </div>
+                    <div style="margin-top: 22px;">
+                        <a href="#" class="add-link" style="margin:0;"><i data-lucide="plus-circle" style="width:16px;"></i> Add months</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="fg-label-row"><label class="fg-label">Current location</label></div>
+                <div class="input-with-icon">
+                    <i data-lucide="search" style="width:18px;"></i>
+                    <input type="text" placeholder="Enter current location">
+                </div>
+                <div style="margin-top: 12px;">
+                    <label class="toggle-switch-wrapper">
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                        Include relocating candidates
+                    </label>
+                </div>
+                <div style="margin-top: 16px;">
+                    <a href="#" class="add-link">
+                        <i data-lucide="plus-circle" style="width:16px;"></i> Add different preferred location
+                    </a>
+                </div>
+            </div>
+
+            <!-- Salary section -->
+            <div class="form-group">
+                <div class="exp-row">
+                    <div class="exp-field">
+                        <div class="fg-label-row"><label class="fg-label">Annual Salary (Minimum)</label></div>
+                        <div class="select-box" style="width:100%;">
+                            <select><option disabled selected>Lacs</option><option>1 Lacs</option><option>2 Lacs</option></select>
+                            <i data-lucide="chevron-down" style="width:16px;"></i>
+                        </div>
+                    </div>
+                    <div class="exp-field">
+                        <div class="fg-label-row"><label class="fg-label">Annual Salary (Maximum)</label></div>
+                        <div class="select-box" style="width:100%;">
+                            <select><option disabled selected>Lacs</option><option>2 Lacs</option><option>3 Lacs</option></select>
+                            <i data-lucide="chevron-down" style="width:16px;"></i>
+                        </div>
+                    </div>
+                    <div style="margin-top: 22px;">
+                        <a href="#" class="add-link" style="margin:0;"><i data-lucide="plus-circle" style="width:16px;"></i> Add thousands</a>
+                    </div>
+                </div>
+                <div style="margin-top: 16px;">
+                    <label class="toggle-switch-wrapper">
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                        Include profiles who have not mentioned current salary
+                    </label>
+                </div>
+            </div>
+
+            <!-- Notice period section -->
+            <div class="form-group">
+                <label class="fg-label" style="display:block; margin-bottom: 12px;">Notice period</label>
+                <div class="pills-container">
+                    <div class="pill">Immediate joiner</div>
+                    <div class="pill">Upto 30 days</div>
+                    <div class="pill">Upto 45 days</div>
+                    <div class="pill">Upto 60 days</div>
+                    <div class="pill">Upto 90 days</div>
+                    <div class="pill">Any</div>
+                </div>
+                <div style="margin-top: 24px; display: flex; align-items: center; gap: 24px;">
+                    <span style="font-size: 0.85rem; font-weight: 600; color: var(--text-dark);">Include candidates:</span>
+                    <label class="toggle-switch-wrapper">
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                        Without notice period
+                    </label>
+                    <label class="toggle-switch-wrapper">
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                        Serving notice period
+                    </label>
+                </div>
+            </div>
+
+            <!-- Accordions -->
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="acc-title"><div class="acc-icon"><i data-lucide="graduation-cap" style="width:16px;"></i></div> Education details</div>
+                    <i data-lucide="chevron-down" style="width:16px; color:#94a3b8;"></i>
+                </div>
+                <div class="accordion-content">
+                    <label class="acc-label" style="margin-top:0;">Under graduation qualification</label>
+                    <div class="pills-container">
+                        <div class="pill-solid">Any UG</div>
+                        <div class="pill-solid">Specific UG</div>
+                        <div class="pill-solid">No UG</div>
+                    </div>
+                    <label class="acc-label">Post graduation qualification</label>
+                    <div class="pills-container">
+                        <div class="pill-solid">Any PG</div>
+                        <div class="pill-solid">Specific PG</div>
+                        <div class="pill-solid">No PG</div>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <a href="#" class="add-link" style="margin:0;">Add Doctorate qualification</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="acc-title"><div class="acc-icon"><i data-lucide="briefcase" style="width:16px;"></i></div> Employment details</div>
+                    <i data-lucide="chevron-down" style="width:16px; color:#94a3b8;"></i>
+                </div>
+                <div class="accordion-content">
+                    <label class="acc-label" style="margin-top:0;">Industry</label>
+                    <input type="text" class="acc-input" placeholder="Enter industry">
+                    <div class="inline-select">Include: <span>Current or past industry</span> <i data-lucide="chevron-down" style="width:12px;"></i></div>
+                    
+                    <label class="acc-label">Company</label>
+                    <input type="text" class="acc-input" placeholder="Enter company name">
+                    <div class="inline-select">Include: <span>Current employees</span> <i data-lucide="chevron-down" style="width:12px;"></i></div>
+                    
+                    <div style="margin-top: 16px; margin-bottom: 8px;">
+                        <a href="#" class="add-link" style="margin:0;"><i data-lucide="plus-circle" style="width:16px;"></i> Add company to exclude from search</a>
+                    </div>
+
+                    <label class="acc-label">Designation</label>
+                    <input type="text" class="acc-input" placeholder="Enter designation">
+                    <div class="inline-select">Match in: <span>Current designation</span> <i data-lucide="chevron-down" style="width:12px;"></i></div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="acc-title"><div class="acc-icon" style="color:#e81cff;"><i data-lucide="sparkles" style="width:16px;"></i></div> Smart insights</div>
+                    <i data-lucide="chevron-down" style="width:16px; color:#94a3b8;"></i>
+                </div>
+                <div class="accordion-content">
+                    <label class="acc-label" style="margin-top:0;">Education</label>
+                    <div class="pills-container">
+                        <div class="pill-add">Passout from prestigious college <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">PhD in under 4 years <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Top 100 India Engineering Colleges <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Top 100 India MBA Colleges <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                    </div>
+
+                    <label class="acc-label">Experience</label>
+                    <div class="pills-container">
+                        <div class="pill-add">Has startup experience <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Promoted in current company <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Has a founder experience <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Early employee of a startup <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Has a blog/portfolio <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="this.parentElement.classList.toggle('open')">
+                    <div class="acc-title"><div class="acc-icon"><i data-lucide="file-text" style="width:16px;"></i></div> Additional details</div>
+                    <i data-lucide="chevron-down" style="width:16px; color:#94a3b8;"></i>
+                </div>
+                <div class="accordion-content">
+                    <label class="acc-label" style="margin-top:0;">Gender</label>
+                    <div class="pills-container">
+                        <div class="pill-add">Male candidates <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Female candidates <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                    </div>
+
+                    <label class="acc-label">Differently abled</label>
+                    <div class="pills-container">
+                        <div class="pill-add">Developmental <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Mental <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Physical <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                    </div>
+
+                    <label class="acc-label">Languages</label>
+                    <input type="text" class="acc-input" placeholder="Enter language">
+
+                    <label class="acc-label">Visa status</label>
+                    <div class="pills-container">
+                        <div class="pill-add">Have H1 Visa <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Have L1 Visa <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">TN Permit Holder <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Green Card Holder <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">US Citizen <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Authorized to work in the US <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                    </div>
+
+                    <label class="acc-label">Hide only candidates with</label>
+                    <div class="pills-container">
+                        <div class="pill-add">Already contacted by SMS <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Already contacted by Email <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Already downloaded resumes <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                    </div>
+                    
+                    <div class="exp-row" style="margin-top: 24px;">
+                        <div class="exp-field">
+                            <div class="fg-label-row"><label class="fg-label" style="margin:0;">Age (Years)</label></div>
+                            <div class="exp-row" style="gap: 0; margin-top: 8px;">
+                                <div class="select-box" style="width:100%;">
+                                    <select style="border-radius: 6px 0 0 6px;"><option disabled selected>Min</option><option>18</option><option>20</option></select>
+                                    <i data-lucide="chevron-down" style="width:16px;"></i>
+                                </div>
+                                <div class="select-box" style="width:100%; margin-left: -1px;">
+                                    <select style="border-radius: 0 6px 6px 0;"><option disabled selected>Max</option><option>25</option><option>30</option></select>
+                                    <i data-lucide="chevron-down" style="width:16px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="exp-field"></div>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <label class="toggle-switch-wrapper">
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                            <span style="font-size: 0.9rem; color: #1e293b; font-weight: 500;">Include profiles without age</span>
+                        </label>
+                    </div>
+
+                    <label class="acc-label">Show only</label>
+                    <div class="pills-container">
+                        <div class="pill-add">Unseen profiles <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Profiles with verified email-id <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Profiles with verified mobile no. <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                        <div class="pill-add">Profiles with resume <i data-lucide="plus" style="width:12px; color:#94a3b8;"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            </div> <!-- /tab-panel search-form -->
+
+            <!-- Tab Panel: Search by Job Description -->
+            <div id="jd-search-panel" class="tab-panel">
+                <h2 class="jd-heading">Find the right candidate matches in seconds!</h2>
+                <label class="jd-label">Write or paste job description here to search</label>
+                <textarea class="jd-textarea" id="jdTextarea" maxlength="5000" placeholder="Try something like: I'm looking for software engineering leader over 10 years of experience for tech insights."></textarea>
+                <div class="jd-char-count"><span id="jdCharCount">0</span>/5000 characters limit</div>
+            </div> <!-- /tab-panel jd-search -->
+
+        </div> <!-- /form-card -->
+        
+        <div class="form-footer">
+            <div class="footer-filters">
+                <div class="footer-select">Active/updated <i data-lucide="chevron-down" style="width:14px;"></i></div>
+                <div class="footer-select divider">In last 6 months <i data-lucide="chevron-down" style="width:14px;"></i></div>
+            </div>
+            <div class="footer-actions">
+                <button class="clear-btn">Clear All</button>
+                <button class="search-btn">Search Candidates</button>
+            </div>
+        </div>
+        
+        </div> <!-- /left-column -->
+
+        <!-- Sidebar -->
+        <aside class="history-sidebar">
+            <div class="sidebar-tabs">
+                <div class="s-sidebar-tab active" onclick="switchSidebarTab(this, 'recent-searches-panel')">
+                    <i data-lucide="clock" style="width:16px;"></i> Recent searches
+                </div>
+                <div class="s-sidebar-tab" onclick="switchSidebarTab(this, 'saved-searches-panel')">
+                    <i data-lucide="save" style="width:16px;"></i> Saved searches
+                </div>
+            </div>
+            
+            <div id="recent-searches-panel" class="sidebar-panel active">
+                <div class="history-list">
+                    <div class="history-item">
+                        <div class="history-icon"><i data-lucide="search" style="width:16px;"></i></div>
+                        <p class="history-text">
+                            Sales Associate, Hotal, Customer Relation Executive, customer-facing roles, I<span class="more-text">...more</span>
+                        </p>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-icon"><i data-lucide="search" style="width:16px;"></i></div>
+                        <p class="history-text">
+                            Sales Associate, Hotal, Customer Relation Executive, customer-facing roles, I<span class="more-text">...more</span>
+                        </p>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-icon"><i data-lucide="search" style="width:16px;"></i></div>
+                        <p class="history-text">
+                            Senior Prompt Engineer, AI LLM, Generative AI, RAG systems, agentic AI fram<span class="more-text">...more</span>
+                        </p>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-icon"><i data-lucide="search" style="width:16px;"></i></div>
+                        <p class="history-text">
+                            Labour Supplier
+                        </p>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-icon"><i data-lucide="search" style="width:16px;"></i></div>
+                        <p class="history-text">
+                            Senior Prompt Engineer, AI LLM, Generative AI, RAG systems, agentic AI fram<span class="more-text">...more</span>
+                        </p>
+                    </div>
+                    <div class="history-item">
+                        <div class="history-icon"><i data-lucide="search" style="width:16px;"></i></div>
+                        <p class="history-text">
+                            Inside Sales Executive, CRM, telesales, international sales, Delhi, Mumbai, Be<span class="more-text">...more</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="saved-searches-panel" class="sidebar-panel">
+                <div class="empty-state">
+                    <div class="empty-icon-wrapper">
+                        <!-- Custom empty state icon image based on provided screenshot -->
+                        <img src="https://cdn-icons-png.flaticon.com/512/7486/7486747.png" alt="No saved searches empty folder" style="opacity: 0.5;">
+                    </div>
+                    <h3 class="empty-title">No saved searches</h3>
+                    <p class="empty-desc">Your saved searches will appear here.</p>
+                </div>
+            </div>
+        </aside>
+
+    </div> <!-- /page-layout -->
+
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(tabEl, panelId) {
+            // Switch tab active class
+            document.querySelectorAll('.search-type-tabs .s-tab').forEach(t => t.classList.remove('active'));
+            tabEl.classList.add('active');
+            // Switch panel visibility
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(panelId).classList.add('active');
+        }
+
+        function switchSidebarTab(tabEl, panelId) {
+            // Switch tab active class
+            document.querySelectorAll('.sidebar-tabs .s-sidebar-tab').forEach(t => t.classList.remove('active'));
+            tabEl.classList.add('active');
+            // Switch panel visibility
+            document.querySelectorAll('.sidebar-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(panelId).classList.add('active');
+        }
+
+        // JD textarea character counter
+        const jdTextarea = document.getElementById('jdTextarea');
+        const jdCharCount = document.getElementById('jdCharCount');
+        if (jdTextarea && jdCharCount) {
+            jdTextarea.addEventListener('input', () => {
+                jdCharCount.textContent = jdTextarea.value.length;
+            });
+        }
+    </script>
 </body>
 </html>

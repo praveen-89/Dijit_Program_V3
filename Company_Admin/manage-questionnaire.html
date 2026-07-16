@@ -2,10 +2,409 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Questionnaire - DIJIT Talent Cloud</title>
+    <meta name="description" content="Create and manage candidate questionnaires on DIJIT Talent Cloud.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #7e22ce;
+            --primary-hover: #6b21a8;
+            --primary-light: #f3e8ff;
+            --bg-body: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        html { font-size: 105%; }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+        .brand-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none; }
+        .brand-logo img { height: 28px; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-link { color: #475569; text-decoration: none; font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+
+        .nav-dropdown { position: relative; }
+        .nav-dropdown .nav-link { cursor: pointer; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 8px; background: #fff; border: 1px solid var(--border-color);
+            border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); min-width: 220px; padding: 8px 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown:hover .nav-link { color: var(--primary); }
+        .nav-dropdown-menu a { display: block; padding: 12px 20px; color: #334155; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: background 0.15s, color 0.15s; }
+        .nav-dropdown-menu a:hover { background: var(--primary-light); color: var(--primary); }
+
+        .nav-center { flex: 1; display: flex; justify-content: center; padding: 0 24px; }
+        .search-bar { display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 4px 16px; width: 100%; max-width: 400px; }
+        .search-bar input { border: none; outline: none; width: 100%; padding: 8px; font-size: 0.9rem; }
+        .search-bar .search-icon { background: var(--primary); color: white; border-radius: 50%; padding: 6px; display: flex; align-items: center; justify-content: center; }
+
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .platform-guide { display: flex; align-items: center; gap: 8px; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 9999px; font-size: 0.85rem; color: #475569; text-decoration: none; }
+        .icon-btn { color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .user-profile-top { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .user-profile-top img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+
+        /* Breadcrumb Bar */
+        .breadcrumb-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 80px;
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb-nav a {
+            color: var(--primary);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .breadcrumb-nav a:hover {
+            color: var(--primary-hover);
+        }
+
+        .breadcrumb-nav .separator {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .breadcrumb-nav .current {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Empty State */
+        .empty-state-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 80px;
+        }
+
+        .empty-state-container {
+            background: linear-gradient(180deg, #f0f4ff 0%, #f8fafc 100%);
+            border-radius: 0 0 16px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 40px 100px;
+            min-height: 400px;
+        }
+
+        .empty-state-illustration {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 24px;
+            opacity: 0.85;
+        }
+
+        .empty-state-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0 0 12px 0;
+            text-align: center;
+        }
+
+        .empty-state-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.5;
+            max-width: 500px;
+        }
+
+        .empty-state-desc strong {
+            color: var(--text-dark);
+        }
+
+        .empty-state-desc a {
+            color: var(--primary);
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .empty-state-desc a:hover {
+            color: var(--primary-hover);
+        }
+
+        /* Footer area */
+        .footer-area {
+            background: #f1f5f9;
+            height: 60px;
+            margin-top: 40px;
+        }
+
+        /* Questionnaire List */
+        .list-wrapper {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 80px;
+        }
+
+        .q-list-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: box-shadow 0.2s;
+        }
+
+        .q-list-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .q-card-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .q-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .q-card-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .q-card-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 16px;
+        }
+
+        .q-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .q-action-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background: #fff;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .q-action-btn:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: #fef2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Manage Questionnaire - Under Construction</h1>
-    <a href="index.html">Back to Dashboard</a>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo">
+                <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" onerror="this.src='https://placehold.co/100x30/7e22ce/white?text=DIJIT'">
+                <span>DIJIT Talent Cloud</span>
+            </a>
+            <div class="nav-links">
+                <a href="search.html" class="nav-link">Search</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link active">Job <i data-lucide="chevron-down" style="width:14px;"></i></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="post-job.html">Post a job</a>
+                        <a href="manage-jobs.html">Manage jobs</a>
+                        <a href="manage-questionnaire.html" style="color: var(--primary);">Manage questionnaire</a>
+                    </div>
+                </div>
+                <a href="campaigns.html" class="nav-link">Campaign</a>
+                <a href="folders.html" class="nav-link">Folders</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+            </div>
+        </div>
+
+        <div class="nav-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Candidates">
+                <div class="search-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="platform-guide">
+                <i data-lucide="help-circle" style="width:16px;"></i> Platform Guide
+            </a>
+            <div class="icon-btn"><i data-lucide="download" style="width:20px;"></i></div>
+            <div class="user-profile-top">
+                <div style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: #64748b;">Hello,</div>
+                    <div style="font-weight: 600; color: #1e293b;">Vishal Saroch</div>
+                </div>
+                <img src="https://ui-avatars.com/api/?name=Vishal+Saroch&background=f43f5e&color=fff" alt="User">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb Bar -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb-nav">
+            <a href="index.html">Dashboard</a>
+            <span class="separator">›</span>
+            <a href="post-job.html">Post Job</a>
+            <span class="separator">›</span>
+            <span class="current">Manage Questionaire</span>
+        </div>
+        <a href="create-questionnaire.html" class="btn-primary" id="create-questionnaire-btn">Create new questionnaire</a>
+    </div>
+
+    <!-- Empty State Content (shown when no questionnaires) -->
+    <div class="empty-state-wrapper" id="empty-state">
+        <div class="empty-state-container">
+            <img src="../assets/images/questionnaire_empty.png" alt="No questionnaire illustration" class="empty-state-illustration">
+            <h2 class="empty-state-title">No questionnaire created yet!</h2>
+            <p class="empty-state-desc">
+                By using the <strong>"Create New Questionnaire"</strong> button above, you <a href="create-questionnaire.html">may start creating one</a>.
+            </p>
+        </div>
+    </div>
+
+    <!-- Questionnaire List (shown when questionnaires exist) -->
+    <div class="list-wrapper" id="questionnaire-list" style="display: none;"></div>
+
+    <!-- Footer -->
+    <div class="footer-area"></div>
+
+    <script>
+        lucide.createIcons();
+
+        function renderQuestionnaires() {
+            const savedList = JSON.parse(localStorage.getItem('dijit_questionnaires') || '[]');
+            const emptyState = document.getElementById('empty-state');
+            const listContainer = document.getElementById('questionnaire-list');
+
+            if (savedList.length === 0) {
+                emptyState.style.display = '';
+                listContainer.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            listContainer.style.display = 'block';
+
+            listContainer.innerHTML = savedList.map((q, index) => `
+                <div class="q-list-card" data-index="${index}">
+                    <div class="q-card-left">
+                        <div class="q-card-icon">
+                            <i data-lucide="file-text" style="width:20px;height:20px;"></i>
+                        </div>
+                        <div class="q-card-info">
+                            <h4>${q.name}</h4>
+                            <div class="q-card-meta">
+                                <span>${q.questionCount} question${q.questionCount !== 1 ? 's' : ''}</span>
+                                <span>Min score: ${q.minPassing}</span>
+                                <span>Created: ${q.createdAt}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="q-card-actions">
+                        <button class="q-action-btn delete-q-btn" title="Delete questionnaire" data-index="${index}">
+                            <i data-lucide="trash-2" style="width:14px;"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // Delete questionnaire
+        document.getElementById('questionnaire-list').addEventListener('click', function(e) {
+            const deleteBtn = e.target.closest('.delete-q-btn');
+            if (deleteBtn) {
+                const index = parseInt(deleteBtn.getAttribute('data-index'));
+                let savedList = JSON.parse(localStorage.getItem('dijit_questionnaires') || '[]');
+                savedList.splice(index, 1);
+                localStorage.setItem('dijit_questionnaires', JSON.stringify(savedList));
+                renderQuestionnaires();
+            }
+        });
+
+        renderQuestionnaires();
+    </script>
 </body>
 </html>

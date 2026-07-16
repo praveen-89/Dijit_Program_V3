@@ -2,10 +2,574 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Jobs - DIJIT Talent Cloud</title>
+    <meta name="description" content="Manage your posted jobs on DIJIT Talent Cloud.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #7e22ce;
+            --primary-hover: #6b21a8;
+            --primary-light: #f3e8ff;
+            --bg-body: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        html {
+            font-size: 105%;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+        .brand-logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.25rem; color: var(--primary); text-decoration: none; }
+        .brand-logo img { height: 28px; }
+        
+        .nav-links { display: flex; gap: 24px; }
+        .nav-link { color: #475569; text-decoration: none; font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+        .nav-link:hover, .nav-link.active { color: var(--primary); }
+
+        .nav-dropdown { position: relative; }
+        .nav-dropdown .nav-link { cursor: pointer; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 8px; background: #fff; border: 1px solid var(--border-color);
+            border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); min-width: 220px; padding: 8px 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px); transition: all 0.2s ease; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown:hover .nav-link { color: var(--primary); }
+        .nav-dropdown-menu a { display: block; padding: 12px 20px; color: #334155; text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: background 0.15s, color 0.15s; }
+        .nav-dropdown-menu a:hover { background: var(--primary-light); color: var(--primary); }
+
+        .nav-center { flex: 1; display: flex; justify-content: center; padding: 0 24px; }
+        .search-bar { display: flex; align-items: center; background: #fff; border: 1px solid #cbd5e1; border-radius: 9999px; padding: 4px 16px; width: 100%; max-width: 400px; }
+        .search-bar input { border: none; outline: none; width: 100%; padding: 8px; font-size: 0.9rem; }
+        .search-bar .search-icon { background: var(--primary); color: white; border-radius: 50%; padding: 6px; display: flex; align-items: center; justify-content: center; }
+
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .platform-guide { display: flex; align-items: center; gap: 8px; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 9999px; font-size: 0.85rem; color: #475569; text-decoration: none; }
+        .icon-btn { color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .user-profile-top { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .user-profile-top img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+
+        /* Page Layout */
+        .page-container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 48px;
+            gap: 24px;
+        }
+
+        /* Left Sidebar (Filters) */
+        .sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .filter-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .filter-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0 0 12px 0;
+        }
+
+        .filter-input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px 12px;
+            background: #fff;
+        }
+
+        .filter-input-group input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 0.85rem;
+        }
+
+        .btn-secondary {
+            display: block;
+            width: 100%;
+            padding: 8px 16px;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .btn-secondary:hover {
+            background: #f1f5f9;
+        }
+
+        .date-range-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .date-input {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .date-input input {
+            border: none;
+            outline: none;
+            width: 100%;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .filter-label {
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: block;
+            margin-top: 16px;
+        }
+
+        .clear-filters {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 8px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 10px 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 24px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+
+        .tab-item {
+            padding: 12px 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+
+        .tab-item.active {
+            color: var(--text-dark);
+            font-weight: 600;
+            border-bottom-color: var(--primary);
+        }
+
+        /* Jobs List container */
+        .jobs-list-container {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .list-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .job-card {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 16px;
+        }
+
+        .job-card:last-child {
+            border-bottom: none;
+        }
+
+        .job-content {
+            flex: 1;
+        }
+
+        .job-title-row {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+        .job-title-row strong {
+            font-weight: 600;
+        }
+
+        .job-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 16px;
+        }
+
+        .job-meta-item {
+            position: relative;
+        }
+        .job-meta-item:not(:last-child)::after {
+            content: '|';
+            position: absolute;
+            right: -10px;
+            color: #cbd5e1;
+        }
+
+        .job-metrics {
+            display: flex;
+            gap: 48px;
+            margin-top: 16px;
+        }
+
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .metric-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .page-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: var(--primary);
+            background: transparent;
+            text-decoration: none;
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+    </style>
 </head>
 <body>
-    <h1>Manage Jobs - Under Construction</h1>
-    <a href="index.html">Back to Dashboard</a>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo">
+                <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" onerror="this.src='https://placehold.co/100x30/7e22ce/white?text=DIJIT'">
+                <span>DIJIT Talent Cloud</span>
+            </a>
+            <div class="nav-links">
+                <a href="search.html" class="nav-link">Search</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link active">Job <i data-lucide="chevron-down" style="width:14px;"></i></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="post-job.html">Post a job</a>
+                        <a href="manage-jobs.html" style="color: var(--primary);">Manage jobs</a>
+                        <a href="manage-questionnaire.html">Manage questionnaire</a>
+                    </div>
+                </div>
+                <a href="campaigns.html" class="nav-link">Campaign</a>
+                <a href="folders.html" class="nav-link">Folders</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+            </div>
+        </div>
+
+        <div class="nav-center">
+            <div class="search-bar">
+                <input type="text" placeholder="Search Candidates">
+                <div class="search-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></div>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="platform-guide">
+                <i data-lucide="help-circle" style="width:16px;"></i> Platform Guide
+            </a>
+            <div class="icon-btn"><i data-lucide="download" style="width:20px;"></i></div>
+            <div class="user-profile-top">
+                <div class="user-info" style="text-align: right;">
+                    <div style="font-size: 0.75rem; color: #64748b;">Hello,</div>
+                    <div style="font-weight: 600; color: #1e293b;">Vishal Saroch</div>
+                </div>
+                <img src="https://ui-avatars.com/api/?name=Vishal+Saroch&background=f43f5e&color=fff" alt="User">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Layout -->
+    <div class="page-container">
+        
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="filter-card">
+                <h3 class="filter-title">Search</h3>
+                <div class="filter-input-group">
+                    <i data-lucide="search" style="width:16px;color:#94a3b8;margin-right:8px;"></i>
+                    <input type="text" placeholder="Search by Job title">
+                </div>
+                <button class="btn-secondary">Search</button>
+            </div>
+
+            <div class="filter-card">
+                <h3 class="filter-title">Filter by</h3>
+                
+                <label class="filter-label" style="margin-top:0;">Date range</label>
+                <div class="date-range-row">
+                    <div class="date-input">
+                        <input type="text" placeholder="From" readonly>
+                        <i data-lucide="calendar" style="width:14px;"></i>
+                    </div>
+                    <div class="date-input">
+                        <input type="text" placeholder="To" readonly>
+                        <i data-lucide="calendar" style="width:14px;"></i>
+                    </div>
+                </div>
+
+                <label class="filter-label">Job type</label>
+                <div class="filter-input-group" style="justify-content: space-between;">
+                    <span style="font-size: 0.85rem; color: var(--text-muted);">Select job type</span>
+                    <i data-lucide="chevron-down" style="width:14px;color:#94a3b8;"></i>
+                </div>
+
+                <button class="btn-secondary">Filter</button>
+            </div>
+
+            <a href="#" class="clear-filters">Clear search/filter & view all jobs</a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h2 class="page-title">Manage jobs</h2>
+                <a href="post-job.html" class="btn-primary">
+                    <i data-lucide="plus-circle" style="width:18px;"></i> Post a Job
+                </a>
+            </div>
+
+            <div class="tabs-header">
+                <div class="tab-item">My Posted Jobs (0)</div>
+                <div class="tab-item">Drafts (0)</div>
+                <div class="tab-item">Scheduled (0)</div>
+                <div class="tab-item active">Expired (2)</div>
+            </div>
+
+            <div class="jobs-list-container">
+                <div class="list-toolbar">
+                    <label class="checkbox-label">
+                        <input type="checkbox"> Select All
+                    </label>
+                    <button class="btn-secondary" style="width: auto; margin: 0; padding: 6px 16px; display: inline-flex; align-items: center; gap: 6px; color: #94a3b8; border-color: #e2e8f0; cursor: not-allowed;">
+                        <i data-lucide="rotate-cw" style="width:14px;"></i> Renew
+                    </button>
+                </div>
+
+                <!-- Job Card 1 -->
+                <div class="job-card">
+                    <input type="checkbox" style="width: 16px; height: 16px; margin-top: 4px; accent-color: var(--primary);">
+                    <div class="job-content">
+                        <div class="job-title-row">
+                            <strong>Principal / Professor / Reader / Lecturer</strong> <span style="color: var(--text-muted);">(Permanent - Full Time)</span>
+                        </div>
+                        <div class="job-meta-row">
+                            <span class="job-meta-item">Posted on: Jan 13, 2026, 4:20 PM</span>
+                            <span class="job-meta-item">Edited on: Mar 14, 2026, 12:10 AM</span>
+                            <span class="job-meta-item">Posted by: Vishal Saroch</span>
+                            <span class="job-meta-item">Location: Fatehgarh Sahib, Fatehgarh Churian, Fatehgarh</span>
+                        </div>
+                        
+                        <div class="job-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">Folder</span>
+                                <span class="metric-value">Principal, - J1</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Views</span>
+                                <span class="metric-value">32</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Applicants</span>
+                                <span class="metric-value">19</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Recommended</span>
+                                <span class="metric-value">103</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Card 2 -->
+                <div class="job-card">
+                    <input type="checkbox" style="width: 16px; height: 16px; margin-top: 4px; accent-color: var(--primary);">
+                    <div class="job-content">
+                        <div class="job-title-row">
+                            <strong>Hr Manager</strong> <span style="color: var(--text-muted);">(Permanent - Full Time)</span>
+                        </div>
+                        <div class="job-meta-row">
+                            <span class="job-meta-item">Posted on: Jan 31, 2026, 2:05 PM</span>
+                            <span class="job-meta-item">Edited on: Jan 31, 2026, 2:07 PM</span>
+                            <span class="job-meta-item">Posted by: Vishal Saroch</span>
+                            <span class="job-meta-item">Location: Lucknow</span>
+                        </div>
+                        
+                        <div class="job-metrics">
+                            <div class="metric-item">
+                                <span class="metric-label">Folder</span>
+                                <span class="metric-value">Hr Manager - J1</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Views</span>
+                                <span class="metric-value">85</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Applicants</span>
+                                <span class="metric-value">45</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Recommended</span>
+                                <span class="metric-value">341</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <a href="#" class="page-btn"><i data-lucide="chevron-left" style="width:16px;"></i></a>
+                <a href="#" class="page-btn active">1</a>
+                <a href="#" class="page-btn"><i data-lucide="chevron-right" style="width:16px;"></i></a>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 </html>
