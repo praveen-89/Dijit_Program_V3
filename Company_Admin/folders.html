@@ -2,10 +2,883 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Folders - DIJIT Talent Cloud</title>
+    <meta name="description" content="Manage your folders.">
+    <!-- Base styles and icons -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #7e22ce;
+            --primary-hover: #6b21a8;
+            --primary-light: #f3e8ff;
+            --bg-body: #f8fafc;
+        }
+        html { font-size: 105%; }
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+        .brand-logo {
+            display: flex; align-items: center; gap: 8px; font-weight: 700;
+            font-size: 1.25rem; color: var(--primary); text-decoration: none;
+        }
+        .brand-logo img { height: 28px; }
+        
+        .nav-links { display: flex; gap: 24px; }
+        .nav-link { color: #475569; text-decoration: none; font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link.active { color: var(--primary); font-weight: 600; }
+
+        .nav-dropdown { position: relative; }
+        .nav-dropdown .nav-link { cursor: pointer; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 8px;
+            background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); min-width: 220px; padding: 8px 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: all 0.2s ease; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown:hover .nav-link { color: var(--primary); }
+        .nav-dropdown-menu a {
+            display: block; padding: 12px 20px; color: #334155; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500; transition: background 0.15s, color 0.15s;
+        }
+        .nav-dropdown-menu a:hover { background: #f5f3ff; color: var(--primary); }
+
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+        .platform-guide {
+            display: flex; align-items: center; gap: 8px; border: 1px solid #cbd5e1;
+            padding: 6px 12px; border-radius: 9999px; font-size: 0.85rem;
+            color: #475569; text-decoration: none;
+        }
+        .icon-btn { color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        
+        .user-profile-top { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .user-profile-top img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+
+        /* Main Content Layout */
+        .layout {
+            flex: 1;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 48px;
+            box-sizing: border-box;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .header-row h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .btn-post-job {
+            background: #f3e8ff;
+            color: var(--primary);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-post-job:hover {
+            background: #e9d5ff;
+        }
+
+        /* Folder Tabs */
+        .folder-tabs {
+            display: flex;
+            background: #fff;
+            border-radius: 12px;
+            padding: 0 24px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+            overflow-x: auto;
+        }
+
+        .folder-tab {
+            padding: 20px 24px;
+            color: #64748b;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+        }
+
+        .folder-tab.active {
+            color: var(--primary);
+            font-weight: 600;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        /* Folder List Container */
+        .folder-list-container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+
+        .folder-list-header {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            padding: 16px 24px;
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        .col-name { width: 35%; display: flex; align-items: center; gap: 16px; }
+        .col-pipeline { width: 45%; }
+        .col-campaigns { width: 20%; display: flex; align-items: center; justify-content: space-between; }
+
+        .search-folder {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 20px;
+            padding: 6px 12px;
+            gap: 8px;
+            width: 200px;
+        }
+        .search-folder input {
+            border: none; outline: none; width: 100%; font-size: 0.85rem;
+        }
+        .search-folder input::placeholder { color: #94a3b8; }
+
+        /* Folder Row */
+        .folder-row {
+            display: flex;
+            align-items: center;
+            padding: 24px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .folder-row:last-child {
+            border-bottom: none;
+        }
+
+        .folder-name-col h3 {
+            margin: 0 0 6px 0;
+            font-size: 1.05rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        .folder-date {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Pipeline Stats Box */
+        .pipeline-stats {
+            display: flex;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 400px;
+        }
+
+        .pipeline-stat-col {
+            flex: 1;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            border-right: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+        .pipeline-stat-col:last-child {
+            border-right: none;
+        }
+        .pipeline-stat-col.total {
+            background: #fff;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        .stat-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+        .stat-percent {
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        .pipeline-stat-col:not(.total) .stat-percent {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #475569;
+        }
+
+        /* Campaigns Col */
+        .campaigns-col {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .linked-campaigns {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: #475569;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .send-email-link {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .row-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #a855f7;
+        }
+        .row-actions i {
+            cursor: pointer;
+        }
+
+        /* Linked Job column */
+        .col-linked-job { width: 20%; }
+        .col-campaigns-job { width: 15%; display: flex; align-items: center; justify-content: space-between; }
+        .col-pipeline-job { width: 35%; }
+        .col-name-job { width: 30%; display: flex; align-items: center; gap: 16px; }
+
+        .linked-job-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .job-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .job-badge.active {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+        .job-badge.expired {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* Default folders columns */
+        .col-name-default { width: 50%; display: flex; align-items: center; gap: 16px; }
+        .col-profile-count { width: 40%; }
+        .col-actions-default { width: 10%; display: flex; justify-content: flex-end; }
+
+        .profile-count-value {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            margin-top: 24px;
+        }
+        .page-item {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #475569;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .page-item.active {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .page-item:hover:not(.active) {
+            background: #f1f5f9;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+            border-top: 1px solid #e2e8f0;
+            padding: 24px 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #64748b;
+            font-size: 0.85rem;
+            background: #f8fafc;
+        }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a { color: #64748b; text-decoration: none; }
+        .footer-links a:hover { color: var(--primary); }
+    </style>
 </head>
 <body>
-    <h1>Folders - Under Construction</h1>
-    <a href="index.html">Back to Dashboard</a>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo">
+                <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" onerror="this.src='https://placehold.co/100x30/7e22ce/white?text=DIJIT'">
+            </a>
+            <div class="nav-links">
+                <a href="#" class="nav-link">Search</a>
+                <div class="nav-dropdown">
+                    <div class="nav-link">Job <i data-lucide="chevron-down" style="width: 16px;"></i></div>
+                    <div class="nav-dropdown-menu">
+                        <a href="#">Post a Job</a>
+                        <a href="#">Manage Jobs</a>
+                    </div>
+                </div>
+                <a href="campaigns.html" class="nav-link">Campaign</a>
+                <a href="folders.html" class="nav-link active">Folders</a>
+                <a href="#" class="nav-link">Reports</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <a href="#" class="platform-guide">
+                <i data-lucide="help-circle" style="width:16px;"></i> Platform Guide
+            </a>
+            <div class="icon-btn">
+                <i data-lucide="download" style="width:20px;"></i>
+            </div>
+            <div class="user-profile-top">
+                <img src="https://ui-avatars.com/api/?name=Vishal+Saroch&background=random" alt="User">
+                <div>
+                    <div style="color:#64748b;">Hello,</div>
+                    <div style="font-weight:600;color:#1e293b;">Vishal Saroch</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="layout">
+        <div class="header-row">
+            <h1>Folder management</h1>
+            <button class="btn-post-job">Post a Job</button>
+        </div>
+
+        <div class="folder-tabs">
+            <div class="folder-tab active" id="tab-personal" onclick="switchFolderTab('personal', 20)">Personal Folders (20)</div>
+            <div class="folder-tab" id="tab-jobs" onclick="switchFolderTab('jobs', 2)">Folders with job (2)</div>
+            <div class="folder-tab" id="tab-shared-with" onclick="switchFolderTab('shared-with', 0)">Shared with you (0)</div>
+            <div class="folder-tab" id="tab-shared-by" onclick="switchFolderTab('shared-by', 0)">Shared by you (0)</div>
+            <div class="folder-tab" id="tab-default" onclick="switchFolderTab('default', 1)">Default folders (1)</div>
+            <div class="folder-tab" id="tab-archived" onclick="switchFolderTab('archived', 0)">Archived folders (0)</div>
+        </div>
+
+        <div class="folder-list-container" id="folder-list-view">
+            <div class="folder-list-header">
+                <div class="col-name">
+                    Folder Name
+                    <div class="search-folder">
+                        <i data-lucide="search" style="width: 16px; color: #94a3b8;"></i>
+                        <input type="text" placeholder="Search folder">
+                    </div>
+                </div>
+                <div class="col-pipeline">Candidate pipeline</div>
+                <div class="col-campaigns">Campaigns</div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name folder-name-col">
+                    <div>
+                        <h3>prompt engineer</h3>
+                        <div class="folder-date">Last Active: 05 Mar 2026, 11:34 AM</div>
+                    </div>
+                </div>
+                <div class="col-pipeline">
+                    <div class="pipeline-stats">
+                        <div class="pipeline-stat-col total">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">9</span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Prospect</span>
+                            <span class="stat-value">9 <span class="stat-percent">100%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Job Applicants</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Interviewed</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-campaigns">
+                    <div class="campaigns-col">
+                        <div class="linked-campaigns">
+                            1 linked campaign <i data-lucide="chevron-down" style="width: 16px;"></i>
+                        </div>
+                        <div class="row-actions">
+                            <i data-lucide="download" style="width: 18px;"></i>
+                            <i data-lucide="more-vertical" style="width: 18px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name folder-name-col">
+                    <div>
+                        <h3>Oracle</h3>
+                        <div class="folder-date">Last Active: 09 Feb 2026, 12:25 PM</div>
+                    </div>
+                </div>
+                <div class="col-pipeline">
+                    <div class="pipeline-stats">
+                        <div class="pipeline-stat-col total">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">37</span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Prospect</span>
+                            <span class="stat-value">37 <span class="stat-percent">100%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Job Applicants</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Interviewed</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-campaigns">
+                    <div class="campaigns-col">
+                        <div class="linked-campaigns">
+                            1 linked campaign <i data-lucide="chevron-down" style="width: 16px;"></i>
+                        </div>
+                        <div class="row-actions">
+                            <i data-lucide="download" style="width: 18px;"></i>
+                            <i data-lucide="more-vertical" style="width: 18px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name folder-name-col">
+                    <div>
+                        <h3>backend</h3>
+                        <div class="folder-date">Last Active: 06 Feb 2026, 1:21 PM</div>
+                    </div>
+                </div>
+                <div class="col-pipeline">
+                    <div class="pipeline-stats">
+                        <div class="pipeline-stat-col total">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">37</span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Prospect</span>
+                            <span class="stat-value">37 <span class="stat-percent">100%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Job Applicants</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Interviewed</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-campaigns">
+                    <div class="campaigns-col">
+                        <div class="linked-campaigns">
+                            1 linked campaign <i data-lucide="chevron-down" style="width: 16px;"></i>
+                        </div>
+                        <div class="row-actions">
+                            <i data-lucide="download" style="width: 18px;"></i>
+                            <i data-lucide="more-vertical" style="width: 18px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name folder-name-col">
+                    <div>
+                        <h3>SCP</h3>
+                        <div class="folder-date">Last Active: 31 Jan 2026, 5:07 PM</div>
+                    </div>
+                </div>
+                <div class="col-pipeline">
+                    <div class="pipeline-stats">
+                        <div class="pipeline-stat-col total">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">39</span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Prospect</span>
+                            <span class="stat-value">39 <span class="stat-percent">100%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Job Applicants</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Interviewed</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-campaigns">
+                    <div class="campaigns-col">
+                        <div class="linked-campaigns">
+                            1 linked campaign <i data-lucide="chevron-down" style="width: 16px;"></i>
+                        </div>
+                        <div class="row-actions">
+                            <i data-lucide="download" style="width: 18px;"></i>
+                            <i data-lucide="more-vertical" style="width: 18px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name folder-name-col">
+                    <div>
+                        <h3>Hr Manager</h3>
+                        <div class="folder-date">Last Active: 31 Jan 2026, 2:01 PM</div>
+                    </div>
+                </div>
+                <div class="col-pipeline">
+                    <div class="pipeline-stats">
+                        <div class="pipeline-stat-col total">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">0</span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Prospect</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Job Applicants</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Interviewed</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-campaigns">
+                    <div class="campaigns-col">
+                        <div class="send-email-link">
+                            Send Email
+                        </div>
+                        <div class="row-actions">
+                            <i data-lucide="download" style="width: 18px;"></i>
+                            <i data-lucide="more-vertical" style="width: 18px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name folder-name-col">
+                    <div>
+                        <h3>banglore</h3>
+                        <div class="folder-date">Last Active: 26 Jan 2026, 10:05 AM</div>
+                    </div>
+                </div>
+                <div class="col-pipeline">
+                    <div class="pipeline-stats">
+                        <div class="pipeline-stat-col total">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">106</span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Prospect</span>
+                            <span class="stat-value">106 <span class="stat-percent">100%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Job Applicants</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Interviewed</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-campaigns">
+                    <div class="campaigns-col">
+                        <div class="linked-campaigns">
+                            4 linked campaigns <i data-lucide="chevron-down" style="width: 16px;"></i>
+                        </div>
+                        <div class="row-actions">
+                            <i data-lucide="download" style="width: 18px;"></i>
+                            <i data-lucide="more-vertical" style="width: 18px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Folders with Job View -->
+        <div class="folder-list-container" id="jobs-view" style="display: none;">
+            <div class="folder-list-header">
+                <div class="col-name-job">
+                    Folder Name
+                    <div class="search-folder">
+                        <i data-lucide="search" style="width: 16px; color: #94a3b8;"></i>
+                        <input type="text" placeholder="Search folder">
+                    </div>
+                </div>
+                <div class="col-pipeline-job">Candidate pipeline</div>
+                <div class="col-linked-job">Linked Job</div>
+                <div class="col-campaigns-job">Campaigns</div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name-job folder-name-col">
+                    <div>
+                        <h3>Hr Manager - J1</h3>
+                        <div class="folder-date">Last Active: 31 Jan 2026, 1:47 PM</div>
+                    </div>
+                </div>
+                <div class="col-pipeline-job">
+                    <div class="pipeline-stats">
+                        <div class="pipeline-stat-col total">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">386</span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Prospect</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Job Applicants</span>
+                            <span class="stat-value">386 <span class="stat-percent">100%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Interviewed</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-linked-job">
+                    <div class="linked-job-info">
+                        <h4>Hr Manager</h4>
+                        <span class="job-badge active">Active</span>
+                    </div>
+                </div>
+                <div class="col-campaigns-job">
+                    <div class="campaigns-col">
+                        <div class="send-email-link">Send Email</div>
+                        <div class="row-actions">
+                            <i data-lucide="download" style="width: 18px;"></i>
+                            <i data-lucide="more-vertical" style="width: 18px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name-job folder-name-col">
+                    <div>
+                        <h3>Principal. - J1</h3>
+                        <div class="folder-date">Last Active: 13 Jan 2026, 2:58 PM</div>
+                    </div>
+                </div>
+                <div class="col-pipeline-job">
+                    <div class="pipeline-stats">
+                        <div class="pipeline-stat-col total">
+                            <span class="stat-label">Total</span>
+                            <span class="stat-value">122</span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Prospect</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Job Applicants</span>
+                            <span class="stat-value">122 <span class="stat-percent">100%</span></span>
+                        </div>
+                        <div class="pipeline-stat-col">
+                            <span class="stat-label">Interviewed</span>
+                            <span class="stat-value">0 <span class="stat-percent">0%</span></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-linked-job">
+                    <div class="linked-job-info">
+                        <h4>Principal / Professor / Read...</h4>
+                        <span class="job-badge expired">Expired</span>
+                    </div>
+                </div>
+                <div class="col-campaigns-job">
+                    <div class="campaigns-col">
+                        <div class="send-email-link">Send Email</div>
+                        <div class="row-actions">
+                            <i data-lucide="download" style="width: 18px;"></i>
+                            <i data-lucide="more-vertical" style="width: 18px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Default Folders View -->
+        <div class="folder-list-container" id="default-view" style="display: none;">
+            <div class="folder-list-header">
+                <div class="col-name-default">Folder Name</div>
+                <div class="col-profile-count">Profile Count</div>
+                <div class="col-actions-default"></div>
+            </div>
+
+            <div class="folder-row">
+                <div class="col-name-default folder-name-col">
+                    <div>
+                        <h3>Viewed Profiles</h3>
+                        <div class="folder-date">Last Active: 11 Nov 2025, 9:29 PM</div>
+                    </div>
+                </div>
+                <div class="col-profile-count">
+                    <span class="profile-count-value">1823</span>
+                </div>
+                <div class="col-actions-default">
+                    <div class="row-actions">
+                        <i data-lucide="download" style="width: 18px;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="empty-state-view" style="display: none; justify-content: center; align-items: center; padding: 48px; background: #fff; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+            <div style="text-align: center; color: #94a3b8;">
+                <i data-lucide="folder-open" style="width: 48px; height: 48px; margin-bottom: 16px;"></i>
+                <h3 style="color: #475569; margin: 0 0 8px 0; font-size: 1.1rem;">No folders found</h3>
+                <p style="margin: 0; font-size: 0.95rem;">There are no folders in this section yet.</p>
+            </div>
+        </div>
+
+        <div class="pagination" id="pagination-view">
+            <i data-lucide="chevron-left" style="width: 16px; color: #94a3b8; cursor: pointer;"></i>
+            <div class="page-item active">1</div>
+            <div class="page-item">2</div>
+            <div class="page-item">3</div>
+            <div class="page-item">4</div>
+            <i data-lucide="chevron-right" style="width: 16px; color: #475569; cursor: pointer;"></i>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 DIJIT Talent Cloud - All Rights Reserved</div>
+        <div class="footer-links">
+            <a href="#">Manage logins</a>
+            <span style="color:#cbd5e1">|</span>
+            <a href="#">Security center</a>
+            <span style="color:#cbd5e1">|</span>
+            <a href="#">Help center</a>
+            <span style="color:#cbd5e1">|</span>
+            <a href="#">Buy Job Postings</a>
+            <span style="color:#cbd5e1">|</span>
+            <a href="#">Buy Resume Database Access</a>
+            <span style="color:#cbd5e1">|</span>
+            <a href="#">Advertise with Us</a>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+        
+        function switchFolderTab(tabId, count) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.folder-tab').forEach(tab => tab.classList.remove('active'));
+            // Add active class to clicked tab
+            document.getElementById('tab-' + tabId).classList.add('active');
+            
+            // Hide all views
+            document.getElementById('folder-list-view').style.display = 'none';
+            document.getElementById('jobs-view').style.display = 'none';
+            document.getElementById('default-view').style.display = 'none';
+            document.getElementById('empty-state-view').style.display = 'none';
+            document.getElementById('pagination-view').style.display = 'none';
+            
+            // Show the correct view based on tabId
+            if (tabId === 'personal') {
+                document.getElementById('folder-list-view').style.display = 'block';
+                document.getElementById('pagination-view').style.display = 'flex';
+            } else if (tabId === 'jobs') {
+                document.getElementById('jobs-view').style.display = 'block';
+            } else if (tabId === 'default') {
+                document.getElementById('default-view').style.display = 'block';
+            } else if (count === 0) {
+                document.getElementById('empty-state-view').style.display = 'flex';
+            }
+            
+            lucide.createIcons();
+        }
+    </script>
 </body>
 </html>
