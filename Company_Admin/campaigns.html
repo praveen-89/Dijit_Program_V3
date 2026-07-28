@@ -2,10 +2,1010 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Campaigns - DIJIT Talent Cloud</title>
+    <meta name="description" content="Manage your campaigns.">
+    <!-- Base styles and icons -->
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #7e22ce;
+            --primary-hover: #6b21a8;
+            --primary-light: #f3e8ff;
+            --bg-body: #f8fafc;
+        }
+        html { font-size: 105%; }
+        body {
+            background-color: var(--bg-body);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Top Navigation */
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 80px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-left { display: flex; align-items: center; gap: 32px; }
+        .brand-logo {
+            display: flex; align-items: center; gap: 8px; font-weight: 700;
+            font-size: 1.25rem; color: var(--primary); text-decoration: none;
+        }
+        .brand-logo img { height: 28px; }
+        
+        .nav-links { display: flex; gap: 24px; }
+        .nav-link { color: #475569; text-decoration: none; font-weight: 500; font-size: 0.9rem; display: flex; align-items: center; gap: 4px; }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link.active { color: var(--primary); font-weight: 600; }
+
+        .nav-dropdown { position: relative; }
+        .nav-dropdown .nav-link { cursor: pointer; }
+        .nav-dropdown-menu {
+            position: absolute; top: 100%; left: 0; margin-top: 8px;
+            background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); min-width: 220px; padding: 8px 0;
+            opacity: 0; visibility: hidden; transform: translateY(-4px);
+            transition: all 0.2s ease; z-index: 100;
+        }
+        .nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .nav-dropdown:hover .nav-link { color: var(--primary); }
+        .nav-dropdown-menu a {
+            display: block; padding: 12px 20px; color: #334155; text-decoration: none;
+            font-size: 0.95rem; font-weight: 500; transition: background 0.15s, color 0.15s;
+        }
+        .nav-dropdown-menu a:hover { background: #f5f3ff; color: var(--primary); }
+
+        .nav-center { flex: 1; display: flex; justify-content: center; padding: 0 24px; }
+        .nav-right { display: flex; align-items: center; gap: 16px; }
+
+        .platform-guide {
+            display: flex; align-items: center; gap: 8px; border: 1px solid #cbd5e1;
+            padding: 6px 12px; border-radius: 9999px; font-size: 0.85rem;
+            color: #475569; text-decoration: none;
+        }
+        .icon-btn { color: #475569; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        
+        .user-profile-top { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; }
+        .user-profile-top img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+
+        /* Main Content Layout */
+        .layout {
+            flex: 1;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 32px 48px;
+            box-sizing: border-box;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .header-row h1 {
+            font-size: 1.5rem;
+            color: #1e293b;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .filters-group {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .filter-select {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #fff;
+            color: #64748b;
+            font-size: 0.9rem;
+            cursor: pointer;
+            min-width: 160px;
+            justify-content: space-between;
+        }
+
+        .search-input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #fff;
+            width: 250px;
+        }
+
+        .search-input-group input {
+            border: none;
+            outline: none;
+            font-size: 0.9rem;
+            width: 100%;
+            color: #334155;
+        }
+
+        .search-input-group input::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn-search {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            border-bottom: none;
+        }
+
+        .tab-chip {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid #e2e8f0;
+            background: #f8fafc;
+            color: #475569;
+        }
+
+        .tab-chip.active {
+            background: #fff;
+            border: 1px solid #334155;
+            color: #1e293b;
+        }
+
+        .campaign-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .campaign-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .campaign-info {
+            display: flex;
+            gap: 12px;
+            width: 30%;
+        }
+
+        .campaign-icon {
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        .campaign-details h3 {
+            margin: 0 0 12px 0;
+            font-size: 1.05rem;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+
+        .campaign-date {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .campaign-stats-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stats-box {
+            display: flex;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8fafc;
+        }
+
+        .stat-col {
+            padding: 8px 16px;
+            border-right: 1px solid #e2e8f0;
+            min-width: 80px;
+        }
+
+        .stat-col:last-child {
+            border-right: none;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .stat-values {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-values .val {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 0.9rem;
+        }
+
+        .stat-values .pct {
+            background: #e2e8f0;
+            color: #1e293b;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .stats-footer {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #1e293b;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stats-footer i {
+            color: #94a3b8;
+            width: 14px;
+            height: 14px;
+        }
+
+        .campaign-actions {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            width: 25%;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view { color: var(--primary); }
+        .btn-pause { color: #cbd5e1; cursor: not-allowed; }
+        .btn-abort { color: #cbd5e1; cursor: not-allowed; }
+
+        .pagination {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            margin-top: 32px;
+        }
+
+        .page-item {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 500;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .page-item:hover:not(.disabled) {
+            background: #f1f5f9;
+        }
+
+        .page-item.active {
+            background: #cbd5e1;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        
+        .page-item.disabled {
+            color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 48px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            color: #64748b;
+            background: #f8fafc;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover { color: var(--primary); }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 64px;
+            padding: 64px 0;
+            width: 100%;
+        }
+
+        .empty-state-image {
+            width: 50%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .empty-state-image img {
+            max-width: 500px;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border: 4px solid #fff;
+        }
+
+        .empty-state-content {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .empty-state-content h2 {
+            font-size: 1.25rem;
+            color: #1e293b;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 32px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .features-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #334155;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .features-list li i {
+            color: var(--primary);
+            width: 20px;
+        }
+
+        .btn-start-campaign {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 9999px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-start-campaign:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Custom Dropdowns */
+        .filter-dropdown-container {
+            position: relative;
+        }
+
+        .filter-dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            min-width: 200px;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin-top: 4px;
+            z-index: 100;
+            max-height: 250px;
+            overflow-y: auto;
+            display: none;
+            padding: 8px 0;
+        }
+
+        .filter-dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 16px;
+            color: #1e293b;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .dropdown-item:hover {
+            background: #f1f5f9;
+        }
+
+        .filter-dropdown-menu::-webkit-scrollbar { width: 6px; }
+        .filter-dropdown-menu::-webkit-scrollbar-track { background: #f8fafc; }
+        .filter-dropdown-menu::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .filter-dropdown-menu::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    </style>
 </head>
 <body>
-    <h1>Campaigns - Under Construction</h1>
-    <a href="index.html">Back to Dashboard</a>
+
+    <!-- Top Navigation -->
+    <nav class="top-navbar">
+        <div class="nav-left">
+            <a href="index.html" class="brand-logo">
+                <img src="../assets/images/Dijit_Talent_Cloud_Logo-removebg-preview.png" alt="DIJIT Logo" onerror="this.src='https://placehold.co/100x30/7e22ce/white?text=foundit'">
+            </a>
+            <div class="nav-links">
+                <a href="search.html" class="nav-link">Search</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link">Job <i data-lucide="chevron-down" style="width:14px;"></i></a>
+                    <div class="nav-dropdown-menu">
+                        <a href="post-job.html">Post a job</a>
+                        <a href="manage-jobs.html">Manage jobs</a>
+                        <a href="manage-questionnaire.html">Manage questionnaire</a>
+                    </div>
+                </div>
+                <a href="campaigns.html" class="nav-link active">Campaign</a>
+                <a href="folders.html" class="nav-link">Folders</a>
+                <a href="reports.html" class="nav-link">Reports</a>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="platform-guide">
+                <i data-lucide="help-circle" style="width:16px;"></i> Platform Guide
+            </a>
+            <div class="icon-btn">
+                <i data-lucide="download" style="width:20px;"></i>
+            </div>
+            <div class="user-profile-top">
+                <img src="https://ui-avatars.com/api/?name=Vishal+Saroch&background=random" alt="User">
+                <div>
+                    <div style="color:#64748b;">Hello,</div>
+                    <div style="font-weight:600;color:#1e293b;">Vishal Saroch</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="layout">
+        <div class="header-row">
+            <h1>Your Campaigns</h1>
+            <div class="filters-group">
+                <div class="filter-dropdown-container">
+                    <div class="filter-select" onclick="toggleDropdown('duration-dropdown')">
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <i data-lucide="calendar" style="width:16px; color:#94a3b8;"></i>
+                            <span>Select Duration</span>
+                        </div>
+                        <i data-lucide="chevron-down" style="width:16px; color:#94a3b8;"></i>
+                    </div>
+                    <div class="filter-dropdown-menu" id="duration-dropdown">
+                        <div class="dropdown-item">Last 24 hours</div>
+                        <div class="dropdown-item">Last 3 days</div>
+                        <div class="dropdown-item">Last 7 days</div>
+                        <div class="dropdown-item">Last 1 month</div>
+                        <div class="dropdown-item">Last 3 months</div>
+                        <div class="dropdown-item">Last 6 months</div>
+                        <div class="dropdown-item">Custom Date</div>
+                    </div>
+                </div>
+                <div class="filter-dropdown-container">
+                    <div class="filter-select" onclick="toggleDropdown('status-dropdown')">
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <i data-lucide="filter" style="width:16px; color:#94a3b8;"></i>
+                            <span>Select Status</span>
+                        </div>
+                        <i data-lucide="chevron-down" style="width:16px; color:#94a3b8;"></i>
+                    </div>
+                    <div class="filter-dropdown-menu" id="status-dropdown">
+                        <div class="dropdown-item">DRAFT</div>
+                        <div class="dropdown-item">SCHEDULED</div>
+                        <div class="dropdown-item">LIVE</div>
+                        <div class="dropdown-item">AUTO PAUSED</div>
+                        <div class="dropdown-item">PAUSED</div>
+                        <div class="dropdown-item">IN REVIEW</div>
+                        <div class="dropdown-item">REJECTED</div>
+                        <div class="dropdown-item">FINISHED</div>
+                    </div>
+                </div>
+                <div class="search-input-group">
+                    <i data-lucide="search" style="width:16px; color:#94a3b8;"></i>
+                    <input type="text" placeholder="Search live campaigns">
+                </div>
+                <button class="btn-search">Search</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-chip active" id="tab-all" onclick="switchTab('all', 'all')">All campaigns</button>
+            <button class="tab-chip" id="tab-email" onclick="switchTab('all', 'email')">
+                <i data-lucide="mail" style="width:16px;"></i> Email
+            </button>
+            <button class="tab-chip" id="tab-whatsapp" onclick="switchTab('empty', 'whatsapp')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                WhatsApp
+            </button>
+        </div>
+
+        <div id="all-campaigns-view">
+            <div class="campaign-list">
+            <!-- Campaign 1 -->
+            <div class="campaign-card">
+                <div class="campaign-info">
+                    <i data-lucide="mail" class="campaign-icon"></i>
+                    <div class="campaign-details">
+                        <h3>Prompt Enginner</h3>
+                        <div>
+                            <span class="status-badge">Finished</span>
+                            <span class="campaign-date">7 March 2026 11:10 AM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="campaign-stats-wrapper">
+                    <div class="stats-box">
+                        <div class="stat-col">
+                            <div class="stat-label">Total</div>
+                            <div class="stat-values"><span class="val">10</span><span class="pct">100%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Sent</div>
+                            <div class="stat-values"><span class="val">9</span><span class="pct">90%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Opened</div>
+                            <div class="stat-values"><span class="val">7</span><span class="pct">77%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Applied</div>
+                            <div class="stat-values"><span class="val">1</span><span class="pct">12%</span></div>
+                        </div>
+                    </div>
+                    <div class="stats-footer">
+                        Not sent to 1 (10%) <i data-lucide="info"></i>
+                    </div>
+                </div>
+
+                <div class="campaign-actions">
+                    <button class="action-btn btn-view">
+                        <i data-lucide="eye" style="width:18px;"></i> View Applies
+                    </button>
+                    <button class="action-btn btn-pause" disabled>
+                        <i data-lucide="pause" style="width:18px;"></i> Pause
+                    </button>
+                    <button class="action-btn btn-abort" disabled>
+                        <i data-lucide="ban" style="width:18px;"></i> Abort
+                    </button>
+                </div>
+            </div>
+
+            <!-- Campaign 2 -->
+            <div class="campaign-card">
+                <div class="campaign-info">
+                    <i data-lucide="mail" class="campaign-icon"></i>
+                    <div class="campaign-details">
+                        <h3>inside sales</h3>
+                        <div>
+                            <span class="status-badge">Finished</span>
+                            <span class="campaign-date">13 February 2026 12:10 PM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="campaign-stats-wrapper">
+                    <div class="stats-box">
+                        <div class="stat-col">
+                            <div class="stat-label">Total</div>
+                            <div class="stat-values"><span class="val">40</span><span class="pct">100%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Sent</div>
+                            <div class="stat-values"><span class="val">40</span><span class="pct">100%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Opened</div>
+                            <div class="stat-values"><span class="val">33</span><span class="pct">82%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Applied</div>
+                            <div class="stat-values"><span class="val">3</span><span class="pct">8%</span></div>
+                        </div>
+                    </div>
+                    <div class="stats-footer">
+                        Not sent to 0 (0%) <i data-lucide="info"></i>
+                    </div>
+                </div>
+
+                <div class="campaign-actions">
+                    <button class="action-btn btn-view">
+                        <i data-lucide="eye" style="width:18px;"></i> View Applies
+                    </button>
+                    <button class="action-btn btn-pause" disabled>
+                        <i data-lucide="pause" style="width:18px;"></i> Pause
+                    </button>
+                    <button class="action-btn btn-abort" disabled>
+                        <i data-lucide="ban" style="width:18px;"></i> Abort
+                    </button>
+                </div>
+            </div>
+
+            <!-- Campaign 3 -->
+            <div class="campaign-card">
+                <div class="campaign-info">
+                    <i data-lucide="mail" class="campaign-icon"></i>
+                    <div class="campaign-details">
+                        <h3>insidesales</h3>
+                        <div>
+                            <span class="status-badge">Finished</span>
+                            <span class="campaign-date">13 February 2026 12:10 PM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="campaign-stats-wrapper">
+                    <div class="stats-box">
+                        <div class="stat-col">
+                            <div class="stat-label">Total</div>
+                            <div class="stat-values"><span class="val">40</span><span class="pct">100%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Sent</div>
+                            <div class="stat-values"><span class="val">36</span><span class="pct">90%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Opened</div>
+                            <div class="stat-values"><span class="val">23</span><span class="pct">63%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Applied</div>
+                            <div class="stat-values"><span class="val">2</span><span class="pct">6%</span></div>
+                        </div>
+                    </div>
+                    <div class="stats-footer">
+                        Not sent to 4 (10%) <i data-lucide="info"></i>
+                    </div>
+                </div>
+
+                <div class="campaign-actions">
+                    <button class="action-btn btn-view">
+                        <i data-lucide="eye" style="width:18px;"></i> View Applies
+                    </button>
+                    <button class="action-btn btn-pause" disabled>
+                        <i data-lucide="pause" style="width:18px;"></i> Pause
+                    </button>
+                    <button class="action-btn btn-abort" disabled>
+                        <i data-lucide="ban" style="width:18px;"></i> Abort
+                    </button>
+                </div>
+            </div>
+
+            <!-- Campaign 4 -->
+            <div class="campaign-card">
+                <div class="campaign-info">
+                    <i data-lucide="mail" class="campaign-icon"></i>
+                    <div class="campaign-details">
+                        <h3>Oracle</h3>
+                        <div>
+                            <span class="status-badge">Finished</span>
+                            <span class="campaign-date">11 February 2026 12:05 PM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="campaign-stats-wrapper">
+                    <div class="stats-box">
+                        <div class="stat-col">
+                            <div class="stat-label">Total</div>
+                            <div class="stat-values"><span class="val">40</span><span class="pct">100%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Sent</div>
+                            <div class="stat-values"><span class="val">38</span><span class="pct">95%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Opened</div>
+                            <div class="stat-values"><span class="val">32</span><span class="pct">84%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Applied</div>
+                            <div class="stat-values"><span class="val">3</span><span class="pct">8%</span></div>
+                        </div>
+                    </div>
+                    <div class="stats-footer">
+                        Not sent to 2 (5%) <i data-lucide="info"></i>
+                    </div>
+                </div>
+
+                <div class="campaign-actions">
+                    <button class="action-btn btn-view">
+                        <i data-lucide="eye" style="width:18px;"></i> View Applies
+                    </button>
+                    <button class="action-btn btn-pause" disabled>
+                        <i data-lucide="pause" style="width:18px;"></i> Pause
+                    </button>
+                    <button class="action-btn btn-abort" disabled>
+                        <i data-lucide="ban" style="width:18px;"></i> Abort
+                    </button>
+                </div>
+            </div>
+
+            <!-- Campaign 5 -->
+            <div class="campaign-card">
+                <div class="campaign-info">
+                    <i data-lucide="mail" class="campaign-icon"></i>
+                    <div class="campaign-details">
+                        <h3>servicenow</h3>
+                        <div>
+                            <span class="status-badge">Finished</span>
+                            <span class="campaign-date">14 February 2026 8:41 PM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="campaign-stats-wrapper">
+                    <div class="stats-box">
+                        <div class="stat-col">
+                            <div class="stat-label">Total</div>
+                            <div class="stat-values"><span class="val">40</span><span class="pct">100%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Sent</div>
+                            <div class="stat-values"><span class="val">0</span><span class="pct">0%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Opened</div>
+                            <div class="stat-values"><span class="val">0</span><span class="pct">0%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Applied</div>
+                            <div class="stat-values"><span class="val">0</span><span class="pct">0%</span></div>
+                        </div>
+                    </div>
+                    <div class="stats-footer">
+                        Not sent to 40 (100%) <i data-lucide="info"></i>
+                    </div>
+                </div>
+
+                <div class="campaign-actions">
+                    <button class="action-btn btn-view">
+                        <i data-lucide="eye" style="width:18px;"></i> View Applies
+                    </button>
+                    <button class="action-btn btn-pause" disabled>
+                        <i data-lucide="pause" style="width:18px;"></i> Pause
+                    </button>
+                    <button class="action-btn btn-abort" disabled>
+                        <i data-lucide="ban" style="width:18px;"></i> Abort
+                    </button>
+                </div>
+            </div>
+
+            <!-- Campaign 6 -->
+            <div class="campaign-card">
+                <div class="campaign-info">
+                    <i data-lucide="mail" class="campaign-icon"></i>
+                    <div class="campaign-details">
+                        <h3>accountant</h3>
+                        <div>
+                            <span class="status-badge">Finished</span>
+                            <span class="campaign-date">8 February 2026 2:05 PM</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="campaign-stats-wrapper">
+                    <div class="stats-box">
+                        <div class="stat-col">
+                            <div class="stat-label">Total</div>
+                            <div class="stat-values"><span class="val">40</span><span class="pct">100%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Sent</div>
+                            <div class="stat-values"><span class="val">39</span><span class="pct">97%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Opened</div>
+                            <div class="stat-values"><span class="val">32</span><span class="pct">82%</span></div>
+                        </div>
+                        <div class="stat-col">
+                            <div class="stat-label">Applied</div>
+                            <div class="stat-values"><span class="val">4</span><span class="pct">11%</span></div>
+                        </div>
+                    </div>
+                    <div class="stats-footer">
+                        Not sent to 1 (2%) <i data-lucide="info"></i>
+                    </div>
+                </div>
+
+                <div class="campaign-actions">
+                    <button class="action-btn btn-view">
+                        <i data-lucide="eye" style="width:18px;"></i> View Applies
+                    </button>
+                    <button class="action-btn btn-pause" disabled>
+                        <i data-lucide="pause" style="width:18px;"></i> Pause
+                    </button>
+                    <button class="action-btn btn-abort" disabled>
+                        <i data-lucide="ban" style="width:18px;"></i> Abort
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="pagination">
+            <div class="page-item disabled"><i data-lucide="chevron-left" style="width:16px;"></i></div>
+            <div class="page-item active">1</div>
+            <div class="page-item">2</div>
+            <div class="page-item">3</div>
+            <div class="page-item">4</div>
+            <div class="page-item">5</div>
+            <div class="page-item">6</div>
+            <div class="page-item"><i data-lucide="chevron-right" style="width:16px;"></i></div>
+        </div>
+        </div> <!-- End of all-campaigns-view -->
+
+        <!-- Empty State View -->
+        <div id="empty-state-view" class="empty-state" style="display: none;">
+            <div class="empty-state-image">
+                <img src="../assets/images/blurred_campaign_dashboard.png" alt="Dashboard Preview">
+            </div>
+            <div class="empty-state-content">
+                <h2>Want over 20% response rate?</h2>
+                <ul class="features-list">
+                    <li><i data-lucide="check"></i> Reach the Right Candidates Faster</li>
+                    <li><i data-lucide="check"></i> Track Campaign Performance in Real Time</li>
+                    <li><i data-lucide="check"></i> Maximize Visibility for Your Jobs</li>
+                </ul>
+                <button class="btn-start-campaign">Start a Campaign</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>© 2026 foundit - All Rights Reserved</div>
+        <div class="footer-links">
+            <a href="#">Manage logins</a> |
+            <a href="#">Security center</a> |
+            <a href="#">Help center</a> |
+            <a href="#">Buy Job Postings</a> |
+            <a href="#">Buy Resume Database Access</a> |
+            <a href="#">Advertise with Us</a>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function switchTab(viewType, tabName) {
+            // Update Tab Styling
+            document.querySelectorAll('.tab-chip').forEach(tab => tab.classList.remove('active'));
+            
+            if (tabName === 'all') {
+                document.getElementById('tab-all').classList.add('active');
+            } else if (tabName === 'email') {
+                document.getElementById('tab-email').classList.add('active');
+            } else if (tabName === 'whatsapp') {
+                document.getElementById('tab-whatsapp').classList.add('active');
+            }
+            
+            if (viewType === 'all') {
+                document.getElementById('all-campaigns-view').style.display = 'block';
+                document.getElementById('empty-state-view').style.display = 'none';
+            } else {
+                document.getElementById('all-campaigns-view').style.display = 'none';
+                document.getElementById('empty-state-view').style.display = 'flex';
+            }
+            
+            // Re-initialize lucide icons for the newly shown view if needed
+            lucide.createIcons();
+        }
+
+        function toggleDropdown(id) {
+            // Close other dropdowns
+            document.querySelectorAll('.filter-dropdown-menu').forEach(menu => {
+                if(menu.id !== id) {
+                    menu.classList.remove('show');
+                }
+            });
+            document.getElementById(id).classList.toggle('show');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.filter-dropdown-container')) {
+                document.querySelectorAll('.filter-dropdown-menu').forEach(menu => {
+                    menu.classList.remove('show');
+                });
+            }
+        });
+    </script>
 </body>
 </html>

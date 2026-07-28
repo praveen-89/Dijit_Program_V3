@@ -86,7 +86,7 @@
 
         /* Left Sidebar (Filters) */
         .sidebar {
-            width: 280px;
+            width: 350px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
@@ -283,6 +283,16 @@
             border-bottom: 1px solid var(--border-color);
             display: flex;
             gap: 16px;
+            transition: all 0.2s;
+        }
+
+        .job-card:hover, .job-card.highlighted {
+            background-color: var(--primary-light);
+        }
+
+        .job-card:hover .job-title-row strong, .job-card.highlighted .job-title-row strong,
+        .job-card:hover .metric-value, .job-card.highlighted .metric-value {
+            color: var(--primary);
         }
 
         .job-card:last-child {
@@ -321,10 +331,16 @@
             color: #cbd5e1;
         }
 
+        .job-metrics-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 16px;
+        }
+
         .job-metrics {
             display: flex;
             gap: 48px;
-            margin-top: 16px;
         }
 
         .metric-item {
@@ -342,6 +358,22 @@
             font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-dark);
+            transition: color 0.2s;
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            color: #64748b;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+        }
+
+        .job-card:hover .job-actions, .job-card.highlighted .job-actions {
+            opacity: 1;
+            visibility: visible;
         }
 
         /* Pagination */
@@ -471,14 +503,20 @@
                 </a>
             </div>
 
-            <div class="tabs-header">
-                <div class="tab-item">My Posted Jobs (0)</div>
-                <div class="tab-item">Drafts (0)</div>
-                <div class="tab-item">Scheduled (0)</div>
-                <div class="tab-item active">Expired (2)</div>
+            <div class="tabs-header" id="manage-tabs">
+                <div class="tab-item active" data-target="posted">My Posted Jobs (0)</div>
+                <div class="tab-item" data-target="drafts">Drafts (0)</div>
+                <div class="tab-item" data-target="scheduled">Scheduled (0)</div>
+                <div class="tab-item" data-target="expired">Expired (2)</div>
             </div>
 
-            <div class="jobs-list-container">
+            <div id="empty-state" style="display: block; padding: 60px 20px; text-align: center; background: #fff; margin-bottom: 24px;">
+                <img src="../assets/images/empty-job-illustration.svg" alt="Empty State" style="max-width: 220px; margin-bottom: 24px;" onerror="this.src='https://placehold.co/220x150/f8fafc/64748b?text=Illustration'">
+                <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;">You don't have any active job!</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Let's <span style="color: var(--primary); font-weight: 600;">start writing</span> a new job.</p>
+            </div>
+
+            <div class="jobs-list-container" id="jobs-container" style="display: none;">
                 <div class="list-toolbar">
                     <label class="checkbox-label">
                         <input type="checkbox"> Select All
@@ -489,7 +527,7 @@
                 </div>
 
                 <!-- Job Card 1 -->
-                <div class="job-card">
+                <div class="job-card highlighted">
                     <input type="checkbox" style="width: 16px; height: 16px; margin-top: 4px; accent-color: var(--primary);">
                     <div class="job-content">
                         <div class="job-title-row">
@@ -502,22 +540,33 @@
                             <span class="job-meta-item">Location: Fatehgarh Sahib, Fatehgarh Churian, Fatehgarh</span>
                         </div>
                         
-                        <div class="job-metrics">
-                            <div class="metric-item">
-                                <span class="metric-label">Folder</span>
-                                <span class="metric-value">Principal, - J1</span>
+                        <div class="job-metrics-container">
+                            <div class="job-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-label">Folder</span>
+                                    <span class="metric-value">Principal, - J1</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Views</span>
+                                    <span class="metric-value">32</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Applicants</span>
+                                    <span class="metric-value">19</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Recommended</span>
+                                    <span class="metric-value">103</span>
+                                </div>
                             </div>
-                            <div class="metric-item">
-                                <span class="metric-label">Views</span>
-                                <span class="metric-value">32</span>
-                            </div>
-                            <div class="metric-item">
-                                <span class="metric-label">Applicants</span>
-                                <span class="metric-value">19</span>
-                            </div>
-                            <div class="metric-item">
-                                <span class="metric-label">Recommended</span>
-                                <span class="metric-value">103</span>
+                            
+                            <div class="job-actions">
+                                <i data-lucide="copy" style="width:18px; cursor: pointer;" title="Copy"></i>
+                                <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer; gap: 2px;" title="Download XLS">
+                                    <i data-lucide="download" style="width:16px;"></i>
+                                    <span style="font-size: 0.65rem; font-weight: 700;">XLS</span>
+                                </div>
+                                <i data-lucide="more-vertical" style="width:18px; cursor: pointer;" title="More Options"></i>
                             </div>
                         </div>
                     </div>
@@ -537,29 +586,40 @@
                             <span class="job-meta-item">Location: Lucknow</span>
                         </div>
                         
-                        <div class="job-metrics">
-                            <div class="metric-item">
-                                <span class="metric-label">Folder</span>
-                                <span class="metric-value">Hr Manager - J1</span>
+                        <div class="job-metrics-container">
+                            <div class="job-metrics">
+                                <div class="metric-item">
+                                    <span class="metric-label">Folder</span>
+                                    <span class="metric-value">Hr Manager - J1</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Views</span>
+                                    <span class="metric-value">85</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Applicants</span>
+                                    <span class="metric-value">45</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Recommended</span>
+                                    <span class="metric-value">341</span>
+                                </div>
                             </div>
-                            <div class="metric-item">
-                                <span class="metric-label">Views</span>
-                                <span class="metric-value">85</span>
-                            </div>
-                            <div class="metric-item">
-                                <span class="metric-label">Applicants</span>
-                                <span class="metric-value">45</span>
-                            </div>
-                            <div class="metric-item">
-                                <span class="metric-label">Recommended</span>
-                                <span class="metric-value">341</span>
+                            
+                            <div class="job-actions">
+                                <i data-lucide="copy" style="width:18px; cursor: pointer;" title="Copy"></i>
+                                <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer; gap: 2px;" title="Download XLS">
+                                    <i data-lucide="download" style="width:16px;"></i>
+                                    <span style="font-size: 0.65rem; font-weight: 700;">XLS</span>
+                                </div>
+                                <i data-lucide="more-vertical" style="width:18px; cursor: pointer;" title="More Options"></i>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="pagination">
+            <div class="pagination" style="display: none;">
                 <a href="#" class="page-btn"><i data-lucide="chevron-left" style="width:16px;"></i></a>
                 <a href="#" class="page-btn active">1</a>
                 <a href="#" class="page-btn"><i data-lucide="chevron-right" style="width:16px;"></i></a>
@@ -570,6 +630,29 @@
 
     <script>
         lucide.createIcons();
+        
+        // Tab switching logic
+        const tabs = document.querySelectorAll('.tab-item');
+        const jobsContainer = document.getElementById('jobs-container');
+        const emptyState = document.getElementById('empty-state');
+        const pagination = document.querySelector('.pagination');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                if (tab.dataset.target === 'expired') {
+                    jobsContainer.style.display = 'block';
+                    if (pagination) pagination.style.display = 'flex';
+                    emptyState.style.display = 'none';
+                } else {
+                    jobsContainer.style.display = 'none';
+                    if (pagination) pagination.style.display = 'none';
+                    emptyState.style.display = 'block';
+                }
+            });
+        });
     </script>
 </body>
 </html>

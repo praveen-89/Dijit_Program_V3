@@ -74,15 +74,15 @@
         /* Page Layout */
         .page-layout {
             display: flex;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 32px 48px;
-            gap: 24px;
+            padding: 32px 80px;
+            gap: 32px;
         }
 
         /* Left Sidebar */
         .details-sidebar {
-            width: 260px;
+            width: 320px;
             flex-shrink: 0;
         }
 
@@ -146,6 +146,10 @@
         /* Main Content */
         .main-content {
             flex: 1;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 32px;
         }
 
         .section-header {
@@ -188,10 +192,9 @@
         .question-card {
             background: #fff;
             border: 1px solid var(--border-color);
-            border-left: 3px solid var(--primary);
             border-radius: 8px;
             padding: 24px;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
         }
 
         .question-top-row {
@@ -277,29 +280,26 @@
 
         .response-options {
             display: flex;
-            gap: 0;
+            gap: 16px;
         }
 
         .response-btn {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 20px;
-            border: 1px solid var(--border-color);
-            background: #fff;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            gap: 12px;
+            padding: 10px 24px;
+            border: none;
+            background: #f8fafc;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: var(--text-dark);
             cursor: pointer;
             transition: all 0.15s;
         }
 
-        .response-btn:first-child { border-radius: 6px 0 0 6px; }
-        .response-btn:last-child { border-radius: 0 6px 6px 0; border-left: none; }
-
         .response-btn.selected {
-            background: var(--text-dark);
-            color: #fff;
-            border-color: var(--text-dark);
+            background: #f1f5f9;
+            box-shadow: inset 0 0 0 1px #e2e8f0;
         }
 
         .response-btn input[type="radio"] {
@@ -325,9 +325,8 @@
 
         /* Acceptance Score */
         .acceptance-card {
-            background: #fffbeb;
-            border: 1px solid #fde68a;
-            border-left: 3px solid #f59e0b;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
             border-radius: 8px;
             padding: 20px 24px;
             margin-bottom: 24px;
@@ -476,7 +475,7 @@
 
                 <div class="field-group">
                     <div class="field-label-row">
-                        <label class="field-label" style="color: var(--primary);">Description</label>
+                        <label class="field-label">Description</label>
                         <span class="char-count"><span id="desc-count">0</span>/250 characters</span>
                     </div>
                     <textarea class="field-input" id="q-description" placeholder="Please give a short description which will be shown to the applicants." maxlength="250"></textarea>
