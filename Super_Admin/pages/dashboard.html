@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="../css/style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'superadmin') {
+            window.location.href = '../../DijitTalentCloud/DijitTalentCloud.html';
+        }
+    </script>
 </head>
 <body>
     <div class="app-container">

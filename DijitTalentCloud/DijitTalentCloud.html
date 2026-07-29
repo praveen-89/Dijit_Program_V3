@@ -330,7 +330,7 @@
       <!-- Right Buttons -->
       <div style="display: flex; align-items: center; gap: 0.75rem;">
         <a href="#book-demo" style="background-color: #ffffff; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 99px; padding: 0.5rem 1.25rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all 0.2s;">Book a demo</a>
-        <a href="pages/login.html" style="background-color: #0f172a; color: #ffffff; border-radius: 99px; padding: 0.5rem 1.25rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.25rem; transition: all 0.2s;">Start hiring <i class="ph ph-arrow-up-right" style="font-size: 1rem;"></i></a>
+        <a href="#login-modal" id="open-login-btn" style="background-color: #0f172a; color: #ffffff; border-radius: 99px; padding: 0.5rem 1.25rem; font-size: 0.9rem; font-weight: 600; text-decoration: none; display: flex; align-items: center; gap: 0.25rem; transition: all 0.2s;">Login <i class="ph ph-sign-in" style="font-size: 1rem;"></i></a>
       </div>
     </div>
   </header>
@@ -361,7 +361,7 @@
 
           <!-- CTAs -->
           <div style="display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 3rem;">
-            <a href="pages/login.html" class="btn-hero-primary">Start Hiring <i class="ph ph-arrow-up-right" style="font-weight: bold;"></i></a>
+            <a href="#login-modal" class="btn-hero-primary" id="open-login-hero">Login <i class="ph ph-sign-in" style="font-weight: bold;"></i></a>
             <a href="#demo" class="btn-hero-secondary">Book a Demo</a>
             <a href="#explore" class="btn-hero-ghost">Explore Talent <span style="font-family: sans-serif;">→</span></a>
           </div>
@@ -2142,8 +2142,8 @@
           </p>
           
           <div class="cta-btn-group">
-            <a href="pages/login.html" class="cta-btn cta-btn-primary">
-              Get Started <i class="ph-bold ph-arrow-up-right"></i>
+            <a href="#login-modal" class="cta-btn cta-btn-primary" id="open-login-footer">
+              Login <i class="ph-bold ph-sign-in"></i>
             </a>
             <a href="#demo" class="cta-btn cta-btn-outline">
               Book a Demo
@@ -2482,6 +2482,54 @@
     </div>
   </div>
 
+  <div id="login-modal" class="demo-modal-overlay">
+    <div class="demo-modal-content" style="max-width: 440px; padding: 2.5rem 2rem;">
+      <button class="demo-modal-close" id="close-login-modal" aria-label="Close modal">
+        <i class="ph ph-x"></i>
+      </button>
+      
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; background: rgba(99, 102, 241, 0.1); border-radius: 12px; color: #0f172a; margin-bottom: 1rem;">
+          <i class="ph ph-sign-in" style="font-size: 1.5rem;"></i>
+        </div>
+        <h3 class="demo-modal-title" style="margin-bottom: 0.5rem; font-size: 1.5rem;">Welcome back</h3>
+        <p style="color: #64748b; font-size: 0.95rem; margin: 0;">Please enter your details to sign in.</p>
+      </div>
+
+      <form id="login-form" class="demo-modal-form">
+        <!-- Toggle Row: Company / Consultancy -->
+        <div class="form-group-toggle" style="margin-bottom: 1.5rem;">
+          <div class="toggle-option active" data-value="company" id="login-toggle-company" style="font-weight: 600;">
+            <i class="ph ph-buildings" style="margin-right: 4px;"></i> Company
+          </div>
+          <div class="toggle-option" data-value="consultancy" id="login-toggle-consultancy" style="font-weight: 600;">
+            <i class="ph ph-tree-structure" style="margin-right: 4px;"></i> Consultancy
+          </div>
+          <input type="hidden" name="login_type" id="login-type" value="company">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1rem;">
+          <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #334155; margin-bottom: 0.5rem;">Email Address</label>
+          <input type="email" id="login-email" name="email" required placeholder="name@company.com" style="padding: 0.85rem 1rem;">
+        </div>
+        
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <label style="display: block; font-size: 0.85rem; font-weight: 600; color: #334155;">Password</label>
+            <a href="#" style="font-size: 0.8rem; color: #6366f1; text-decoration: none; font-weight: 500;">Forgot password?</a>
+          </div>
+          <input type="password" id="login-password" name="password" required placeholder="••••••••" style="padding: 0.85rem 1rem;">
+        </div>
+        
+        <div id="login-error" style="background: #fef2f2; border: 1px solid #fecaca; color: #ef4444; font-size: 0.85rem; padding: 0.75rem; border-radius: 8px; margin-bottom: 1.25rem; display: none; align-items: center; gap: 0.5rem;">
+          <i class="ph ph-warning-circle"></i> <span>Invalid credentials or account type.</span>
+        </div>
+        
+        <button type="submit" class="demo-submit-btn" style="padding: 1rem; border-radius: 12px; font-size: 1.05rem; letter-spacing: 0.5px;">Sign in</button>
+      </form>
+    </div>
+  </div>
+
   <div id="demo-success-toast" class="demo-success-toast">
     <i class="ph ph-check-circle" style="color: #66ff66; font-size: 1.5rem;"></i>
     <span>Demo booked successfully! We will contact you soon.</span>
@@ -2497,6 +2545,12 @@
       const orgTypeInput = document.getElementById('demo-org-type');
       const successToast = document.getElementById('demo-success-toast');
 
+      // Login Modal Variables
+      const loginModal = document.getElementById('login-modal');
+      const closeLoginBtn = document.getElementById('close-login-modal');
+      const loginForm = document.getElementById('login-form');
+      const loginError = document.getElementById('login-error');
+
       const openModal = () => {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
@@ -2504,6 +2558,16 @@
 
       const closeModal = () => {
         modal.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      const openLoginModal = () => {
+        loginModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeLoginModal = () => {
+        loginModal.classList.remove('active');
         document.body.style.overflow = '';
       };
 
@@ -2515,6 +2579,9 @@
           if (href === '#demo' || href === '#book-demo' || target.textContent.trim().toLowerCase() === 'book a demo') {
             e.preventDefault();
             openModal();
+          } else if (href === '#login-modal') {
+            e.preventDefault();
+            openLoginModal();
           }
         }
       });
@@ -2524,9 +2591,67 @@
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
       });
+      closeLoginBtn.addEventListener('click', closeLoginModal);
+      loginModal.addEventListener('click', (e) => {
+        if (e.target === loginModal) closeLoginModal();
+      });
+
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.classList.contains('active')) {
+        if (e.key === 'Escape') {
+          if (modal.classList.contains('active')) closeModal();
+          if (loginModal.classList.contains('active')) closeLoginModal();
+        }
+      });
+
+      // Login Toggle Options Logic
+      const loginToggleCompany = document.getElementById('login-toggle-company');
+      const loginToggleConsultancy = document.getElementById('login-toggle-consultancy');
+      const loginTypeInput = document.getElementById('login-type');
+
+      loginToggleCompany.addEventListener('click', () => {
+        loginToggleCompany.classList.add('active');
+        loginToggleConsultancy.classList.remove('active');
+        loginTypeInput.value = 'company';
+      });
+
+      loginToggleConsultancy.addEventListener('click', () => {
+        loginToggleConsultancy.classList.add('active');
+        loginToggleCompany.classList.remove('active');
+        loginTypeInput.value = 'consultancy';
+      });
+
+      // Login Form Logic
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('login-email').value;
+        const pass = document.getElementById('login-password').value;
+        const type = document.getElementById('login-type').value;
+
+        // Reset error
+        loginError.style.display = 'none';
+
+        if (email === 'superadmin@dijit.com' && pass === 'admin123') {
+          sessionStorage.setItem('isLoggedIn', 'superadmin');
+          closeLoginModal();
+          window.location.href = '../Super_Admin/index.html';
+        } else if (type === 'company' && email === 'company@dijit.com' && pass === 'company123') {
+          sessionStorage.setItem('isLoggedIn', 'company');
+          closeLoginModal();
+          window.location.href = '../Company_Admin/index.html';
+        } else if (type === 'consultancy' && email === 'consultancy@dijit.com' && pass === 'consultancy123') {
+          sessionStorage.setItem('isLoggedIn', 'consultancy');
+          closeLoginModal();
+          window.location.href = '../Consultancy_Admin/index.html';
+        } else {
+          loginError.style.display = 'flex';
+        }
+      });
+
+      // Handle Back/Forward Cache (BFCache)
+      window.addEventListener('pageshow', (e) => {
+        if (e.persisted) {
           closeModal();
+          closeLoginModal();
         }
       });
 

@@ -21,7 +21,11 @@
 <body>
     <p>Redirecting to Dashboard...</p>
     <script>
-        window.location.href = "pages/dashboard.html";
+        if (sessionStorage.getItem('isLoggedIn') !== 'superadmin') {
+            window.location.href = '../DijitTalentCloud/DijitTalentCloud.html';
+        } else {
+            window.location.href = "pages/dashboard.html";
+        }
     </script>
 </body>
 </html>

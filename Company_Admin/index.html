@@ -8,6 +8,11 @@
     <!-- Base styles and icons -->
     <link rel="stylesheet" href="css/style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        if (sessionStorage.getItem('isLoggedIn') !== 'company') {
+            window.location.href = '../DijitTalentCloud/DijitTalentCloud.html';
+        }
+    </script>
     <style>
         :root {
             /* Override primary to match the purple in the image */
